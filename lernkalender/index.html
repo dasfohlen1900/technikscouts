@@ -29,13 +29,17 @@ h1, h2, h3 {
 }
 
 .controls {
-    margin-bottom: 25px;
+    margin-bottom: 30px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
-select, button {
-    padding: 8px;
-    font-size: 14px;
-    margin-right: 10px;
+select {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
 }
 
 section {
@@ -61,16 +65,23 @@ li::marker {
 i {
     font-style: italic;
 }
+
+#klasseSelect {
+    display: none; /* erst versteckt */
+}
 </style>
 </head>
 <body>
-
+<img src="../logo.png" style="width: 400px;">
 <h1>Lernplattform</h1>
 
 <div class="controls">
-    <select id="fachSelect"></select>
-    <select id="klasseSelect"></select>
-    <button onclick="loadData()">Laden</button>
+    <select id="fachSelect">
+        <option value="">Fach auswählen</option>
+    </select>
+    <select id="klasseSelect">
+        <option value="">Klasse auswählen</option>
+    </select>
 </div>
 
 <div id="content"></div>
@@ -98,6 +109,7 @@ const fachSelect = document.getElementById("fachSelect");
 const klasseSelect = document.getElementById("klasseSelect");
 const content = document.getElementById("content");
 
+// Fach laden
 function init() {
     for (let fach in faecher) {
         const option = document.createElement("option");
@@ -105,21 +117,38 @@ function init() {
         option.textContent = fach;
         fachSelect.appendChild(option);
     }
-    updateKlassen();
 }
 
-function updateKlassen() {
+fachSelect.addEventListener("change", () => {
+    const selectedFach = fachSelect.value;
+    if (!selectedFach) {
+        klasseSelect.style.display = "none";
+        content.innerHTML = "";
+        return;
+    }
+
+    // Klassen laden
     klasseSelect.innerHTML = "";
-    const selectedFach = fachSelect.options[fachSelect.selectedIndex].text;
-    faecher[selectedFach].forEach(k => {
+    const fachName = fachSelect.options[fachSelect.selectedIndex].text;
+    faecher[fachName].forEach(k => {
         const option = document.createElement("option");
         option.value = k;
         option.textContent = "Klasse " + k;
         klasseSelect.appendChild(option);
     });
-}
 
-fachSelect.addEventListener("change", updateKlassen);
+    klasseSelect.style.display = "inline-block";
+    content.innerHTML = "";
+});
+
+klasseSelect.addEventListener("change", () => {
+    const selectedKlasse = klasseSelect.value;
+    if (!selectedKlasse) {
+        content.innerHTML = "";
+        return;
+    }
+    loadData();
+});
 
 async function loadData() {
     content.innerHTML = "";
@@ -139,7 +168,6 @@ async function loadData() {
 
 function render(data) {
     data.themen.forEach(thema => {
-
         const section = document.createElement("section");
 
         const h1 = document.createElement("h1");
@@ -149,7 +177,6 @@ function render(data) {
         const ulUnter = document.createElement("ul");
 
         thema.unterthemen.forEach(unter => {
-
             const liUnter = document.createElement("li");
 
             const h2 = document.createElement("h2");
@@ -159,7 +186,6 @@ function render(data) {
             const ulUebung = document.createElement("ul");
 
             unter.uebungen.forEach(uebung => {
-
                 const liUebung = document.createElement("li");
 
                 const checkbox = document.createElement("input");
