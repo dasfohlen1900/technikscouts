@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lernplattform</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg: #f4f6f8;
+    --card: #ffffff;
+    --accent: #1b5e20;
+    --text: #111;
+}
+
+body {
+    margin: 0;
+    padding: 30px;
+    background: var(--bg);
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+}
+
+h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 5px;
+}
+
+.controls {
+    margin-bottom: 25px;
+}
+
+select, button {
+    padding: 8px;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+section {
+    background: var(--card);
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+ul {
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+li::marker {
+    color: var(--accent);
+}
+
+i {
+    font-style: italic;
+}
+</style>
+</head>
+<body>
+
+<h1>Lernplattform</h1>
+
+<div class="controls">
+    <select id="fachSelect"></select>
+    <select id="klasseSelect"></select>
+    <button onclick="loadData()">Laden</button>
+</div>
+
+<div id="content"></div>
+
+<script>
+const faecher = {
+    "Deutsch": [5,6,7,8,9,10],
+    "Mathe": [5,6,7,8,9,10],
+    "Englisch": [5,6,7,8,9,10],
+    "Biologie": [5,6,7,8,9,10],
+    "Physik": [5,7,8,9,10],
+    "Chemie": [6,7,8,9,10],
+    "Erdkunde": [5,6,7,8,9,10],
+    "Geschichte": [5,6,7,8,9,10],
+    "Informatik": [5,9,10],
+    "Latein": [6,7,8,9,10],
+    "Französisch": [6,7,8,9,10],
+    "3. Fremdsprachen": [10],
+    "Religion": [5,6,7,8,9,10],
+    "Kunst": [5,6,7,8,9,10],
+    "Musik": [5,6,7,8,9,10]
+};
+
+const fachSelect = document.getElementById("fachSelect");
+const klasseSelect = document.getElementById("klasseSelect");
+const content = document.getElementById("content");
+
+function init() {
+    for (let fach in faecher) {
+        const option = document.createElement("option");
+        option.value = fach.toLowerCase().replace(/\s|\./g,"_");
+        option.textContent = fach;
+        fachSelect.appendChild(option);
+    }
+    updateKlassen();
+}
+
+function updateKlassen() {
+    klasseSelect.innerHTML = "";
+    const selectedFach = fachSelect.options[fachSelect.selectedIndex].text;
+    faecher[selectedFach].forEach(k => {
+        const option = document.createElement("option");
+        option.value = k;
+        option.textContent = "Klasse " + k;
+        klasseSelect.appendChild(option);
+    });
+}
+
+fachSelect.addEventListener("change", updateKlassen);
+
+async function loadData() {
+    content.innerHTML = "";
+    const fach = fachSelect.value;
+    const klasse = klasseSelect.value;
+    const file = `data/${fach}_${klasse}.json`;
+
+    try {
+        const response = await fetch(file);
+        const data = await response.json();
+        render(data);
+    } catch (err) {
+        content.innerHTML = "<p>Keine Datei gefunden.</p>";
+        console.error(err);
+    }
+}
+
+function render(data) {
+    data.themen.forEach(thema => {
+
+        const section = document.createElement("section");
+
+        const h1 = document.createElement("h1");
+        h1.textContent = thema.titel;
+        section.appendChild(h1);
+
+        const ulUnter = document.createElement("ul");
+
+        thema.unterthemen.forEach(unter => {
+
+            const liUnter = document.createElement("li");
+
+            const h2 = document.createElement("h2");
+            h2.textContent = unter.titel;
+            liUnter.appendChild(h2);
+
+            const ulUebung = document.createElement("ul");
+
+            unter.uebungen.forEach(uebung => {
+
+                const liUebung = document.createElement("li");
+
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+
+                const link = document.createElement("a");
+                link.href = uebung.link;
+                link.target = "_blank";
+                link.innerHTML = `<i>${uebung.name}</i>`;
+
+                liUebung.appendChild(checkbox);
+                liUebung.append(" ");
+                liUebung.appendChild(link);
+
+                ulUebung.appendChild(liUebung);
+            });
+
+            liUnter.appendChild(ulUebung);
+            ulUnter.appendChild(liUnter);
+        });
+
+        section.appendChild(ulUnter);
+        content.appendChild(section);
+    });
+}
+
+init();
+</script>
+
+</body>
+</html>
