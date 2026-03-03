@@ -25,21 +25,30 @@ body {
 
 h1, h2, h3 {
     font-family: 'Playfair Display', serif;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
-.controls {
-    margin-bottom: 30px;
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
+h1 {
+    margin-top: 40px;
 }
 
-select {
-    padding: 10px;
-    font-size: 16px;
+h2 {
+    margin-top: 15px;
+}
+
+button.fachBtn {
+    margin: 5px;
+    padding: 10px 15px;
     border-radius: 8px;
     border: 1px solid #ccc;
+    background: var(--card);
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button.fachBtn:hover {
+    background: var(--accent);
+    color: #fff;
 }
 
 section {
@@ -65,25 +74,13 @@ li::marker {
 i {
     font-style: italic;
 }
-
-#klasseSelect {
-    display: none; /* erst versteckt */
-}
 </style>
 </head>
 <body>
-<img src="../Logo.png" style="width: 400px;">
+
 <h1>Lernplattform</h1>
 
-<div class="controls">
-    <select id="fachSelect">
-        <option value="">Fach auswählen</option>
-    </select>
-    <select id="klasseSelect">
-        <option value="">Klasse auswählen</option>
-    </select>
-</div>
-
+<div id="fachContainer"></div>
 <div id="content"></div>
 
 <script>
@@ -105,56 +102,33 @@ const faecher = {
     "Musik": [5,6,7,8,9,10]
 };
 
-const fachSelect = document.getElementById("fachSelect");
-const klasseSelect = document.getElementById("klasseSelect");
+const fachContainer = document.getElementById("fachContainer");
 const content = document.getElementById("content");
 
-// Fach laden
+// Buttons erstellen
 function init() {
     for (let fach in faecher) {
-        const option = document.createElement("option");
-        option.value = fach.toLowerCase().replace(/\s|\./g,"_");
-        option.textContent = fach;
-        fachSelect.appendChild(option);
+        const container = document.createElement("div");
+        const h2 = document.createElement("h2");
+        h2.textContent = fach;
+        container.appendChild(h2);
+
+        faecher[fach].forEach(stufe => {
+            const btn = document.createElement("button");
+            btn.className = "fachBtn";
+            btn.textContent = "Klasse " + stufe;
+            btn.addEventListener("click", () => loadData(fach, stufe));
+            container.appendChild(btn);
+        });
+
+        fachContainer.appendChild(container);
     }
 }
 
-fachSelect.addEventListener("change", () => {
-    const selectedFach = fachSelect.value;
-    if (!selectedFach) {
-        klasseSelect.style.display = "none";
-        content.innerHTML = "";
-        return;
-    }
-
-    // Klassen laden
-    klasseSelect.innerHTML = "";
-    const fachName = fachSelect.options[fachSelect.selectedIndex].text;
-    faecher[fachName].forEach(k => {
-        const option = document.createElement("option");
-        option.value = k;
-        option.textContent = "Klasse " + k;
-        klasseSelect.appendChild(option);
-    });
-
-    klasseSelect.style.display = "inline-block";
+// JSON laden
+async function loadData(fach, klasse) {
     content.innerHTML = "";
-});
-
-klasseSelect.addEventListener("change", () => {
-    const selectedKlasse = klasseSelect.value;
-    if (!selectedKlasse) {
-        content.innerHTML = "";
-        return;
-    }
-    loadData();
-});
-
-async function loadData() {
-    content.innerHTML = "";
-    const fach = fachSelect.value;
-    const klasse = klasseSelect.value;
-    const file = `data/${fach}_${klasse}.json`;
+    const file = `data/${fach.toLowerCase().replace(/\s|\./g,"_")}_${klasse}.json`;
 
     try {
         const response = await fetch(file);
@@ -166,6 +140,7 @@ async function loadData() {
     }
 }
 
+// Daten rendern
 function render(data) {
     data.themen.forEach(thema => {
         const section = document.createElement("section");
