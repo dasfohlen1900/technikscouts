@@ -1,0 +1,26 @@
+{
+  "themen": [
+    {
+      "titel": "Automatisierte Prozesse",
+      "beschreibung": "EVA‑Prinzip, Sensoren und Aktoren, automatisierte Systeme aus der Lebenswelt und in der Gesellschaft (inkl. Referaten).",
+      "unterthemen": [
+        {
+          "titel": "Inhalte & Konkretisierung",
+          "punkte": [
+            "Automatisierte Prozesse im Alltag benennen (z. B. Waschmaschine, Aufzug, Ampel).",
+            "Typen von Sensoren, Aktoren und Verarbeitungskomponenten erläutern.",
+            "Aufbau/Funktion von Computerkomponenten und EVA‑Prinzip an Beispielen.",
+            "Referate zu automatisierten Prozessen in der Gesellschaft."
+          ]
+        },
+        {
+          "titel": "Weiterführende Links",
+          "links": [
+            { "name": "EVA‑Prinzip – einfach erklärt", "link": "https://example.com/eva-prinzip" },
+            { "name": "Sensoren & Aktoren (Elektronik-Kompendium)", "link": "https://example.com/sensoren-aktoren" }
+          ]
+        }
+      ]
+    }
+  ]
+}
