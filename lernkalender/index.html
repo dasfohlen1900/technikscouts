@@ -89,13 +89,8 @@ input[type="checkbox"] {
 
 <h1>Lernplattform</h1>
 
-<!-- Fach Tabs -->
 <div class="tab-container" id="fachTabs"></div>
-
-<!-- Klassen Tabs -->
 <div class="subtab-container" id="klasseTabs"></div>
-
-<!-- Content -->
 <div id="content"></div>
 
 <script>
@@ -116,9 +111,8 @@ const faecher = {
     "Religion": [5,6,7,8,9,10],
     "Kunst": [5,6,7,8,9,10],
     "Musik": [5,6,7,8,9,10],
-    "Testphase" [7]
+    "Testphase" [1]
 };
-
 
 const fachTabs = document.getElementById("fachTabs");
 const klasseTabs = document.getElementById("klasseTabs");
@@ -177,12 +171,15 @@ async function loadData() {
     }
 }
 
-// Daten rendern
+// Render mit Checkboxen + Fortschritt
 function render(data) {
-    data.themen.forEach(thema => {
+    const storageKey = `${currentFach}_${currentKlasse}_progress`;
+    const savedProgress = JSON.parse(localStorage.getItem(storageKey) || "{}");
+
+    data.themen.forEach((thema, themaIndex) => {
         const section = document.createElement("section");
 
-        // H1 Thema
+        // Thema H1
         const h1 = document.createElement("h1");
         h1.textContent = thema.titel;
         section.appendChild(h1);
@@ -194,18 +191,29 @@ function render(data) {
             section.appendChild(block);
         }
 
-        // Unterthemen
-        thema.unterthemen.forEach(unter => {
+        thema.unterthemen.forEach((unter, unterIndex) => {
             const h2 = document.createElement("h2");
             h2.textContent = unter.titel;
             section.appendChild(h2);
 
-            // Punkte
+            // Punkte mit Checkbox
             if (unter.punkte) {
                 const ul = document.createElement("ul");
-                unter.punkte.forEach(p => {
+                unter.punkte.forEach((p, pIndex) => {
                     const li = document.createElement("li");
-                    li.textContent = p;
+                    const checkbox = document.createElement("input");
+                    checkbox.type = "checkbox";
+                    // Fortschritt laden
+                    const id = `${themaIndex}_${unterIndex}_${pIndex}`;
+                    checkbox.checked = savedProgress[id] || false;
+
+                    checkbox.addEventListener("change", () => {
+                        savedProgress[id] = checkbox.checked;
+                        localStorage.setItem(storageKey, JSON.stringify(savedProgress));
+                    });
+
+                    li.appendChild(checkbox);
+                    li.appendChild(document.createTextNode(p));
                     ul.appendChild(li);
                 });
                 section.appendChild(ul);
@@ -214,7 +222,7 @@ function render(data) {
             // Links
             if (unter.links) {
                 const ul = document.createElement("ul");
-                unter.links.forEach(l => {
+                unter.links.forEach((l, lIndex) => {
                     const li = document.createElement("li");
                     const a = document.createElement("a");
                     a.href = l.link;
