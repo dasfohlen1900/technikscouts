@@ -3,76 +3,85 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lernplattform</title>
+<title>Lernplattform Tabs</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
-:root {
-    --bg: #f4f6f8;
-    --card: #ffffff;
-    --accent: #1b5e20;
-    --text: #111;
-}
-
 body {
+    font-family: 'Inter', sans-serif;
     margin: 0;
     padding: 30px;
-    background: var(--bg);
-    font-family: 'Inter', sans-serif;
-    color: var(--text);
+    background: #f4f6f8;
+    color: #111;
 }
 
-h1, h2, h3 {
+h1, h2 {
     font-family: 'Playfair Display', serif;
+    margin-top: 15px;
     margin-bottom: 10px;
 }
 
-h1 {
-    margin-top: 40px;
+h1 { margin-top: 30px; }
+blockquote {
+    margin: 10px 0 15px 0;
+    padding-left: 15px;
+    border-left: 4px solid #1b5e20;
+    color: #555;
 }
 
-h2 {
-    margin-top: 15px;
+.tab-container, .subtab-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 20px;
 }
 
-button.fachBtn {
-    margin: 5px;
-    padding: 10px 15px;
+.tab, .subtab {
+    padding: 10px 20px;
+    cursor: pointer;
+    background: #fff;
     border-radius: 8px;
     border: 1px solid #ccc;
-    background: var(--card);
-    cursor: pointer;
-    font-size: 14px;
+    font-weight: bold;
 }
 
-button.fachBtn:hover {
-    background: var(--accent);
+.tab.active {
+    background: #1b5e20;
+    color: #fff;
+}
+
+.subtab.active {
+    background: #4caf50;
     color: #fff;
 }
 
 section {
-    background: var(--card);
+    background: #fff;
     padding: 20px;
-    margin-bottom: 25px;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
 ul {
     padding-left: 20px;
+    margin-bottom: 15px;
 }
 
 li {
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 li::marker {
-    color: var(--accent);
+    color: #1b5e20;
 }
 
 i {
     font-style: italic;
+}
+
+input[type="checkbox"] {
+    margin-right: 6px;
 }
 </style>
 </head>
@@ -80,61 +89,75 @@ i {
 
 <h1>Lernplattform</h1>
 
-<div id="fachContainer"></div>
+<!-- Fach Tabs -->
+<div class="tab-container" id="fachTabs"></div>
+
+<!-- Klassen Tabs -->
+<div class="subtab-container" id="klasseTabs"></div>
+
+<!-- Content -->
 <div id="content"></div>
 
 <script>
+// Fächer und Jahrgänge
 const faecher = {
-    "Deutsch": [5,6,7,8,9,10],
-    "Mathe": [5,6,7,8,9,10],
-    "Englisch": [5,6,7,8,9,10],
-    "Biologie": [5,6,7,8,9,10],
-    "Physik": [5,7,8,9,10],
-    "Chemie": [6,7,8,9,10],
-    "Erdkunde": [5,6,7,8,9,10],
-    "Geschichte": [5,6,7,8,9,10],
-    "Informatik": [5,9,10],
-    "Latein": [6,7,8,9,10],
-    "Französisch": [6,7,8,9,10],
-    "3. Fremdsprachen": [10],
-    "Religion": [5,6,7,8,9,10],
-    "Kunst": [5,6,7,8,9,10],
-    "Musik": [5,6,7,8,9,10]
+    "Deutsch": [5,6],
+    "Mathe": [5,6],
+    "Englisch": [5,6]
 };
 
-const fachContainer = document.getElementById("fachContainer");
+const fachTabs = document.getElementById("fachTabs");
+const klasseTabs = document.getElementById("klasseTabs");
 const content = document.getElementById("content");
 
-// Buttons erstellen
-function init() {
+let currentFach = null;
+let currentKlasse = null;
+
+// Tabs erzeugen
+function initTabs() {
     for (let fach in faecher) {
-        const container = document.createElement("div");
-        const h2 = document.createElement("h2");
-        h2.textContent = fach;
-        container.appendChild(h2);
-
-        faecher[fach].forEach(stufe => {
-            const btn = document.createElement("button");
-            btn.className = "fachBtn";
-            btn.textContent = "Klasse " + stufe;
-            btn.addEventListener("click", () => loadData(fach, stufe));
-            container.appendChild(btn);
-        });
-
-        fachContainer.appendChild(container);
+        const tab = document.createElement("div");
+        tab.className = "tab";
+        tab.textContent = fach;
+        tab.addEventListener("click", () => selectFach(fach, tab));
+        fachTabs.appendChild(tab);
     }
 }
 
-// JSON laden
-async function loadData(fach, klasse) {
-    content.innerHTML = "";
-    const file = `data/${fach.toLowerCase().replace(/\s|\./g,"_")}_${klasse}.json`;
+function selectFach(fach, tabElement) {
+    currentFach = fach;
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+    tabElement.classList.add("active");
 
+    // Klassen-Tabs generieren
+    klasseTabs.innerHTML = "";
+    faecher[fach].forEach(klasse => {
+        const subtab = document.createElement("div");
+        subtab.className = "subtab";
+        subtab.textContent = "Klasse " + klasse;
+        subtab.addEventListener("click", () => selectKlasse(klasse, subtab));
+        klasseTabs.appendChild(subtab);
+    });
+
+    content.innerHTML = "";
+}
+
+function selectKlasse(klasse, subtabElement) {
+    currentKlasse = klasse;
+    document.querySelectorAll(".subtab").forEach(s => s.classList.remove("active"));
+    subtabElement.classList.add("active");
+    loadData();
+}
+
+// JSON laden
+async function loadData() {
+    content.innerHTML = "";
+    const file = `data/${currentFach.toLowerCase().replace(/\s|\./g,"_")}_${currentKlasse}.json`;
     try {
         const response = await fetch(file);
         const data = await response.json();
         render(data);
-    } catch (err) {
+    } catch(err) {
         content.innerHTML = "<p>Keine Datei gefunden.</p>";
         console.error(err);
     }
@@ -145,49 +168,56 @@ function render(data) {
     data.themen.forEach(thema => {
         const section = document.createElement("section");
 
+        // H1 Thema
         const h1 = document.createElement("h1");
         h1.textContent = thema.titel;
         section.appendChild(h1);
 
-        const ulUnter = document.createElement("ul");
+        // Beschreibung
+        if (thema.beschreibung) {
+            const block = document.createElement("blockquote");
+            block.textContent = thema.beschreibung;
+            section.appendChild(block);
+        }
 
+        // Unterthemen
         thema.unterthemen.forEach(unter => {
-            const liUnter = document.createElement("li");
-
             const h2 = document.createElement("h2");
             h2.textContent = unter.titel;
-            liUnter.appendChild(h2);
+            section.appendChild(h2);
 
-            const ulUebung = document.createElement("ul");
+            // Punkte
+            if (unter.punkte) {
+                const ul = document.createElement("ul");
+                unter.punkte.forEach(p => {
+                    const li = document.createElement("li");
+                    li.textContent = p;
+                    ul.appendChild(li);
+                });
+                section.appendChild(ul);
+            }
 
-            unter.uebungen.forEach(uebung => {
-                const liUebung = document.createElement("li");
-
-                const checkbox = document.createElement("input");
-                checkbox.type = "checkbox";
-
-                const link = document.createElement("a");
-                link.href = uebung.link;
-                link.target = "_blank";
-                link.innerHTML = `<i>${uebung.name}</i>`;
-
-                liUebung.appendChild(checkbox);
-                liUebung.append(" ");
-                liUebung.appendChild(link);
-
-                ulUebung.appendChild(liUebung);
-            });
-
-            liUnter.appendChild(ulUebung);
-            ulUnter.appendChild(liUnter);
+            // Links
+            if (unter.links) {
+                const ul = document.createElement("ul");
+                unter.links.forEach(l => {
+                    const li = document.createElement("li");
+                    const a = document.createElement("a");
+                    a.href = l.link;
+                    a.target = "_blank";
+                    a.innerHTML = `<i>${l.name}</i>`;
+                    li.appendChild(a);
+                    ul.appendChild(li);
+                });
+                section.appendChild(ul);
+            }
         });
 
-        section.appendChild(ulUnter);
         content.appendChild(section);
     });
 }
 
-init();
+initTabs();
 </script>
 
 </body>
