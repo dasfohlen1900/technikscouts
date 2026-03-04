@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JSON Generator – Lernplattform</title>
+
+<style>
+body {
+    font-family: system-ui;
+    background: #f4f6f8;
+    padding: 30px;
+    max-width: 900px;
+    margin: auto;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+button {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: #1b5e20;
+    color: white;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+button:hover {
+    background: #2e7d32;
+}
+
+pre {
+    background: #111;
+    color: #0f0;
+    padding: 15px;
+    border-radius: 10px;
+    overflow-x: auto;
+}
+</style>
+</head>
+<body>
+
+<h1>JSON Generator</h1>
+
+<label>Fach</label>
+<input id="fach" placeholder="z. B. Deutsch">
+
+<label>Klasse</label>
+<input id="klasse" placeholder="z. B. 5">
+
+<label>Thema</label>
+<input id="titel" placeholder="z. B. Automatisierte Prozesse">
+
+<label>Beschreibung</label>
+<textarea id="beschreibung" placeholder="Kurzbeschreibung des Themas"></textarea>
+
+<label>Unterthema Titel</label>
+<input id="untertitel" placeholder="z. B. Inhalte & Konkretisierung">
+
+<label>Punkte (eine Zeile = ein Punkt)</label>
+<textarea id="punkte" placeholder="Punkt 1
+Punkt 2
+Punkt 3"></textarea>
+
+<label>Links (Format: Name | URL, eine Zeile pro Link)</label>
+<textarea id="links" placeholder="EVA-Prinzip | https://example.com"></textarea>
+
+<button onclick="generateJSON()">JSON generieren</button>
+<button onclick="downloadJSON()">Download JSON</button>
+
+<h2>Vorschau</h2>
+<pre id="output"></pre>
+
+<script>
+let generatedData = null;
+
+function generateJSON() {
+    const titel = document.getElementById("titel").value;
+    const beschreibung = document.getElementById("beschreibung").value;
+    const untertitel = document.getElementById("untertitel").value;
+
+    const punkteRaw = document.getElementById("punkte").value.split("\n").filter(p => p.trim() !== "");
+    const linksRaw = document.getElementById("links").value.split("\n").filter(l => l.trim() !== "");
+
+    const links = linksRaw.map(line => {
+        const parts = line.split("|");
+        return {
+            name: parts[0].trim(),
+            link: parts[1] ? parts[1].trim() : ""
+        };
+    });
+
+    generatedData = {
+        themen: [
+            {
+                titel,
+                beschreibung,
+                unterthemen: [
+                    {
+                        titel: untertitel,
+                        punkte: punkteRaw
+                    },
+                    {
+                        titel: "Weiterführende Links",
+                        links: links
+                    }
+                ]
+            }
+        ]
+    };
+
+    document.getElementById("output").textContent =
+        JSON.stringify(generatedData, null, 2);
+}
+
+function downloadJSON() {
+    if (!generatedData) {
+        alert("Bitte zuerst JSON generieren.");
+        return;
+    }
+
+    const fach = document.getElementById("fach").value.toLowerCase().replace(/\s|\./g,"_");
+    const klasse = document.getElementById("klasse").value;
+
+    const fileName = `${fach}_${klasse}.json`;
+
+    const blob = new Blob(
+        [JSON.stringify(generatedData, null, 2)],
+        { type: "application/json" }
+    );
+
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = fileName;
+    a.click();
+}
+</script>
+
+</body>
+</html>
