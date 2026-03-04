@@ -1,0 +1,74 @@
+{
+  "fach": "Chemie",
+  "klasse": "6",
+  "themen": [
+    {
+      "titel": "Stoffe und ihre Eigenschaften",
+      "beschreibung": "Was sind Stoffe und wie unterscheiden sie sich?",
+      "inhalte": [
+        "Stoffe im Alltag erkennen (z.B. Holz, Metall, Kunststoff, Wasser)",
+        "Eigenschaften wie Farbe, Geruch, Härte, Löslichkeit",
+        "Aggregatzustände: fest, flüssig, gasförmig",
+        "Sicherer Umgang mit Chemikalien"
+      ],
+      "links": [
+        {
+          "text": "Aggregatzustände einfach erklärt",
+          "url": "https://www.chemie.de/lexikon/Aggregatzustand.html"
+        },
+        {
+          "text": "Stoffeigenschaften (Schule)",
+          "url": "https://www.lernhelfer.de/schuelerlexikon/chemie/artikel/stoffe-und-ihre-eigenschaften"
+        }
+      ]
+    },
+    {
+      "titel": "Mischen und Trennen",
+      "beschreibung": "Gemische erkennen und trennen",
+      "inhalte": [
+        "Reinstoffe und Gemische unterscheiden",
+        "Lösungen, Suspensionen und Emulsionen",
+        "Trennverfahren: Sieben, Filtrieren, Destillieren",
+        "Beispiele aus dem Alltag (z.B. Salz aus Wasser)"
+      ],
+      "links": [
+        {
+          "text": "Trennverfahren einfach erklärt",
+          "url": "https://www.chemie.de/lexikon/Trennverfahren.html"
+        }
+      ]
+    },
+    {
+      "titel": "Verbrennung",
+      "beschreibung": "Was passiert bei einer Verbrennung?",
+      "inhalte": [
+        "Bedingungen für eine Verbrennung (Feuerdreieck)",
+        "Beobachtung von Verbrennungsvorgängen",
+        "Sicherheitsregeln beim Experimentieren",
+        "Alltagsbeispiele (Kerze, Lagerfeuer)"
+      ],
+      "links": [
+        {
+          "text": "Das Feuerdreieck",
+          "url": "https://www.chemie.de/lexikon/Feuerdreieck.html"
+        }
+      ]
+    },
+    {
+      "titel": "Metalle und Nichtmetalle",
+      "beschreibung": "Unterschiedliche Stoffgruppen kennenlernen",
+      "inhalte": [
+        "Eigenschaften von Metallen (Leitfähigkeit, Glanz)",
+        "Typische Nichtmetalle",
+        "Verwendung von Metallen im Alltag",
+        "Recycling von Metallen"
+      ],
+      "links": [
+        {
+          "text": "Metalle im Überblick",
+          "url": "https://www.chemie.de/lexikon/Metalle.html"
+        }
+      ]
+    }
+  ]
+}
