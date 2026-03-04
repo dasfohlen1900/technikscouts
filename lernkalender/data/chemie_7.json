@@ -1,0 +1,73 @@
+{
+  "fach": "Chemie",
+  "klasse": "7",
+  "themen": [
+    {
+      "titel": "Chemische Reaktionen & Energie",
+      "beschreibung": "Von Verbrennung und Brandbekämpfung zu Reaktionsgleichung und Energiediagramm.",
+      "inhalte": [
+        "Chemische Reaktionen mit Sauerstoff (Verbrennung, Schwefel, Brandklassen)",
+        "Löschmethoden, Wasser als Wasserstoffoxid",
+        "Elemente und Verbindungen unterscheiden",
+        "Merkmale chemischer Reaktionen benennen",
+        "Energieverlauf: exotherm, endotherm, Aktivierungsenergie",
+        "Katalysatoren erklären",
+        "SuS erklären chemische Reaktionen mit Fachsprache",
+        "SuS planen Überprüfungsversuche und führen sie sicher durch",
+        "SuS erstellen und deuten Energiediagramme"
+      ],
+      "links": [
+        {
+          "text": "Exotherme & endotherme Reaktionen – einfach erklärt",
+          "url": "https://www.chemie.de/lexikon/Exotherme_Reaktion.html"
+        },
+        {
+          "text": "Katalysator – Grundlagen",
+          "url": "https://www.chemie.de/lexikon/Katalysator.html"
+        }
+      ]
+    },
+    {
+      "titel": "Dalton, Atome & Reaktionsgleichungen",
+      "beschreibung": "Vom Stoffbild zum Teilchenbild – formale Erfassung mit Reaktionsgleichungen.",
+      "inhalte": [
+        "Daltons Atommodell erläutern",
+        "Gesetz der Erhaltung der Masse erklären",
+        "Gesetz der konstanten Proportionen anwenden",
+        "Atome als kleinste Bausteine beschreiben",
+        "Reaktionsschemata erstellen",
+        "Reaktionsgleichungen aufstellen und ausgleichen",
+        "SuS deuten chemische Reaktionen auf Atomebene",
+        "SuS planen quantitative Experimente und protokollieren diese",
+        "SuS wenden die Fachsprache sicher an"
+      ],
+      "links": [
+        {
+          "text": "Daltons Atommodell",
+          "url": "https://www.chemie.de/lexikon/Daltonsches_Atommodell.html"
+        },
+        {
+          "text": "Reaktionsgleichungen ausgleichen",
+          "url": "https://www.chemie.de/lexikon/Reaktionsgleichung.html"
+        }
+      ]
+    },
+    {
+      "titel": "Luft & Nachweisreaktionen",
+      "beschreibung": "Luftbestandteile und Nachweise als Verbindung von Theorie und Alltag.",
+      "inhalte": [
+        "Bestandteile der Luft: Sauerstoff, Stickstoff, Kohlenstoffdioxid",
+        "Eigenschaften ausgewählter Luftbestandteile",
+        "Nachweisreaktionen für Sauerstoff, Wasserstoff und Kohlenstoffdioxid",
+        "SuS planen selbstständig Experimente",
+        "SuS wenden chemische Nachweise sicher an"
+      ],
+      "links": [
+        {
+          "text": "Bestandteile der Luft",
+          "url": "https://www.chemie.de/lexikon/Luft.html"
+        }
+      ]
+    }
+  ]
+}
