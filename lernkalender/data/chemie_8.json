@@ -1,0 +1,49 @@
+{
+  "fach": "Chemie",
+  "klasse": "8",
+  "themen": [
+    {
+      "titel": "Redoxreaktionen",
+      "beschreibung": "Von der Sauerstoffübertragung zu technischen Verfahren wie Hochofenprozess und Thermit-Reaktion.",
+      "inhalte": [
+        "Wiederholung: Sauerstoffaufnahme als Oxidation",
+        "Sauerstoffabgabe als Reduktion",
+        "Sauerstoffübertragungsreaktionen erklären",
+        "Metall- und Erzvorkommen auf der Erde beschreiben",
+        "Sauerstoffaffinitätsreihe der Metalle anwenden",
+        "Thermit-Verfahren erklären",
+        "Hochofenprozess beschreiben",
+        "„Langsame“ Oxidation (z.B. Rostbildung) erläutern",
+        "Donator-Akzeptor-Konzept anwenden",
+        "Elemente und Verbindungen mithilfe des Atommodells unterscheiden",
+        "Einfache Atomkreisläufe in Natur und Technik beschreiben"
+      ],
+      "links": [
+        {
+          "text": "Redoxreaktionen einfach erklärt",
+          "url": "https://www.chemie.de/lexikon/Redoxreaktion.html"
+        },
+        {
+          "text": "Hochofenprozess",
+          "url": "https://www.chemie.de/lexikon/Hochofenprozess.html"
+        },
+        {
+          "text": "Thermit-Reaktion",
+          "url": "https://www.chemie.de/lexikon/Thermitreaktion.html"
+        }
+      ]
+    },
+    {
+      "titel": "Kompetenzentwicklung & Vernetzung",
+      "beschreibung": "Chemische Reaktionen im Alltag, Labor und in biologischen Systemen verstehen.",
+      "inhalte": [
+        "Verknüpfungen zwischen chemischen Reaktionen im Alltag und im Labor darstellen",
+        "Chemische Sachverhalte mit Modellen erklären",
+        "Fachsprache sicher anwenden",
+        "Bezüge zur Biologie herstellen (z.B. Kreisläufe)",
+        "Systeme chemischer Reaktionen beschreiben"
+      ],
+      "links": []
+    }
+  ]
+}
