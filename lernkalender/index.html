@@ -122,7 +122,7 @@ function selectKlasse(klasse, subtabElement) {
 // JSON laden
 async function loadData() {
     content.innerHTML = "";
-    const file = `/lernkalender/data/${currentFach.toLowerCase().replace(/\s|\./g,"_")}_${currentKlasse}.json`;
+    const file = `data/${currentFach.toLowerCase().replace(/\s|\./g,"_")}_${currentKlasse}.json`;
     try {
         const response = await fetch(file);
         if (!response.ok) throw new Error("JSON-Datei nicht gefunden");
