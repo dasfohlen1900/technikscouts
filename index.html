@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EGN TechnikScouts</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#05070a;
+--accent:#007aff;
+--accent-glow:rgba(0,122,255,0.6); /* Increased opacity for a brighter glow */
+--card:rgba(255,255,255,0.03);
+--border:rgba(255,255,255,0.08);
+--text:#fff;
+--text-dim:#94a3b8;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.6;}
+.aura{position:fixed;width:600px;height:600px;background:radial-gradient(circle,var(--accent-glow)0%,transparent70%);border-radius:50%;filter:blur(80px);z-index:-1;animation:float 20s infinite alternate;}
+@keyframes float{0%{transform:translate(-10%,-10%);}100%{transform:translate(50%,40%);}}
+.floating-rocket{
+position:fixed;
+font-size:3.5rem;
+z-index:500;
+pointer-events:none;
+filter:drop-shadow(0 0 20px var(--accent-glow));
+animation:space-travel 12s ease-in-out infinite;
+opacity:.7;
+}
+@keyframes space-travel{
+0%{bottom:10%;left:-10%;transform:rotate(45deg);}
+50%{bottom:50%;left:30%;}
+100%{bottom:90%;left:110%;}
+}
+nav{position:fixed;top:0;width:100%;padding:25px 8%;display:flex;justify-content:space-between;align-items:center;background:rgba(5,7,10,.8);backdrop-filter:blur(25px);z-index:1000;border-bottom:1px solid var(--border);}
+.logo{display:flex;align-items:center;gap:12px;font-weight:800;font-size:1.2rem;}
+.logo img{
+height:90px; /* Made the logo image smaller */
+width:auto;
+filter:drop-shadow(0 0 8px var(--accent-glow));
+}
+.logo span{color:var(--accent);}
+.nav-links{display:flex;gap:30px;}
+.nav-links a{color:var(--text-dim);text-decoration:none;font-size:.9rem;font-weight:600;cursor:pointer;}
+.nav-links a.active{color:var(--accent);}
+.page{display:none;padding:140px 8% 80px;min-height:100vh;animation:slideIn .5s ease;}
+.page.active{display:block;}
+@keyframes slideIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.hero{text-align:center;max-width:900px;margin:0 auto 100px;}
+.hero h1{font-size:clamp(2.5rem,8vw,4.5rem);font-weight:800;margin-bottom:20px;}
+.hero p{color:var(--text-dim);font-size:1.2rem;margin-bottom:40px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;}
+.card{background:var(--card);border:1px solid var(--border);padding:40px;border-radius:24px;transition:.4s;}
+.card:hover{border-color:var(--accent);transform:translateY(-10px);background:rgba(255,255,255,0.06);}
+.card i{color:var(--accent);font-size:1.5rem;margin-bottom:20px;}
+.roadmap-container{position:relative;max-width:1000px;margin:auto;padding-left:40px;}
+.roadmap-container::before{content:'';position:absolute;left:0;top:0;width:2px;height:100%;background:linear-gradient(to bottom,var(--accent),var(--border));}
+.roadmap-item{position:relative;margin-bottom:80px;}
+.roadmap-node{position:absolute;left:-49px;top:0;width:18px;height:18px;border-radius:50%;background:var(--bg);border:4px solid var(--accent);box-shadow:0 0 15px var(--accent);}
+.roadmap-card{background:var(--card);border:1px solid var(--border);padding:40px;border-radius:24px;margin-left:20px;}
+.status-tag{font-size:.7rem;font-weight:800;padding:4px 12px;border-radius:50px;background:var(--accent);color:white;text-transform:uppercase;margin-bottom:10px;display:inline-block;}
+.roadmap-card h3{font-size:1.6rem;margin-bottom:15px;}
+.roadmap-card ul{list-style:none;color:var(--text-dim);}
+.roadmap-card li{margin-bottom:8px;display:flex;gap:10px;}
+.roadmap-card li::before{content:'→';color:var(--accent);}
+footer{padding:80px 8%;text-align:center;border-top:1px solid var(--border);color:var(--text-dim);font-size:.8rem;}
+/* Styling for the specific button */
+#main-link-button {
+font-size: 24px; /* Significantly bigger font size */
+padding: 20px 40px; /* Bigger padding */
+background-color: var(--accent); /* Blue color, using the accent variable */
+color: white;
+border: none;
+border-radius: 12px; /* Slightly more rounded corners */
+cursor: pointer;
+transition: background-color 0.3s ease, box-shadow 0.3s ease;
+box-shadow: 0 0 30px var(--accent-glow); /* Increased blur for more glow */
+}
+#main-link-button:hover {
+background-color: #0056b3; /* Darker blue on hover */
+box-shadow: 0 0 50px var(--accent-glow); /* Even stronger glow on hover */
+}
+#roadmap {
+margin-top: 100px; /* Adjust this value to move the section down */
+}
+</style>
+</head>
+<body>
+<div class="aura"></div>
+<div class="floating-rocket">🚀</div>
+<nav>
+<div class="logo">
+<img src="https://technikscouts.vercel.app/Logo.png" alt="EGN Logo">
+EGN<span>SCOUTS</span>
+</div>
+<div class="nav-links">
+<a onclick="showPage('home')" id="link-home" class="active">Start</a>
+<a onclick="showPage('mission')" id="link-mission">Mission</a>
+<a onclick="showPage('roadmap')" id="link-roadmap">Roadmap</a>
+</div>
+</nav>
+<section id="home" class="page active">
+<div class="hero" style = "font-size: 60px; font-weight: 900">
+<strong>Technik ist unsere Sprache.<br> ‎ </strong>
+<p>Die Medienscouts des EGN Nordhorn begleiten aktiv die digitale Transformation der Schule und fördern Medienkompetenz, Datenschutzbewusstsein und kritisches Denken.</p>
+</div>
+<div class="grid">
+<div class="card">
+<i class="fas fa-network-wired"></i>
+<h3>Bundesweite Teilnahme</h3>
+<p>Wir wurden ausgewählt zur Technik-Scouts-Netzwerktagung und vertreten unsere Schule deutschlandweit.</p>
+</div>
+<div class="card">
+<i class="fas fa-shield-halved"></i>
+<h3>Digitale Verantwortung</h3>
+<p>Wir sensibilisieren Schüler:innen für Datenschutz, Sicherheit und verantwortungsvolle Nutzung digitaler Technologien.</p>
+</div>
+<div class="card">
+<i class="fas fa-brain"></i>
+<h3>Kritisches Denken</h3>
+<p>Unser Ziel ist es, junge Menschen zu befähigen, Algorithmen, Medien und Informationen reflektiert zu bewerten.</p>
+</div>
+</div>
+</section>
+<section id="mission" class="page">
+<div class="hero">
+<h1>Unsere Vision.</h1>
+<p>Wir gestalten digitale Bildung aktiv und verantwortungsvoll.</p>
+</div>
+<div class="card" style="max-width:800px;margin:auto;">
+<h3 style="margin-bottom:20px;">EGN Medienscout Initiative</h3>
+<p>
+Die Medienscouts am EGN Nordhorn sind ein schulisches Expertenteam, das Mitschüler:innen und Lehrkräfte bei digitalen Fragen unterstützt. Unsere Aufgabe ist nicht nur technische Hilfe, sondern strategische Medienbildung. Wir fördern verantwortungsbewussten Umgang mit digitalen Tools, klären über Risiken auf und stärken digitale Selbstbestimmung.
+<br><br>
+Als ausgewähltes Technik-Scout-Team nehmen wir an der bundesweiten Netzwerktagung teil. Dort werden in mehreren Zeitschienen Workshops, Gespräche und Vorträge durchgeführt, deren Inhalte sowohl von Teilnehmenden als auch externen Referent:innen kommen. Ziel ist Austausch, Vernetzung und Weiterbildung.
+<br><br>
+Alle Teams präsentieren ihr Konzept in Form eines Posters und einer Kurzpräsentation. Zusätzlich besteht die Möglichkeit, Fördermittel für schulinterne Workshops zu gewinnen.
+</p>
+</div>
+</section>
+<div style = "text-align: center">
+<strong style = "color: white; font-size: 35px"> Link zum iPad Vergleichsportal für ihre Kinder </strong>
+</div>
+<br>
+<div style = "text-align: center; padding: 40px 40px;">
+<button id="main-link-button" onclick="window.location.href='/tabletvergleich'">iPad vergleichen</button>
+</div>
+
+<section id="roadmap" class="page">
+<div class="hero">
+<h1>Strategic Pipeline.</h1>
+<p>Unsere Entwicklungsschritte auf dem Weg zur digitalen Vorreiterschule.</p>
+</div>
+<div class="roadmap-container">
+...
+</div>
+</section>
+
+<footer>
+<p>;&copy 2026 Medienscouts EGN Nordhorn</p>
+<p style="margin-top: 20px;">
+<strong style="font-size: 0.8rem;">Der MedienScouts-Team: <br> <br> Sami Gabukji, Noel Becker, Emil Schreiber, Paul Elbert, Jakob Dreier, Lukas Swafing, Elias Klinik</strong>
+</p>
+</footer>
+
+<script>
+function showPage(pageId){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+document.getElementById(pageId).classList.add('active');
+document.getElementById('link-'+pageId).classList.add('active');
+window.scrollTo(0,0);
+}
+</script>
+
+</body>
+</html>
