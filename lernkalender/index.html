@@ -3,198 +3,1845 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lernplattform Tabs – GH Pages ready</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-
+<title>Curriculum – Ev. Gymnasium Nordhorn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-body, button, input {
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-    padding: 30px;
-    background: #f4f6f8;
-    color: #111;
-}
+  :root {
+    --bg: #f5f0e8;
+    --surface: #fffdf7;
+    --surface2: #faf6ed;
+    --border: #e2d9c8;
+    --accent-info: #1a5276;
+    --accent-chem: #6b3d2e;
+    --accent-de:   #3d4a1e;
+    --accent-lat:  #5c3a6b;
+    --accent-math: #7a4100;
+    --accent-en:   #1a4a3a;
+    --accent-fr:   #6b1a2e;
+    --accent-mu:   #1a3d5c;
+    --text: #1c1a16;
+    --text-muted: #7a7060;
+    --check-done: #3a7d44;
+    --radius: 10px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.07);
+  }
 
-h1, h2 { font-family: 'Playfair Display', serif; margin-top:15px; margin-bottom:10px; }
-h1 { margin-top:30px; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-blockquote { margin:10px 0 15px 0; padding-left:15px; border-left:4px solid #1b5e20; color:#555; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
 
-.tab-container, .subtab-container {
-    display:flex; flex-wrap:wrap; gap:5px; margin-bottom:20px;
-}
+  /* ── HEADER ── */
+  header {
+    background: var(--surface);
+    border-bottom: 2px solid var(--border);
+    padding: 20px 28px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  }
 
-.tab, .subtab {
-    padding:10px 20px; cursor:pointer; background:#fff; border-radius:8px; border:1px solid #ccc; font-weight:bold;
-}
+  .header-top {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
 
-.tab.active { background:#1b5e20; color:#fff; }
-.subtab.active { background:#4caf50; color:#fff; }
+  header h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
 
-section {
-    background:#fff; padding:20px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.05);
-}
+  header .school {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
 
-ul { padding-left:20px; margin-bottom:15px; }
-li { margin-bottom:6px; }
-li::marker { color:#1b5e20; }
+  /* ── FILTER ROWS ── */
+  .filter-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
 
-i { font-style:italic; }
-input[type="checkbox"] { margin-right:6px; }
+  .filter-row + .filter-row {
+    margin-top: 8px;
+  }
 
-.error { color:red; font-style:italic; margin-top:10px; }
+  .filter-label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    white-space: nowrap;
+    min-width: 52px;
+  }
+
+  .pills { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  .pill {
+    padding: 5px 14px;
+    border-radius: 999px;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    color: var(--text-muted);
+  }
+  .pill:hover:not(:disabled) { border-color: #aaa; color: var(--text); }
+  .pill:disabled { opacity: 0.35; cursor: default; }
+
+  .pill.sel-class  { background: var(--text); border-color: var(--text); color: white; }
+  .pill.sel-info   { background: var(--accent-info); border-color: var(--accent-info); color: white; }
+  .pill.sel-chem   { background: var(--accent-chem); border-color: var(--accent-chem); color: white; }
+  .pill.sel-de     { background: var(--accent-de);   border-color: var(--accent-de);   color: white; }
+  .pill.sel-lat    { background: var(--accent-lat);  border-color: var(--accent-lat);  color: white; }
+  .pill.sel-math   { background: var(--accent-math); border-color: var(--accent-math); color: white; }
+  .pill.sel-en     { background: var(--accent-en);   border-color: var(--accent-en);   color: white; }
+  .pill.sel-fr     { background: var(--accent-fr);   border-color: var(--accent-fr);   color: white; }
+  .pill.sel-mu     { background: var(--accent-mu);   border-color: var(--accent-mu);   color: white; }
+
+  /* subject row hidden until class chosen */
+  #subjectRow { display: none; }
+
+  /* ── SEARCH + RESET ── */
+  .search-reset {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .search-wrap {
+    position: relative;
+    flex: 1;
+    max-width: 340px;
+  }
+
+  .search-wrap svg {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+  }
+
+  input[type="search"] {
+    width: 100%;
+    padding: 8px 12px 8px 33px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  input[type="search"]:focus { border-color: #aaa; }
+  input[type="search"]::placeholder { color: var(--text-muted); }
+
+  .action-btn {
+    padding: 6px 12px;
+    font-size: 0.78rem;
+    font-family: 'DM Sans', sans-serif;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    border-radius: 7px;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: all 0.15s;
+  }
+  .action-btn:hover { border-color: #aaa; color: var(--text); }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    display: flex;
+    gap: 18px;
+    padding: 9px 28px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.79rem;
+    color: var(--text-muted);
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .stat-item { display: flex; align-items: center; gap: 6px; }
+  .stat-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--check-done); }
+  .stat-dot.info { background: var(--accent-info); }
+  .stat-dot.chem { background: var(--accent-chem); }
+  .stat-dot.de   { background: var(--accent-de); }
+  .stat-dot.lat  { background: var(--accent-lat); }
+  .stat-dot.math { background: var(--accent-math); }
+  .stat-dot.en   { background: var(--accent-en); }
+  .stat-dot.fr   { background: var(--accent-fr); }
+  .stat-dot.mu   { background: var(--accent-mu); }
+
+  .progress-mini {
+    height: 5px; width: 80px;
+    background: var(--border);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: var(--check-done);
+    transition: width 0.4s ease;
+  }
+
+  /* ── PROMPT STATE ── */
+  #promptState {
+    text-align: center;
+    padding: 70px 20px 40px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--text-muted);
+  }
+
+  #promptState .step2 { display: none; }
+
+  /* ── MAIN ── */
+  main {
+    padding: 24px 28px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* ── SUBJECT BLOCK ── */
+  .subject-block { margin-bottom: 32px; }
+
+  .subject-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .subject-badge {
+    font-family: 'Fraunces', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    padding: 3px 13px;
+    border-radius: 6px;
+    letter-spacing: -0.01em;
+  }
+  .badge-info { background: var(--accent-info); color: white; }
+  .badge-chem { background: var(--accent-chem); color: white; }
+  .badge-de   { background: var(--accent-de);   color: white; }
+  .badge-lat  { background: var(--accent-lat);  color: white; }
+  .badge-math { background: var(--accent-math); color: white; }
+  .badge-en   { background: var(--accent-en);   color: white; }
+  .badge-fr   { background: var(--accent-fr);   color: white; }
+  .badge-mu   { background: var(--accent-mu);   color: white; }
+
+  .subject-progress-text {
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    margin-left: auto;
+  }
+
+  /* ── CLASS SECTION ── */
+  .class-section {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .class-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 17px;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1.5px solid var(--border);
+    background: var(--surface2);
+  }
+  .class-header:hover { background: #f5f1e6; }
+
+  .class-label {
+    font-family: 'Fraunces', serif;
+    font-size: 0.93rem;
+    font-weight: 600;
+  }
+
+  .class-sub { font-size: 0.76rem; color: var(--text-muted); }
+
+  .collapse-icon {
+    margin-left: auto;
+    color: var(--text-muted);
+    transition: transform 0.22s;
+    flex-shrink: 0;
+  }
+  .class-section.collapsed .collapse-icon { transform: rotate(-90deg); }
+  .class-section.collapsed .class-body { display: none; }
+
+  /* ── TOPIC ── */
+  .topic {
+    border-bottom: 1px solid var(--border);
+    padding: 13px 17px;
+  }
+  .topic:last-child { border-bottom: none; }
+
+  .topic-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    cursor: pointer;
+  }
+
+  .topic-title {
+    font-weight: 500;
+    font-size: 0.92rem;
+    flex: 1;
+    padding-top: 1px;
+  }
+
+  .topic-meta {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .duration-tag {
+    font-size: 0.71rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--border);
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .klausur-tag {
+    font-size: 0.71rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fde68a;
+    white-space: nowrap;
+  }
+
+  /* CHECKBOX */
+  .topic-check {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 19px; height: 19px;
+    border: 2px solid var(--border);
+    border-radius: 5px;
+    flex-shrink: 0;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.15s;
+    margin-top: 1px;
+    background: white;
+  }
+  .topic-check:checked {
+    background: var(--check-done);
+    border-color: var(--check-done);
+  }
+  .topic-check:checked::after {
+    content: '';
+    position: absolute;
+    left: 4px; top: 2px;
+    width: 6px; height: 10px;
+    border: 2px solid white;
+    border-top: none; border-left: none;
+    transform: rotate(45deg);
+  }
+  .topic-check:hover:not(:checked) { border-color: #aaa; }
+
+  .topic.done { background: #f7fdf8; }
+  .topic.done .topic-title {
+    color: var(--text-muted);
+    text-decoration: line-through;
+    text-decoration-color: #b0c8b3;
+  }
+
+  /* DETAILS */
+  .topic-details { margin-top: 10px; margin-left: 30px; display: none; }
+  .topic-details.open { display: block; }
+
+  .detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
+    gap: 8px;
+    margin-top: 6px;
+  }
+
+  .detail-box {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 9px 11px;
+  }
+
+  .detail-box h4 {
+    font-size: 0.68rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+  }
+
+  .detail-box ul { list-style: none; }
+  .detail-box ul li {
+    font-size: 0.81rem;
+    padding: 2px 0 2px 10px;
+    position: relative;
+  }
+  .detail-box ul li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--text-muted);
+  }
+
+  /* HIGHLIGHT */
+  mark { background: #ffec9e; color: inherit; border-radius: 2px; padding: 0 1px; }
+
+  /* LINKS BOX */
+  .links-box {
+    margin-top: 10px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 9px 11px;
+  }
+
+  .links-box h4 {
+    font-size: 0.68rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin-bottom: 7px;
+  }
+
+  .link-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .link-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.76rem;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .link-pill:hover { border-color: #888; background: white; color: var(--text); }
+
+  .link-pill.anton   { border-color: #d4401a; color: #d4401a; }
+  .link-pill.anton:hover { background: #fff4f1; }
+  .link-pill.learning { border-color: #2563a8; color: #2563a8; }
+  .link-pill.learning:hover { background: #f0f5ff; }
+  .link-pill.zum     { border-color: #1a7a4a; color: #1a7a4a; }
+  .link-pill.zum:hover { background: #f0faf4; }
+
+  /* EMPTY */
+  .empty-state {
+    text-align: center;
+    padding: 50px 20px;
+    color: var(--text-muted);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    display: none;
+  }
+
+  @media (max-width: 600px) {
+    header, main { padding-left: 14px; padding-right: 14px; }
+    .stats-bar { padding-left: 14px; padding-right: 14px; }
+    .detail-grid { grid-template-columns: 1fr; }
+    header h1 { font-size: 1.2rem; }
+  }
 </style>
 </head>
 <body>
 
-<img src="/Logo.png" style="width:400px;">
-<h1>Lernplattform</h1>
+<header>
+  <div class="header-top">
+    <h1>📚 Schulcurriculum</h1>
+    <span class="school">Ev. Gymnasium Nordhorn</span>
+  </div>
 
-<div class="tab-container" id="fachTabs"></div>
-<div class="subtab-container" id="klasseTabs"></div>
-<div id="content"></div>
+  <!-- ROW 1: CLASS -->
+  <div class="filter-row">
+    <span class="filter-label">Klasse</span>
+    <div class="pills" id="classPills">
+      <button class="pill" data-class="kl5">5</button>
+      <button class="pill" data-class="kl6">6</button>
+      <button class="pill" data-class="kl7">7</button>
+      <button class="pill" data-class="kl8">8</button>
+      <button class="pill" data-class="kl9">9</button>
+      <button class="pill" data-class="kl10">10</button>
+      <button class="pill" data-class="ef">EF</button>
+    </div>
+  </div>
+
+  <!-- ROW 2: SUBJECT (shown after class chosen) -->
+  <div class="filter-row" id="subjectRow">
+    <span class="filter-label">Fach</span>
+    <div class="pills" id="subjectPills">
+      <!-- filled dynamically -->
+    </div>
+  </div>
+
+  <!-- SEARCH + RESET -->
+  <div class="search-reset">
+    <div class="search-wrap">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="search" id="searchInput" placeholder="Themen durchsuchen…" autocomplete="off">
+    </div>
+    <button class="action-btn" id="clearBtn" title="Alle Abhakungen zurücksetzen">↺ Reset</button>
+  </div>
+</header>
+
+<!-- STATS BAR -->
+<div class="stats-bar" id="statsBar">
+  <div class="stat-item">
+    <span class="stat-dot"></span>
+    <span id="statDone">0</span> / <span id="statTotal">0</span> abgehakt
+  </div>
+  <div class="progress-mini"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="stat-item" id="statInfoItem" style="display:none">
+    <span class="stat-dot info"></span><span id="statInfo">–</span> Informatik
+  </div>
+  <div class="stat-item" id="statChemItem" style="display:none">
+    <span class="stat-dot chem"></span><span id="statChem">–</span> Chemie
+  </div>
+  <div class="stat-item" id="statDeItem" style="display:none">
+    <span class="stat-dot de"></span><span id="statDe">–</span> Deutsch
+  </div>
+  <div class="stat-item" id="statLatItem" style="display:none">
+    <span class="stat-dot lat"></span><span id="statLat">–</span> Latein
+  </div>
+  <div class="stat-item" id="statMathItem" style="display:none">
+    <span class="stat-dot math"></span><span id="statMath">–</span> Mathematik
+  </div>
+  <div class="stat-item" id="statEnItem" style="display:none">
+    <span class="stat-dot en"></span><span id="statEn">–</span> Englisch
+  </div>
+  <div class="stat-item" id="statFrItem" style="display:none">
+    <span class="stat-dot fr"></span><span id="statFr">–</span> Französisch
+  </div>
+  <div class="stat-item" id="statMuItem" style="display:none">
+    <span class="stat-dot mu"></span><span id="statMu">–</span> Musik
+  </div>
+</div>
+
+<main id="mainContent">
+  <div id="promptState">
+    <div class="step1">Wähle zuerst eine <strong>Klasse</strong> aus.</div>
+    <div class="step2">Wähle jetzt ein <strong>Fach</strong> aus.</div>
+  </div>
+  <div class="empty-state" id="emptyState">Keine Themen gefunden.</div>
+</main>
 
 <script>
-// Fächer und Jahrgänge
-const faecher = {
-    "Deutsch": [5,6,7,8,9,10],
-    "Mathe": [5,6,7,8,9,10],
-    "Englisch": [5,6,7,8,9,10],
-    "Biologie": [5,6,7,8,9,10],
-    "Physik": [5,7,8,9,10],
-    "Chemie": [6,7,8,9,10],
-    "Erdkunde": [5,6,7,8,9,10],
-    "Geschichte": [5,6,7,8,9,10],
-    "Informatik": [5,9,10],
-    "Latein": [6,7,8,9,10],
-    "Französisch": [6,7,8,9,10],
-    "3. Fremdsprachen": [10],
-    "Religion": [5,6,7,8,9,10],
-    "Kunst": [5,6,7,8,9,10],
-    "Musik": [5,6,7,8,9,10],
-    "Testphase": [1]
+// ══════════════════════════════════════════════════════════════════════════════
+//  CURRICULUM DATA
+// ══════════════════════════════════════════════════════════════════════════════
+const curriculum = [
+
+  // ── INFORMATIK ──────────────────────────────────────────────────────────────
+  {
+    subject: "info", label: "Informatik",
+    classes: [
+      {
+        id: "kl9", label: "Jahrgang 9", sub: "Halbjahr 9.2",
+        topics: [
+          {
+            id: "info_9_1", title: "Automatisierte Prozesse", duration: "2 × 3 Wochen",
+            absprachen: ["Automatisierte Prozesse aus der Lebenswelt benennen", "Sensor-, Aktor- und Verarbeitungskomponenten benennen"],
+            konkret: ["Aufbau & Funktion von Computerkomponenten", "EVA-Prinzip an selbstgewählten Beispielen", "Aufbau & Funktionsweise von Sensoren und Aktoren", "Referate zu automatisierten Prozessen"],
+            lernfelder: ["Automatisierte Prozesse", "Automatisierte Prozesse im Alltag"]
+          },
+          {
+            id: "info_9_2", title: "Algorithmisches Problemlösen", duration: "5 Wochen",
+            absprachen: ["Blockbasierten Algorithmus zu einem gegebenen Problem entwickeln"],
+            konkret: ["Grundbausteine der Algorithmik", "Variablenkonzept", "Einführung Struktogramme", "Programmierung mit Calliope/DoBot"],
+            lernfelder: ["Algorithmisches Problemlösen", "Algorithmisieren & Implementieren", "Einführung Programmierung (Calliope, DoBot)"]
+          },
+          {
+            id: "info_9_3", title: "Projektphase", duration: "4 Wochen",
+            absprachen: ["Algorithmus zur Steuerung einer technischen Komponente implementieren"],
+            konkret: ["Eigene Problemstellung umsetzen", "Sensoren & Aktoren nutzen", "Calliope + Bozon-Kit / DoBot"],
+            lernfelder: ["Algorithmisieren & Implementieren", "Technische Realisierung automatisierter Prozesse"]
+          }
+        ]
+      },
+      {
+        id: "kl10", label: "Jahrgang 10", sub: "Halbjahr 10.1",
+        topics: [
+          {
+            id: "info_10_1", title: "Daten und ihre Spuren / Internet", duration: "5–6 Wochen",
+            absprachen: ["Dezentraler Aufbau des Internets", "Komponenten: Client, Server, Router, DNS", "Rechtliche Rahmenbedingungen persönlicher Daten"],
+            konkret: ["\u201eInternetversteher\u201c", "Netzwerksimulation mit Filius", "Datenschutz: Fallbeispiele sozialer Netzwerke", "Einführung Sequenzdiagramme"],
+            lernfelder: ["Daten und ihre Spuren", "Aufbau von Netzwerken (Schwerpunkt Internet)"]
+          },
+          {
+            id: "info_10_2", title: "Algorithmisches Problemlösen", duration: "5–6 Wochen",
+            absprachen: ["Handlungsabläufe aus der Lebenswelt benennen & beschreiben"],
+            konkret: ["Alltagsbeispiele", "Blockbasierte Programmierung (Code-it / Snap!)", "Einführung Tracetabelle", "Datenstruktur \u201eListe\u201c"],
+            lernfelder: ["Algorithmisches Problemlösen", "Algorithmisieren & Implementieren"]
+          },
+          {
+            id: "info_10_3", title: "Programmierprojekt", duration: "3–4 Wochen",
+            absprachen: ["Informellen Algorithmus zu einem gegebenen Problem entwickeln"],
+            konkret: ["Blockbasierte App-Entwicklung (Code-it)", "Erstellung einer Arbeitsdokumentation"],
+            lernfelder: ["Algorithmisieren & Implementieren"]
+          }
+        ]
+      },
+      {
+        id: "ef", label: "Einführungsphase (EF)", sub: "Jahrgang 11",
+        topics: [
+          {
+            id: "info_ef_1", title: "Codierung", duration: "3–4 Wochen",
+            absprachen: ["RGB-Modell, ASCII, Dualsystem", "Binäre Grundrechenarten", "Codierung von Text & Bildern", "Dateigrößenberechnung"],
+            konkret: ["RGB-Farbmodell", "ASCII-Tabelle", "Dualsystem & Umrechnung", "Binäre Arithmetik", "Optional: SpionCamp"],
+            lernfelder: ["Informationen & Daten – 11.1"]
+          },
+          {
+            id: "info_ef_2", title: "Kryptologie", duration: "4–5 Wochen",
+            absprachen: ["Transposition & Substitution", "Caesar- & Vigenère-Chiffre", "Häufigkeitsanalyse", "Sicherheitsaspekte"],
+            konkret: ["Caesar-Chiffre", "Vigenère-Chiffre", "Häufigkeitsanalyse", "Implementierung in Pseudocode", "Optional: Umsetzung in Scratch"],
+            lernfelder: ["Informationen & Daten – 11.1"]
+          },
+          {
+            id: "info_ef_3", title: "Datenschutz", duration: "1–2 Wochen",
+            absprachen: ["Recht am Bild", "Informationelle Selbstbestimmung", "Datenschutzrichtlinien"],
+            konkret: ["Gesellschaftliche Fallbeispiele", "Datenschutzrichtlinien analysieren"],
+            lernfelder: ["Informationen & Daten – 11.1"]
+          },
+          {
+            id: "info_ef_4", title: "Objektorientierung", duration: "ca. 2 Wochen",
+            absprachen: ["Klassen & Objekte", "Klassendiagramme", "Vererbung"],
+            konkret: ["Klassen modellieren", "Klassendiagramme erstellen", "Vererbungskonzept verstehen"],
+            lernfelder: ["Algorithmen & Datenstrukturen – 11.2"]
+          },
+          {
+            id: "info_ef_5", title: "Grundlagen der Algorithmik (OO)", duration: "5–6 Wochen",
+            absprachen: ["Alltagsbeispiele", "Ergänzung vorstrukturierter Projekte", "Implementierung in Java (Greenfoot)"],
+            konkret: ["Kontrollstrukturen", "Variablen", "Grundrechenarten inkl. Modulo", "Methoden/Funktionen", "Greenfoot-Einstieg"],
+            lernfelder: ["Algorithmen & Datenstrukturen – 11.2"]
+          },
+          {
+            id: "info_ef_6", title: "Datenstrukturen", duration: "3–4 Wochen",
+            absprachen: ["Zeichenkettenoperationen", "Statische Reihung", "Integration in Greenfoot-Projekt"],
+            konkret: ["String-Methoden", "Arrays/statische Reihungen", "Integration in laufendes Projekt"],
+            lernfelder: ["Algorithmen & Datenstrukturen – 11.2"]
+          },
+          {
+            id: "info_ef_7", title: "Projektarbeit (Greenfoot)", duration: "4–5 Wochen",
+            absprachen: ["Entwicklung eines eigenen Szenarios in Greenfoot", "Nutzung aller erlernten Strukturen"],
+            konkret: ["Eigenes Greenfoot-Projekt planen", "Implementieren & debuggen", "Digitales Arbeitstagebuch führen"],
+            lernfelder: ["Algorithmen & Datenstrukturen – 11.2"]
+          }
+        ]
+      }
+    ]
+  },
+
+  // ── CHEMIE ──────────────────────────────────────────────────────────────────
+  {
+    subject: "chem", label: "Chemie",
+    classes: [
+      {
+        id: "kl6", label: "Klasse 6", sub: "Grundlagen der Chemie",
+        topics: [
+          {
+            id: "chem_6_1", title: "Grundlagen & Laborregeln", duration: "–",
+            absprachen: ["Sachgerechtes Experimentieren nach Anleitung", "Sicherheitsaspekte beachten"],
+            konkret: ["Besonderheiten des Chemieraums", "Gefahrensymbole kennen", "Laborregeln", "Laborführerschein"],
+            lernfelder: ["Grundlagen der Chemie"]
+          },
+          {
+            id: "chem_6_2", title: "Stoffe und ihre Eigenschaften", duration: "–",
+            absprachen: ["Stoffe anhand sinnlich wahrnehmbarer Eigenschaften unterscheiden"],
+            konkret: ["Stoff vs. Gegenstand", "Farbe, Härte, Oberfläche", "Eigenschaften beim Erhitzen", "Brennbarkeit"],
+            lernfelder: ["Stoffe und ihre Eigenschaften"]
+          },
+          {
+            id: "chem_6_3", title: "Messbare Stoffeigenschaften", duration: "–",
+            absprachen: ["Stoffe anhand messbarer Eigenschaften unterscheiden"],
+            konkret: ["Saure, neutrale, alkalische Lösungen", "Indikatoren", "Löslichkeit", "Dichte", "Siede- und Schmelzpunkt"],
+            lernfelder: ["Messbare Stoffeigenschaften"]
+          },
+          {
+            id: "chem_6_4", title: "Aggregatzustände & Teilchenmodell", duration: "–",
+            absprachen: ["Diffusion auf Stoff- und Teilchenebene beschreiben"],
+            konkret: ["Aggregatzustände & Übergänge", "Vereinfachtes Teilchenmodell", "Diffusion"],
+            lernfelder: ["Aggregatzustände & Teilchenmodell"]
+          },
+          {
+            id: "chem_6_5", title: "Gemische und Trennverfahren", duration: "–",
+            absprachen: ["Trennverfahren mit Kenntnissen über Stoffeigenschaften erklären"],
+            konkret: ["Reinstoffe & Gemische", "Homogene/heterogene Gemische", "Filtrieren, Dekantieren, Sedimentieren", "Chromatografie", "Destillation"],
+            lernfelder: ["Gemische und Trennverfahren"]
+          }
+        ]
+      },
+      {
+        id: "kl7", label: "Klasse 7", sub: "Chemische Reaktionen",
+        topics: [
+          {
+            id: "chem_7_1", title: "Einführung in chemische Reaktionen", duration: "–",
+            absprachen: ["Beschreiben, dass Ausgangsstoffe nach einer Reaktion nicht mehr vorliegen"],
+            konkret: ["Verbrennung", "Brandklassen & Löschmethoden", "Wasser als Verbindung", "Elemente & Verbindungen", "Merkmale chemischer Reaktionen"],
+            lernfelder: ["Einführung in chemische Reaktionen"]
+          },
+          {
+            id: "chem_7_2", title: "Energie bei chemischen Reaktionen", duration: "–",
+            absprachen: ["Wirkung eines Katalysators auf die Aktivierungsenergie beschreiben"],
+            konkret: ["Exotherme & endotherme Reaktionen", "Aktivierungsenergie", "Energiediagramme", "Katalysatoren"],
+            lernfelder: ["Energie bei chemischen Reaktionen"]
+          },
+          {
+            id: "chem_7_3", title: "Atome & Gesetzmäßigkeiten", duration: "–",
+            absprachen: ["Chemische Reaktionen auf Atomebene deuten"],
+            konkret: ["Dalton-Atommodell", "Gesetz der Erhaltung der Masse", "Gesetz der konstanten Proportionen", "Atome & Modelle"],
+            lernfelder: ["Atome & Gesetzmäßigkeiten"]
+          },
+          {
+            id: "chem_7_4", title: "Reaktionsgleichungen", duration: "–",
+            absprachen: ["Reaktionsgleichungen aufstellen & ausgleichen"],
+            konkret: ["Reaktionsschemata", "Aufstellen von Reaktionsgleichungen", "Ausgleichen nach Atomerhaltung"],
+            lernfelder: ["Reaktionsgleichungen"]
+          },
+          {
+            id: "chem_7_5", title: "Luft & Nachweisreaktionen", duration: "–",
+            absprachen: ["Selbstständig Experimente planen", "Nachweisreaktionen anwenden"],
+            konkret: ["Bestandteile der Luft", "Nachweis von Sauerstoff", "Nachweis von CO₂", "Nachweis von Wasser"],
+            lernfelder: ["Luft & Nachweisreaktionen"]
+          }
+        ]
+      },
+      {
+        id: "kl8", label: "Klasse 8", sub: "Redox & Chemisches Rechnen",
+        topics: [
+          {
+            id: "chem_8_1", title: "Redoxreaktionen", duration: "–",
+            absprachen: ["Donator-Akzeptor-Konzept anwenden"],
+            konkret: ["Sauerstoffaufnahme & -abgabe", "Donator-Akzeptor-Prinzip", "Oxidation & Reduktion", "Metallvorkommen", "Thermitverfahren", "Hochofenprozess", "Langsame Oxidation"],
+            lernfelder: ["Redoxreaktionen"]
+          },
+          {
+            id: "chem_8_2", title: "Chemisches Rechnen I", duration: "–",
+            absprachen: ["Chemische Symbolsprache nutzen", "Mathematikkenntnisse anwenden"],
+            konkret: ["Massen- und Atomanzahlverhältnisse", "Wiederholung Reaktionsgleichungen", "Masse, Stoffmenge, molare Masse"],
+            lernfelder: ["Chemisches Rechnen I"]
+          }
+        ]
+      }
+    ]
+  },
+
+  // ── DEUTSCH ─────────────────────────────────────────────────────────────────
+  {
+    subject: "de", label: "Deutsch",
+    classes: [
+      {
+        id: "kl5", label: "Klasse 5", sub: "Deutsch",
+        topics: [
+          {
+            id: "de_5_1", title: "Wir in unserer neuen Schule", duration: "–", klausur: false,
+            absprachen: ["Eigene Erlebnisse geordnet, anschaulich und lebendig erzählen"],
+            konkret: ["Gesprächsregeln erarbeiten", "Texte bearbeiten", "Brief schreiben", "Erzählen eigener Erlebnisse"],
+            lernfelder: ["Erzählen", "Gesprächsregeln", "Textbearbeitung", "Brief schreiben"]
+          },
+          {
+            id: "de_5_2", title: "Märchenhafte oder gruselige Geschichten", duration: "–", klausur: true,
+            absprachen: ["Erzähltechniken anwenden", "Märchenmerkmale benennen"],
+            konkret: ["Szenisches Spiel", "Erzähltechniken üben", "Märchenmerkmale erarbeiten"],
+            lernfelder: ["Erzähltechniken", "Szenisches Spiel", "Märchenmerkmale"]
+          },
+          {
+            id: "de_5_3", title: "Richtig schreiben lernen", duration: "–", klausur: false,
+            absprachen: ["Fehlschreibungen durch Fehleranalyse korrigieren und vermeiden"],
+            konkret: ["Rechtschreibstrategien", "Grammatik", "Diktat"],
+            lernfelder: ["Rechtschreibstrategien", "Grammatik"]
+          },
+          {
+            id: "de_5_4", title: "Wortarten entdecken", duration: "–", klausur: false,
+            absprachen: ["Wortarten sicher erkennen und benennen"],
+            konkret: ["Wortarten bestimmen", "Tempusformen", "Sachtexte verstehen"],
+            lernfelder: ["Wortarten", "Tempusformen", "Sachtexte"]
+          },
+          {
+            id: "de_5_5", title: "Beschreiben und Berichten", duration: "–", klausur: true,
+            absprachen: ["Informationsentnahme und strukturierte Darstellung"],
+            konkret: ["Beschreibung schreiben", "Strukturierung üben", "Mediennutzung"],
+            lernfelder: ["Beschreiben", "Berichten", "Mediennutzung"]
+          },
+          {
+            id: "de_5_6", title: "Satzglieder & Sprachspiele", duration: "–", klausur: false,
+            absprachen: ["Satzglieder bestimmen und Umstellprobe anwenden"],
+            konkret: ["Satzglieder bestimmen", "Wortbildung", "Umstellprobe"],
+            lernfelder: ["Satzglieder", "Wortbildung"]
+          },
+          {
+            id: "de_5_7", title: "Gedichte – Vortragen & Gestalten", duration: "–", klausur: false,
+            absprachen: ["Gedichte wirkungsvoll vortragen"],
+            konkret: ["Lyrische Mittel erkennen", "Vortrag üben", "Textgestaltung"],
+            lernfelder: ["Lyrische Mittel", "Gedichtvortrag", "Textgestaltung"]
+          },
+          {
+            id: "de_5_8", title: "Jugendbuch", duration: "–", klausur: true,
+            absprachen: ["Figuren und Lesestrategien erschließen"],
+            konkret: ["Leseprotokolle führen", "Figuren beschreiben", "Portfolio erstellen"],
+            lernfelder: ["Jugendbuch", "Lesestrategien", "Figuren"]
+          }
+        ]
+      },
+      {
+        id: "kl6", label: "Klasse 6", sub: "Deutsch",
+        topics: [
+          {
+            id: "de_6_1", title: "Sagen & Fabeln", duration: "–", klausur: true,
+            absprachen: ["Sagen geordnet, anschaulich und lebendig erzählen"],
+            konkret: ["Sage als Textsorte", "Nacherzählung schreiben", "Perspektivwechsel üben"],
+            lernfelder: ["Erzähltechniken", "Sage", "Perspektivwechsel"]
+          },
+          {
+            id: "de_6_2", title: "Sätze & Satzglieder", duration: "–", klausur: true,
+            absprachen: ["Satzarten und Satzgefüge erkennen und beschreiben"],
+            konkret: ["Satzarten bestimmen", "Satzgefüge analysieren", "Grammatikwirkung verstehen", "Diktat"],
+            lernfelder: ["Satzarten", "Satzgefüge", "Grammatikwirkung"]
+          },
+          {
+            id: "de_6_3", title: "Jugendbuch", duration: "–", klausur: true,
+            absprachen: ["Produktionsorientierte Aufgaben zu einem Jugendbuch erstellen"],
+            konkret: ["Leseprotokolle führen", "Medien einbeziehen", "Rollenspiel", "Filmische Mittel"],
+            lernfelder: ["Jugendbuch", "Produktionsorientiertes Schreiben", "Filmische Mittel"]
+          },
+          {
+            id: "de_6_4", title: "Gedichte & Bilder", duration: "–", klausur: false,
+            absprachen: ["Lyrische Fachbegriffe sicher anwenden"],
+            konkret: ["Gedichtanalyse", "Gegengedichte schreiben", "Lyrische Fachbegriffe"],
+            lernfelder: ["Gedichtanalyse", "Lyrische Fachbegriffe", "Gegengedicht"]
+          },
+          {
+            id: "de_6_5", title: "Berichten & Appellieren", duration: "–", klausur: true,
+            absprachen: ["Appellative Texte erkennen und Absichten benennen"],
+            konkret: ["Bericht schreiben", "Appellative Texte analysieren", "Textüberarbeitung"],
+            lernfelder: ["Berichten", "Appellieren", "Textüberarbeitung"]
+          }
+        ]
+      },
+      {
+        id: "kl7", label: "Klasse 7", sub: "Deutsch",
+        topics: [
+          {
+            id: "de_7_1", title: "Sachtexte", duration: "–", klausur: true,
+            absprachen: ["Sachtexten zielgerichtet Informationen entnehmen und geordnet wiedergeben"],
+            konkret: ["Lesestrategien anwenden", "Indirekte Rede / Konjunktiv", "Journalistische Textsorten", "Materialgestützter Text"],
+            lernfelder: ["Sachtexte", "Lesestrategien", "Indirekte Rede", "Journalistische Textsorten"]
+          },
+          {
+            id: "de_7_2", title: "Erzählende Texte untersuchen", duration: "–", klausur: true,
+            absprachen: ["Erzählperspektive und Figurenanalyse beschreiben"],
+            konkret: ["Erzählperspektive analysieren", "Figurenanalyse", "Historische Bezüge", "Inhaltsangabe schreiben"],
+            lernfelder: ["Erzählperspektive", "Figurenanalyse", "Inhaltsangabe"]
+          },
+          {
+            id: "de_7_3", title: "Zeiten, Aktiv/Passiv, Konjunktiv", duration: "–", klausur: false,
+            absprachen: ["Tempus, Modus und Aktiv/Passiv sicher anwenden"],
+            konkret: ["Tempusformen üben", "Aktiv/Passiv unterscheiden", "Fehleranalyse", "Textüberarbeitung"],
+            lernfelder: ["Tempus", "Modus", "Aktiv/Passiv"]
+          },
+          {
+            id: "de_7_4", title: "Gliedsätze", duration: "–", klausur: true,
+            absprachen: ["Satzgefüge analysieren und korrekte Kommasetzung anwenden"],
+            konkret: ["Satzgefüge bestimmen", "Kommasetzung üben", "Sprachvergleich", "Diktat"],
+            lernfelder: ["Gliedsätze", "Kommasetzung", "Sprachvergleich"]
+          },
+          {
+            id: "de_7_5", title: "Jugendbuch", duration: "–", klausur: true,
+            absprachen: ["Argumentieren und produktionsorientiert schreiben"],
+            konkret: ["Lesetagebuch oder Gestaltungsaufgabe", "Argumentieren", "Leseprotokolle"],
+            lernfelder: ["Jugendbuch", "Argumentieren", "Produktionsorientiertes Schreiben"]
+          },
+          {
+            id: "de_7_6", title: "Rechtschreibung anwenden", duration: "–", klausur: false,
+            absprachen: ["Orthografische Sicherheit in eigenen Texten zeigen"],
+            konkret: ["Orthografie wiederholen", "Substantivierung", "Fremdwörter"],
+            lernfelder: ["Orthografie", "Substantivierung", "Fremdwörter"]
+          }
+        ]
+      },
+      {
+        id: "kl8", label: "Klasse 8", sub: "Deutsch",
+        topics: [
+          {
+            id: "de_8_1", title: "Dramatische Texte / literarische Werke", duration: "–", klausur: true,
+            absprachen: ["Deutungsansätze in korrekter Zitierweise am Text belegen"],
+            konkret: ["Szenisches Spiel", "Figurenkonstellation", "Dramenanalyse", "Gestaltungsaufgabe oder Analyse"],
+            lernfelder: ["Dramenanalyse", "Figurenkonstellation", "Zitierweise"]
+          },
+          {
+            id: "de_8_2", title: "Lyrik / Balladen", duration: "–", klausur: true,
+            absprachen: ["Rhetorische Mittel erkennen und interpretieren"],
+            konkret: ["Form und Sprache analysieren", "Rhetorische Mittel", "Gedichtinterpretation"],
+            lernfelder: ["Lyrik", "Balladen", "Rhetorische Mittel"]
+          },
+          {
+            id: "de_8_3", title: "Lineare Erörterung", duration: "–", klausur: true,
+            absprachen: ["Argumentationsstruktur aufbauen und Gegenargumente einbeziehen"],
+            konkret: ["Argumentierender Text (z. B. Leserbrief)", "Gegenargumente", "Appellatives Schreiben"],
+            lernfelder: ["Erörterung", "Argumentationsstruktur", "Appellatives Schreiben"]
+          },
+          {
+            id: "de_8_4", title: "Grammatik-Wiederholung", duration: "–", klausur: true,
+            absprachen: ["Konjunktiv, Aktiv/Passiv und Zeichensetzung sicher beherrschen"],
+            konkret: ["Konjunktiv", "Aktiv/Passiv", "Zeichensetzung", "Grammatikarbeit mit Diktat"],
+            lernfelder: ["Konjunktiv", "Aktiv/Passiv", "Zeichensetzung"]
+          }
+        ]
+      },
+      {
+        id: "kl9", label: "Klasse 9", sub: "Deutsch",
+        topics: [
+          {
+            id: "de_9_1", title: "Jugend- oder Kriminalroman", duration: "–", klausur: true,
+            absprachen: ["Innere Monologe, Briefe, Tagebucheinträge verfassen"],
+            konkret: ["Erzählperspektive", "Figurenrede", "Zeitgestaltung", "Figurencharakterisierung"],
+            lernfelder: ["Roman", "Erzählperspektive", "Figurenrede"]
+          },
+          {
+            id: "de_9_2", title: "Dramatische Texte", duration: "–", klausur: true,
+            absprachen: ["Dramentexte analysieren und szenisch lesen"],
+            konkret: ["Szenisches Lesen", "Dramenanalyse", "Rollenbiografie"],
+            lernfelder: ["Dramenanalyse", "Szenisches Lesen", "Rollenbiografie"]
+          },
+          {
+            id: "de_9_3", title: "Liebeslyrik", duration: "–", klausur: true,
+            absprachen: ["Rhetorische Mittel und Epochenbezüge herstellen"],
+            konkret: ["Rhetorische Mittel", "Epochenbezüge", "Gedichtanalyse"],
+            lernfelder: ["Lyrik", "Rhetorische Mittel", "Epochenbezüge"]
+          },
+          {
+            id: "de_9_4", title: "Textgebundene Erörterung", duration: "–", klausur: true,
+            absprachen: ["Antithetisch erörtern und Gegenpositionen berücksichtigen"],
+            konkret: ["Argumentation aufbauen", "Gegenpositionen formulieren", "Textanalyse"],
+            lernfelder: ["Erörterung", "Argumentation", "Textanalyse"]
+          },
+          {
+            id: "de_9_5", title: "Rechtschreibung, Zeichensetzung, indirekte Rede", duration: "–", klausur: true,
+            absprachen: ["Zitiertechnik, Syntax und Wortarten sicher beherrschen"],
+            konkret: ["Zitiertechnik", "Syntax üben", "Wortarten wiederholen", "Grammatikarbeit"],
+            lernfelder: ["Orthografie", "Zitiertechnik", "Syntax"]
+          }
+        ]
+      },
+      {
+        id: "kl10", label: "Klasse 10", sub: "Deutsch",
+        topics: [
+          {
+            id: "de_10_1", title: "Kurzgeschichten & Kommunikation", duration: "–", klausur: true,
+            absprachen: ["Kommunikationsmodell von Schulz von Thun anwenden"],
+            konkret: ["Analyse einer Kurzgeschichte", "Kommunikationsmodell", "Sprachwandel", "Interpretation"],
+            lernfelder: ["Kurzgeschichte", "Kommunikationsmodell", "Sprachwandel"]
+          },
+          {
+            id: "de_10_2", title: "Dramatische Texte", duration: "–", klausur: true,
+            absprachen: ["Drama der geschlossenen Form analysieren"],
+            konkret: ["Drama der geschlossenen Form", "Figurenrede", "Rhetorische Mittel", "Dramenanalyse"],
+            lernfelder: ["Drama", "Figurenrede", "Rhetorische Mittel"]
+          },
+          {
+            id: "de_10_3", title: "Populärwissenschaftliche Texte", duration: "–", klausur: true,
+            absprachen: ["Argumentation und Medienkritik anwenden"],
+            konkret: ["Lesestrategien", "Argumentation", "Medienkritik", "Sachtextanalyse"],
+            lernfelder: ["Sachtexte", "Argumentation", "Medienkritik"]
+          },
+          {
+            id: "de_10_4", title: "Romananalyse", duration: "–", klausur: true,
+            absprachen: ["Erzählweise, Figuren und filmische Mittel analysieren"],
+            konkret: ["Erzählweise analysieren", "Figurenentwicklung", "Filmische Mittel", "Produktionsorientierte Verfahren"],
+            lernfelder: ["Roman", "Erzählweise", "Filmische Mittel"]
+          },
+          {
+            id: "de_10_5", title: "Bewerbungsschreiben", duration: "–", klausur: false,
+            absprachen: ["Formelle Texte normgerecht verfassen"],
+            konkret: ["Lebenslauf erstellen", "Bewerbung schreiben", "Vorstellungsgespräch vorbereiten"],
+            lernfelder: ["Bewerbung", "Lebenslauf", "Formelle Texte"]
+          },
+          {
+            id: "de_10_6", title: "Themenübergreifend", duration: "–", klausur: false,
+            absprachen: ["Wortschatz, Rechtschreibung und Modalität sichern"],
+            konkret: ["Wortschatz erweitern", "Rechtschreibung", "Modalität", "Textwiedergabe"],
+            lernfelder: ["Wortschatz", "Orthografie", "Modalität"]
+          }
+        ]
+      }
+    ]
+  },
+
+  // ── LATEIN ──────────────────────────────────────────────────────────────────
+  {
+    subject: "lat", label: "Latein",
+    classes: [
+      {
+        id: "kl6", label: "Klasse 6", sub: "VIVA Lektionen 1–9",
+        topics: [
+          {
+            id: "lat_6_1", title: "Lektion 1 – Deklination & Konjugation", duration: "–", klausur: false,
+            absprachen: ["Nom. Sg./Pl. der a- und o-Deklination", "3. Pers. Sg./Pl. der a-, e-, i-Konjugation + esse", "Infinitivformen"],
+            konkret: ["Figurenkonstellation (Familie der Selicier)", "Inhalt über Überschrift & Bild erschließen", "Szenische Umsetzung", "Start des Lerntagebuchs"],
+            lernfelder: ["Sprachkompetenz: Deklination & Konjugation", "Textkompetenz: Erschließungsstrategien", "Kulturkompetenz: Römische Namensgebung"]
+          },
+          {
+            id: "lat_6_2", title: "Lektion 2 – Akkusativ & familia", duration: "–", klausur: false,
+            absprachen: ["Akk. Sg./Pl. der a- und o-Deklination", "Konsonantische & kurzvokalische Konjugation"],
+            konkret: ["Wortfeldarbeit", "Problemlösestrategien (Ziegenbock-Episode)", "Bezug zum Geschichtsunterricht"],
+            lernfelder: ["Sprachkompetenz: Akkusativ", "Textkompetenz: Wortfeldarbeit", "Kulturkompetenz: familia vs. moderne Familie"]
+          },
+          {
+            id: "lat_6_3", title: "Lektion 3 – Adjektive & Imperativ", duration: "–", klausur: false,
+            absprachen: ["Adjektive der a-/o-Deklination", "Vokativ, Imperativ"],
+            konkret: ["Hörspielproduktion", "Imperium Romanum kartieren", "Syntaktische Analyse (Agentenkoffer)"],
+            lernfelder: ["Sprachkompetenz: Adjektive & Imperativ", "Textkompetenz: Hörspiel", "Kulturkompetenz: Sklavenherkunft & Stellung"]
+          },
+          {
+            id: "lat_6_4", title: "Lektion 4 – 3. Deklination & römische Religion", duration: "–", klausur: false,
+            absprachen: ["Nom./Akk. der 3. Deklination"],
+            konkret: ["Stimmung bei der Säkularfeier", "Tagebucheintrag schreiben", "Vokabellernmethoden"],
+            lernfelder: ["Sprachkompetenz: 3. Deklination", "Textkompetenz: Tagebucheintrag", "Kulturkompetenz: Opferzeremonien, do ut des, Götterwelt"]
+          },
+          {
+            id: "lat_6_5", title: "Lektion 5 – Ablativ & Gladiatoren", duration: "–", klausur: false,
+            absprachen: ["Ablativformen + erste Funktionen"],
+            konkret: ["Gefühle & Beziehungen im Text", "Kontextübersetzung", "Dokumentationsanalyse"],
+            lernfelder: ["Sprachkompetenz: Ablativ", "Textkompetenz: Kontextübersetzung", "Kulturkompetenz: Gladiatoren, Wagenrennen, Sportvergleich"]
+          },
+          {
+            id: "lat_6_6", title: "Lektion 6 – Personalformen & Generationenkonflikte", duration: "–", klausur: true,
+            absprachen: ["1./2. Pers. aller Konjugationen", "Personalpronomen"],
+            konkret: ["Dialogfortsetzung", "Kurzfilmproduktion", "Activity-Vokabeltraining"],
+            lernfelder: ["Sprachkompetenz: Personalformen & Pronomen", "Textkompetenz: Dialog", "Kulturkompetenz: Horaz & Wertewandel"]
+          },
+          {
+            id: "lat_6_7", title: "Lektion 7 – Genitiv & römische Feuerwehr", duration: "–", klausur: false,
+            absprachen: ["Genitivformen", "Possessivpronomen"],
+            konkret: ["DIN-A3-Zeichnung mit lateinischen Labels", "Stationenlernen"],
+            lernfelder: ["Sprachkompetenz: Genitiv", "Kulturkompetenz: Feuerwehr, Stadtviertel, Brandfolgen"]
+          },
+          {
+            id: "lat_6_8", title: "Lektion 8 – Dativ & römische Küche", duration: "–", klausur: false,
+            absprachen: ["Dativfunktionen", "posse"],
+            konkret: ["Sachfeld Landleben", "Handlungsvorhersagen", "Übersetzungsmethoden (Pendelmethode)", "Kochprojekt"],
+            lernfelder: ["Sprachkompetenz: Dativ & posse", "Textkompetenz: Pendelmethode", "Kulturkompetenz: Stadt-Land-Vergleich, römische Küche"]
+          },
+          {
+            id: "lat_6_9", title: "Lektion 9 – AcI & Cato", duration: "–", klausur: true,
+            absprachen: ["AcI + syntaktische Analyse"],
+            konkret: ["Konfliktanalyse", "Dialogfortsetzung", "Recherche & Präsentation"],
+            lernfelder: ["Sprachkompetenz: AcI", "Textkompetenz: Konfliktanalyse", "Kulturkompetenz: Cato & zeitlose Werte"]
+          }
+        ]
+      },
+      {
+        id: "kl7", label: "Klasse 7", sub: "VIVA Lektionen 10–19",
+        topics: [
+          {
+            id: "lat_7_10", title: "Lektion 10 – is, ea, id & Toga", duration: "–", klausur: false,
+            absprachen: ["Demonstrativ-, Personal- und Possessivfunktion", "dativus possessivus"],
+            konkret: ["Toga anlegen", "familia wiederholen"],
+            lernfelder: ["Sprachkompetenz: is/ea/id", "Kulturkompetenz: Toga, familia"]
+          },
+          {
+            id: "lat_7_11", title: "Lektion 11 – ire, Reflexivpronomen & Vesta-Kult", duration: "–", klausur: false,
+            absprachen: ["ire konjugieren", "Reflexivpronomen"],
+            konkret: ["Geschwisterbeziehungen im Text", "Stammbaum Romulus/Remus"],
+            lernfelder: ["Sprachkompetenz: ire & Reflexivpronomen", "Kulturkompetenz: Vesta-Kult, Mythos & Aitiologie"]
+          },
+          {
+            id: "lat_7_12", title: "Lektion 12 – Perfekt & Raub der Sabinerinnen", duration: "–", klausur: false,
+            absprachen: ["Perfektformen", "Akkusativ der Ausdehnung"],
+            konkret: ["Texterschließung", "Orakel von Delphi"],
+            lernfelder: ["Sprachkompetenz: Perfekt", "Kulturkompetenz: Sabinerinnen, Provinz Asia"]
+          },
+          {
+            id: "lat_7_13", title: "Lektion 13 – PPP & Klientelwesen", duration: "–", klausur: true,
+            absprachen: ["Perfektarten", "Partizipium Perfectum Passivi (PPP)"],
+            konkret: ["Textanalyse Klientelwesen", "Subura erkunden"],
+            lernfelder: ["Sprachkompetenz: PPP", "Kulturkompetenz: Klientelwesen, Subura"]
+          },
+          {
+            id: "lat_7_14", title: "Lektion 14 – Krieg & Thermen", duration: "–", klausur: false,
+            absprachen: ["Texterschließung militärischer Texte"],
+            konkret: ["Thermen recherchieren", "Römer–Germanen vergleichen"],
+            lernfelder: ["Kulturkompetenz: Thermen, Legionsadler, Römer-Germanen"]
+          },
+          {
+            id: "lat_7_15", title: "Lektion 15 – Imperfekt & Eherecht", duration: "–", klausur: false,
+            absprachen: ["Imperfektformen"],
+            konkret: ["Ehesitten analysieren", "Mythos Apollo/Daphne"],
+            lernfelder: ["Sprachkompetenz: Imperfekt", "Kulturkompetenz: Ehesitten, lex Iulia"]
+          },
+          {
+            id: "lat_7_16", title: "Lektion 16 – Futur & römische Hochzeit", duration: "–", klausur: false,
+            absprachen: ["Futurformen"],
+            konkret: ["Werte der matrona erarbeiten", "Hochzeitsbräuche vergleichen"],
+            lernfelder: ["Sprachkompetenz: Futur", "Kulturkompetenz: Hochzeitsbräuche, matrona"]
+          },
+          {
+            id: "lat_7_17", title: "Lektion 17 – cursus honorum", duration: "–", klausur: false,
+            absprachen: ["Politische Texte erschließen"],
+            konkret: ["cursus honorum rekonstruieren", "otium/negotium diskutieren"],
+            lernfelder: ["Kulturkompetenz: Nobilität, cursus honorum, otium/negotium"]
+          },
+          {
+            id: "lat_7_18", title: "Lektion 18 – Adjektive 3. Dekl. & Rhetorik", duration: "–", klausur: true,
+            absprachen: ["Adjektive der 3. Deklination"],
+            konkret: ["Molon & Cicero als Rhetoriklehrer", "Weltwunder recherchieren"],
+            lernfelder: ["Sprachkompetenz: Adjektive 3. Dekl.", "Kulturkompetenz: Cicero, Rhetorik, Weltwunder"]
+          },
+          {
+            id: "lat_7_19", title: "Lektion 19 – Relativpronomen & Caesar", duration: "–", klausur: false,
+            absprachen: ["Relativpronomen", "Relativsatz"],
+            konkret: ["Caesar & Piraten-Episode", "Pompeius' Rolle einordnen"],
+            lernfelder: ["Sprachkompetenz: Relativpronomen", "Kulturkompetenz: Caesar & Piraten, Pompeius"]
+          }
+        ]
+      },
+      {
+        id: "kl8", label: "Klasse 8", sub: "VIVA Lektionen 20–29",
+        topics: [
+          {
+            id: "lat_8_20", title: "Lektion 20 – Unterwelt & Aeneas", duration: "–", klausur: false,
+            absprachen: ["Mythologische Texte erschließen"],
+            konkret: ["Aeneas-Sage erarbeiten", "pietas als Wert diskutieren"],
+            lernfelder: ["Kulturkompetenz: Aeneas, römische Unterwelt, pietas"]
+          },
+          {
+            id: "lat_8_21", title: "Lektion 21 – Triumphzug", duration: "–", klausur: false,
+            absprachen: ["Historische Texte einordnen"],
+            konkret: ["pompa triumphalis rekonstruieren", "Kaiser Trajan vergleichen"],
+            lernfelder: ["Kulturkompetenz: pompa triumphalis, Kaiser Trajan"]
+          },
+          {
+            id: "lat_8_22", title: "Lektion 22 – Europa-Mythos", duration: "–", klausur: false,
+            absprachen: ["Mythen interpretieren"],
+            konkret: ["Mythos & Religion vergleichen", "Anthropomorphismus erklären"],
+            lernfelder: ["Kulturkompetenz: Europa-Mythos, Anthropomorphismus"]
+          },
+          {
+            id: "lat_8_23", title: "Lektion 23 – Saturnalien", duration: "–", klausur: true,
+            absprachen: ["Festkultur beschreiben und vergleichen"],
+            konkret: ["Saturnalien vs. moderne Feste"],
+            lernfelder: ["Kulturkompetenz: Saturnalien, Festvergleich"]
+          },
+          {
+            id: "lat_8_24", title: "Lektion 24 – Britannien & Agricola", duration: "–", klausur: false,
+            absprachen: ["Historische Quellen auswerten"],
+            konkret: ["Eroberung Britanniens", "Caesar & Agricola vergleichen"],
+            lernfelder: ["Kulturkompetenz: Britannien, Caesar, Agricola"]
+          },
+          {
+            id: "lat_8_25", title: "Lektion 25 – Vesuvausbruch", duration: "–", klausur: false,
+            absprachen: ["Augenzeugenberichte analysieren"],
+            konkret: ["Pompeji und moderne Forschung", "Textarbeit Plinius"],
+            lernfelder: ["Kulturkompetenz: Pompeji, Vesuvausbruch, moderne Forschung"]
+          },
+          {
+            id: "lat_8_26", title: "Lektion 26 – Plinius-Briefe", duration: "–", klausur: false,
+            absprachen: ["Briefliteratur als Textgattung erschließen"],
+            konkret: ["Briefstruktur analysieren", "Naturphänomene beschreiben"],
+            lernfelder: ["Textkompetenz: Briefliteratur", "Kulturkompetenz: Naturphänomene"]
+          },
+          {
+            id: "lat_8_27", title: "Lektion 27 – Parisurteil", duration: "–", klausur: false,
+            absprachen: ["Mythen mit Wertefragen verknüpfen"],
+            konkret: ["Trojanischer Krieg einleiten", "Entscheidungsalternativen diskutieren"],
+            lernfelder: ["Kulturkompetenz: Trojanischer Krieg, Parisurteil"]
+          },
+          {
+            id: "lat_8_28", title: "Lektion 28 – Trojanisches Pferd", duration: "–", klausur: false,
+            absprachen: ["Kriegslist und Strategie im Text erkennen"],
+            konkret: ["Kriegsführung analysieren", "Belagerungstechniken recherchieren"],
+            lernfelder: ["Kulturkompetenz: Trojanisches Pferd, Kriegsführung, Belagerung"]
+          },
+          {
+            id: "lat_8_29", title: "Lektion 29 – Odysseus & Sirenen", duration: "–", klausur: true,
+            absprachen: ["Irrfahrten des Odysseus beschreiben"],
+            konkret: ["Sirenenmotiv in der Kunst verfolgen", "Textvergleich antik/modern"],
+            lernfelder: ["Kulturkompetenz: Odysseus, Irrfahrten, Sirenenmotiv"]
+          }
+        ]
+      }
+    ]
+  },
+
+  // ── MATHEMATIK ──────────────────────────────────────────────────────────────
+  {
+    subject: "math", label: "Mathematik",
+    classes: [
+      { id: "kl5",  label: "Klasse 5",  sub: "Mathematik", topics: [{ id: "math_5_ph",  title: "Inhalte folgen", duration: "–", klausur: false, absprachen: ["Wird ergänzt"], konkret: ["Wird ergänzt"], lernfelder: ["Platzhalter"] }] },
+      { id: "kl6",  label: "Klasse 6",  sub: "Mathematik", topics: [{ id: "math_6_ph",  title: "Inhalte folgen", duration: "–", klausur: false, absprachen: ["Wird ergänzt"], konkret: ["Wird ergänzt"], lernfelder: ["Platzhalter"] }] },
+      { id: "kl7",  label: "Klasse 7",  sub: "Mathematik", topics: [{ id: "math_7_ph",  title: "Inhalte folgen", duration: "–", klausur: false, absprachen: ["Wird ergänzt"], konkret: ["Wird ergänzt"], lernfelder: ["Platzhalter"] }] },
+      { id: "kl8",  label: "Klasse 8",  sub: "Mathematik", topics: [{ id: "math_8_ph",  title: "Inhalte folgen", duration: "–", klausur: false, absprachen: ["Wird ergänzt"], konkret: ["Wird ergänzt"], lernfelder: ["Platzhalter"] }] },
+      { id: "kl9",  label: "Klasse 9",  sub: "Mathematik", topics: [{ id: "math_9_ph",  title: "Inhalte folgen", duration: "–", klausur: false, absprachen: ["Wird ergänzt"], konkret: ["Wird ergänzt"], lernfelder: ["Platzhalter"] }] },
+      { id: "kl10", label: "Klasse 10", sub: "Mathematik", topics: [{ id: "math_10_ph", title: "Inhalte folgen", duration: "–", klausur: false, absprachen: ["Wird ergänzt"], konkret: ["Wird ergänzt"], lernfelder: ["Platzhalter"] }] },
+      { id: "ef",   label: "EF",        sub: "Mathematik", topics: [{ id: "math_ef_ph", title: "Inhalte folgen", duration: "–", klausur: false, absprachen: ["Wird ergänzt"], konkret: ["Wird ergänzt"], lernfelder: ["Platzhalter"] }] }
+    ]
+  },
+
+  // ── ENGLISCH ────────────────────────────────────────────────────────────────
+  {
+    subject: "en", label: "Englisch",
+    classes: [
+      { id: "kl5",  label: "Klasse 5",  sub: "Englisch", topics: [{ id: "en_5_ph",  title: "Inhalte folgen", duration: "–", klausur: false, absprachen: ["Wird ergänzt"], konkret: ["Wird ergänzt"], lernfelder: ["Platzhalter"] }] },
+      { id: "kl6",  label: "Klasse 6",  sub: "Englisch", topics: [{ id: "en_6_ph",  title: "Inhalte folgen", duration: "–", klausur: false, absprachen: ["Wird ergänzt"], konkret: ["Wird ergänzt"], lernfelder: ["Platzhalter"] }] },
+      { id: "kl7",  label: "Klasse 7",  sub: "Englisch", topics: [{ id: "en_7_ph",  title: "Inhalte folgen", duration: "–", klausur: false, absprachen: ["Wird ergänzt"], konkret: ["Wird ergänzt"], lernfelder: ["Platzhalter"] }] },
+      { id: "kl8",  label: "Klasse 8",  sub: "Englisch", topics: [{ id: "en_8_ph",  title: "Inhalte folgen", duration: "–", klausur: false, absprachen: ["Wird ergänzt"], konkret: ["Wird ergänzt"], lernfelder: ["Platzhalter"] }] },
+      { id: "kl9",  label: "Klasse 9",  sub: "Englisch", topics: [{ id: "en_9_ph",  title: "Inhalte folgen", duration: "–", klausur: false, absprachen: ["Wird ergänzt"], konkret: ["Wird ergänzt"], lernfelder: ["Platzhalter"] }] },
+      { id: "kl10", label: "Klasse 10", sub: "Englisch", topics: [{ id: "en_10_ph", title: "Inhalte folgen", duration: "–", klausur: false, absprachen: ["Wird ergänzt"], konkret: ["Wird ergänzt"], lernfelder: ["Platzhalter"] }] },
+      { id: "ef",   label: "EF",        sub: "Englisch", topics: [{ id: "en_ef_ph", title: "Inhalte folgen", duration: "–", klausur: false, absprachen: ["Wird ergänzt"], konkret: ["Wird ergänzt"], lernfelder: ["Platzhalter"] }] }
+    ]
+  },
+
+  // ── FRANZÖSISCH ─────────────────────────────────────────────────────────────
+  {
+    subject: "fr", label: "Französisch",
+    classes: [
+      { id: "kl6",  label: "Klasse 6",  sub: "Französisch", topics: [{ id: "fr_6_ph",  title: "Inhalte folgen", duration: "–", klausur: false, absprachen: ["Wird ergänzt"], konkret: ["Wird ergänzt"], lernfelder: ["Platzhalter"] }] },
+      { id: "kl7",  label: "Klasse 7",  sub: "Französisch", topics: [{ id: "fr_7_ph",  title: "Inhalte folgen", duration: "–", klausur: false, absprachen: ["Wird ergänzt"], konkret: ["Wird ergänzt"], lernfelder: ["Platzhalter"] }] },
+      { id: "kl8",  label: "Klasse 8",  sub: "Französisch", topics: [{ id: "fr_8_ph",  title: "Inhalte folgen", duration: "–", klausur: false, absprachen: ["Wird ergänzt"], konkret: ["Wird ergänzt"], lernfelder: ["Platzhalter"] }] },
+      { id: "kl9",  label: "Klasse 9",  sub: "Französisch", topics: [{ id: "fr_9_ph",  title: "Inhalte folgen", duration: "–", klausur: false, absprachen: ["Wird ergänzt"], konkret: ["Wird ergänzt"], lernfelder: ["Platzhalter"] }] },
+      { id: "kl10", label: "Klasse 10", sub: "Französisch", topics: [{ id: "fr_10_ph", title: "Inhalte folgen", duration: "–", klausur: false, absprachen: ["Wird ergänzt"], konkret: ["Wird ergänzt"], lernfelder: ["Platzhalter"] }] },
+      { id: "ef",   label: "EF",        sub: "Französisch", topics: [{ id: "fr_ef_ph", title: "Inhalte folgen", duration: "–", klausur: false, absprachen: ["Wird ergänzt"], konkret: ["Wird ergänzt"], lernfelder: ["Platzhalter"] }] }
+    ]
+  },
+
+  // ── MUSIK ───────────────────────────────────────────────────────────────────
+  {
+    subject: "mu", label: "Musik",
+    classes: [
+      {
+        id: "kl5", label: "Klasse 5", sub: "Musik",
+        topics: [
+          {
+            id: "mu_5_1", title: "Musik im Takt & Grundlagen", duration: "–", klausur: false,
+            absprachen: ["Klänge beschreiben", "Rhythmen darstellen", "Notenwerte (Ganze bis Achtel) kennen", "Taktarten erkennen (2/4, 3/4, 4/4)"],
+            konkret: ["Metrum, Grundschlag, Taktarten", "Rhythmus, Tempo, Klangfarbe, Tonhöhe", "Stimme & Instrumente", "Bodypercussion", "Einstimmige Lieder singen"],
+            lernfelder: ["Rhythmus & Metrum", "Taktarten", "Klangfarbe & Tonhöhe"]
+          },
+          {
+            id: "mu_5_2", title: "Musik im Kontext – Komponisten kennenlernen", duration: "–", klausur: false,
+            absprachen: ["Musikabschnitte erkennen", "Wiederholung & Variation beschreiben", "Einfache Melodien notieren & spielen"],
+            konkret: ["Mozart, Orff, Händel", "Lebensumstände & historische Einordnung", "Besuch eines Bühnenwerks"],
+            lernfelder: ["Musikgeschichte", "Komponisten & Kontext", "Wiederholung & Variation"]
+          },
+          {
+            id: "mu_5_3", title: "Musiklehre – Noten & Rhythmus", duration: "–", klausur: false,
+            absprachen: ["Notation anwenden", "Zweistimmige Lieder & Kanons singen", "Arrangements in Gruppen erarbeiten"],
+            konkret: ["Violinschlüssel", "Stammtöne, C-Dur", "Notenwerte & Pausen", "Intervalle"],
+            lernfelder: ["Musiktheorie", "Notation", "Intervalle"]
+          },
+          {
+            id: "mu_5_4", title: "Mit Musik erzählen – Vertonung", duration: "–", klausur: false,
+            absprachen: ["Musik gliedern", "Formbildende Abschnitte erkennen", "Beziehungen zwischen Musik & Vorlage herstellen"],
+            konkret: ["Dynamik, Artikulation", "Grafische Notation", "Musik & Bewegung", "Bilder und Geschichten vertonen"],
+            lernfelder: ["Vertonung & Komposition", "Grafische Notation", "Musik & Bild"]
+          }
+        ]
+      },
+      {
+        id: "kl6", label: "Klasse 6", sub: "Musik",
+        topics: [
+          {
+            id: "mu_6_1", title: "Programmmusik", duration: "–", klausur: false,
+            absprachen: ["Grafische Ablaufskizzen erstellen", "Parametergestützte Analyse durchführen", "Eigene Programmmusik gestalten"],
+            konkret: ["Programmmusik & Werkorientierung", "Instrumentenkunde (Holz/Blech)", "Partitur, Thema, Motiv", "Hörend Programme in Musik erkennen"],
+            lernfelder: ["Programmmusik", "Instrumentenkunde", "Analyse & Gestaltung"]
+          },
+          {
+            id: "mu_6_2", title: "Tonräume & Bassschlüssel", duration: "–", klausur: false,
+            absprachen: ["Notation im Violin- und Bassschlüssel beherrschen", "Tonleitern & Vorzeichen anwenden"],
+            konkret: ["Transponieren", "Oktavbereiche", "Bassschlüssel", "Bassgitarre"],
+            lernfelder: ["Musiktheorie", "Bassschlüssel", "Tonleitern"]
+          },
+          {
+            id: "mu_6_3", title: "Dur & Moll", duration: "–", klausur: false,
+            absprachen: ["Terzen unterscheiden", "Dreiklänge beschreiben", "Hörunterscheidung Dur/Moll"],
+            konkret: ["Tongeschlechter", "Dreiklänge", "Chromatisch vs. diatonisch"],
+            lernfelder: ["Harmonik", "Dur & Moll", "Dreiklänge"]
+          },
+          {
+            id: "mu_6_4", title: "Komponisten in ihrer Zeit", duration: "–", klausur: false,
+            absprachen: ["Musikalische Abschnitte analysieren", "Wiederholung & Variation erkennen", "Kompositionen vergleichen"],
+            konkret: ["Sinfonie, Oper, Singspiel", "Biografien & historische Kontexte"],
+            lernfelder: ["Musikgeschichte", "Formanalyse", "Komponisten & Epochen"]
+          }
+        ]
+      },
+      {
+        id: "kl7", label: "Klasse 7", sub: "Musik",
+        topics: [
+          {
+            id: "mu_7_1", title: "Die Stimme", duration: "–", klausur: false,
+            absprachen: ["Gesangstechniken anwenden", "Digitale Begleitmusik erstellen (GarageBand)", "Aufnahmen produzieren"],
+            konkret: ["Stimmumfang, Phrasierung, Artikulation", "Vocal Coaching", "Kehlkopf & Stimmphysiologie", "Stufendreiklänge, Play-Along"],
+            lernfelder: ["Stimmbildung", "Vokaltechnik", "Digitale Produktion"]
+          },
+          {
+            id: "mu_7_2", title: "Songs begleiten – Dreiklänge & Akkorde", duration: "–", klausur: false,
+            absprachen: ["Akkordbegleitungen entwickeln", "Bandinstrumente einsetzen", "Harmonische Verläufe analysieren"],
+            konkret: ["Dur/Moll/vermindert/übermäßig", "Konsonanz & Dissonanz", "Umkehrungen", "Kadenz"],
+            lernfelder: ["Harmonik", "Akkorde & Kadenz", "Bandinstrumente"]
+          },
+          {
+            id: "mu_7_3", title: "Barock & Klassik", duration: "–", klausur: false,
+            absprachen: ["Notentexte erschließen", "Musikalische Mittel beschreiben", "Werke musikgeschichtlich einordnen"],
+            konkret: ["Epoche, Motiv, Sequenz, Steigerung", "Formteile & Übergänge"],
+            lernfelder: ["Musikgeschichte", "Barock & Klassik", "Formanalyse"]
+          }
+        ]
+      },
+      {
+        id: "kl8", label: "Klasse 8", sub: "Musik",
+        topics: [
+          {
+            id: "mu_8_1", title: "Musik & Bühne – Oper & Musical", duration: "–", klausur: false,
+            absprachen: ["Szenen darstellen & reflektieren", "Notentexte analysieren", "Formteile erkennen", "Besetzungen beschreiben"],
+            konkret: ["Sinfonieorchester, Chor", "Oper, Musical, Rezitativ, Arie, Ouvertüre", "Charakterdarstellung in Musik", "Inhalt eines Musicals/einer Oper erarbeiten"],
+            lernfelder: ["Musik & Bühne", "Gattungskunde", "Charakterdarstellung"]
+          },
+          {
+            id: "mu_8_2", title: "Musik & Medien – Werbung & Intervalle", duration: "–", klausur: false,
+            absprachen: ["Musikgebrauch kritisch beurteilen", "Werbespots analysieren", "Eigenen Jingle komponieren", "Intervalle erkennen & benennen"],
+            konkret: ["Musik in Werbung & Medien", "Urheberrecht, GEMA", "AIDA-Prinzip", "Intervalle"],
+            lernfelder: ["Musik & Medien", "Urheberrecht", "Intervalle & Komposition"]
+          }
+        ]
+      },
+      {
+        id: "kl9", label: "Klasse 9", sub: "Musik",
+        topics: [
+          {
+            id: "mu_9_1", title: "Musik & Wirkung – Filmmusik", duration: "–", klausur: false,
+            absprachen: ["Funktionen von Filmmusik beschreiben", "Wirkung von Musik analysieren", "Entwicklung der Filmmusik untersuchen", "Filmszenen live oder digital vertonen"],
+            konkret: ["Filmmusik & Sounddesign", "Leitmotiv & Klangfarbe", "Trophotrope/ergotrope Musik", "Bildillustration vs. Bildinterpretation", "Computer-Workshop Filmvertonung"],
+            lernfelder: ["Musik & Wirkung", "Gestaltungsmittel Klangfarbe", "Filmvertonung"]
+          },
+          {
+            id: "mu_9_2", title: "Musikberufe (optional)", duration: "–", klausur: false,
+            absprachen: ["Anforderungsprofile reflektieren", "Stellungnahmen formulieren"],
+            konkret: ["Berufsprofile im Musikbereich", "Chancen & Herausforderungen künstlerischer Berufe"],
+            lernfelder: ["Berufsorientierung", "Musik & Gesellschaft"]
+          },
+          {
+            id: "mu_9_3", title: "Original & Bearbeitung – Rock/Pop & Coverversionen", duration: "–", klausur: false,
+            absprachen: ["Musik analysieren & beschreiben", "Coverversionen vergleichen", "Eigene Coverversion entwickeln", "Musikmarkt & Kommerzialisierung reflektieren"],
+            konkret: ["Rock- und Popgeschichte", "Klangfarbe, Pentatonik, Stufenakkorde", "Improvisation, Leadsheet, Akkordschemata", "Funk, Blues, Soul, Punk, Reggae, Metal", "Jugendkultur"],
+            lernfelder: ["Original & Bearbeitung", "Rock/Pop-Geschichte", "Improvisation & Komposition"]
+          },
+          {
+            id: "mu_9_4", title: "Musik & Sprache – Vom Erlkönig zum Hip-Hop", duration: "–", klausur: false,
+            absprachen: ["Musik/Text-Beziehungen analysieren", "Rhythmus aus Textmetrum entwickeln", "Digitale Produktion (iPad/iPhone)", "Gesellschaftliche Themen in Musik erkennen"],
+            konkret: ["Ballade & Romantik", "Metrum, Kunstlied, Melodram", "Wort-Ton-Verhältnis", "Hip-Hop, Loop, Track, Produktion"],
+            lernfelder: ["Musik & Sprache", "Wort-Ton-Verhältnis", "Digitale Produktion"]
+          },
+          {
+            id: "mu_9_5", title: "Komponieren & Improvisieren", duration: "–", klausur: false,
+            absprachen: ["Harmonische Zusammenhänge untersuchen", "Eigene Songs komponieren", "Improvisationstechniken anwenden", "Kulturelle Vielfalt reflektieren"],
+            konkret: ["Four-Chord-Songs", "Bluestonleiter, Ganztonleiter, Bluenotes", "Kadenz, Mehrstimmigkeit", "Sinfonische Dichtung", "Vertonung außermusikalischer Vorlagen"],
+            lernfelder: ["Komposition & Improvisation", "Harmonik", "Musikformen"]
+          }
+        ]
+      },
+      {
+        id: "kl10", label: "Klasse 10", sub: "Musik",
+        topics: [
+          {
+            id: "mu_10_1", title: "Musik & Bühne II – Oper & Musical im Vergleich", duration: "–", klausur: false,
+            absprachen: ["Partituren lesen", "Aufbau eines Bühnenwerks analysieren", "Charakterbeziehungen untersuchen", "Szenen darstellen & choreografieren", "Kommerzialisierung des Genres reflektieren"],
+            konkret: ["Ensemble, Choreografie, Bühnenbild", "Licht/Ton-Gestaltung", "Oper vs. Musical", "Rezitativ, Arie, Ouvertüre, Duett", "Tutti/Solo"],
+            lernfelder: ["Musik & Bühne", "Musikgeschichte", "Analyse Bühnenwerk"]
+          },
+          {
+            id: "mu_10_2", title: "Original & Bearbeitung – Covern II", duration: "–", klausur: false,
+            absprachen: ["Musikformen analysieren", "Coverversionen entwickeln", "Musikmarkt & Kommerzialisierung untersuchen", "Stiltypische Merkmale erkennen"],
+            konkret: ["Rock/Pop-Stilgeschichte", "Improvisation", "Akkordschemata", "Variation & Arrangement", "Urheberrecht"],
+            lernfelder: ["Original & Bearbeitung", "Stilgeschichte", "Urheberrecht"]
+          },
+          {
+            id: "mu_10_3", title: "Musik & Sprache – Romantik bis Rap", duration: "–", klausur: false,
+            absprachen: ["Musik/Text-Beziehungen interpretieren", "Eigene Produktionen erstellen", "Musikgeschichte anwenden", "Funktionen von Musik vergleichen"],
+            konkret: ["Ballade, Kunstlied, Romantik", "Textvertonung", "Rap-Workshop"],
+            lernfelder: ["Musik & Sprache", "Musikgeschichte", "Produktion"]
+          },
+          {
+            id: "mu_10_4", title: "Komponieren & Improvisieren II", duration: "–", klausur: false,
+            absprachen: ["Harmonische Verläufe analysieren", "Eigene Songs komponieren", "Musikformen unterscheiden", "Kulturelle Vielfalt reflektieren"],
+            konkret: ["Digitale Komposition", "Klanggestaltung", "Mehrstimmigkeit", "Funktionsharmonik", "Improvisation", "Four-Chord-Songs"],
+            lernfelder: ["Komposition & Improvisation", "Funktionsharmonik", "Digitale Produktion"]
+          }
+        ]
+      }
+    ]
+  }
+];
+
+// ══════════════════════════════════════════════════════════════════════════════
+//  SUBJECT → AVAILABLE CLASSES MAP
+// ══════════════════════════════════════════════════════════════════════════════
+const classesBySubject = {};
+for (const subj of curriculum) {
+  for (const cls of subj.classes) {
+    if (!classesBySubject[cls.id]) classesBySubject[cls.id] = [];
+    classesBySubject[cls.id].push(subj.subject);
+  }
+}
+
+const subjectMeta = {
+  info: { label: "Informatik",  selClass: "sel-info" },
+  chem: { label: "Chemie",      selClass: "sel-chem" },
+  de:   { label: "Deutsch",     selClass: "sel-de"   },
+  lat:  { label: "Latein",      selClass: "sel-lat"  },
+  math: { label: "Mathematik",  selClass: "sel-math" },
+  en:   { label: "Englisch",    selClass: "sel-en"   },
+  fr:   { label: "Französisch", selClass: "sel-fr"   },
+  mu:   { label: "Musik",       selClass: "sel-mu"   }
 };
 
-const fachTabs = document.getElementById("fachTabs");
-const klasseTabs = document.getElementById("klasseTabs");
-const content = document.getElementById("content");
+// ══════════════════════════════════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════════════════════════════════
+let checked       = JSON.parse(localStorage.getItem('egn_checked') || '{}');
+let activeClass   = null;
+let activeSubject = null;
+let searchQuery   = '';
 
-let currentFach = null;
-let currentKlasse = null;
+function saveChecked() { localStorage.setItem('egn_checked', JSON.stringify(checked)); }
 
-// Tabs erzeugen
-function initTabs() {
-    for (let fach in faecher) {
-        const tab = document.createElement("div");
-        tab.className = "tab";
-        tab.textContent = fach;
-        tab.addEventListener("click", () => selectFach(fach, tab));
-        fachTabs.appendChild(tab);
+// ══════════════════════════════════════════════════════════════════════════════
+//  BUILD SUBJECT PILLS
+// ══════════════════════════════════════════════════════════════════════════════
+function buildSubjectPills() {
+  const row   = document.getElementById('subjectRow');
+  const pills = document.getElementById('subjectPills');
+
+  if (!activeClass) { row.style.display = 'none'; return; }
+
+  const available = classesBySubject[activeClass] || [];
+  if (available.length === 0) { row.style.display = 'none'; return; }
+
+  pills.innerHTML = available.map(s => {
+    const meta = subjectMeta[s];
+    const isSel = activeSubject === s;
+    return `<button class="pill${isSel ? ' '+meta.selClass : ''}" data-subject="${s}">${meta.label}</button>`;
+  }).join('');
+
+  row.style.display = 'flex';
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+//  RENDER
+// ══════════════════════════════════════════════════════════════════════════════
+function highlight(text, q) {
+  if (!q) return text;
+  const re = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+  return text.replace(re, '<mark>$1</mark>');
+}
+
+function topicMatches(topic, q) {
+  if (!q) return true;
+  const lo = q.toLowerCase();
+  return topic.title.toLowerCase().includes(lo) ||
+    topic.lernfelder.some(x => x.toLowerCase().includes(lo)) ||
+    topic.absprachen.some(x => x.toLowerCase().includes(lo)) ||
+    topic.konkret.some(x => x.toLowerCase().includes(lo));
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+//  LINKS DATA  (Anton · Learningapps · ZUM-Unterrichten)
+//  Format: { label, url, type: 'anton'|'learning'|'zum' }
+// ══════════════════════════════════════════════════════════════════════════════
+const topicLinks = {
+  // ── INFORMATIK ──────────────────────────────────────────────────────────────
+  info_9_1:  [ { label:"EVA-Prinzip – ZUM", url:"https://unterrichten.zum.de/wiki/EVA-Prinzip", type:"zum" }, { label:"Sensoren & Aktoren – LearningApps", url:"https://learningapps.org/search.php#term=sensoren+aktoren", type:"learning" } ],
+  info_9_2:  [ { label:"Algorithmen – Anton", url:"https://anton.app/de/learn/informatik/", type:"anton" }, { label:"Struktogramme – ZUM", url:"https://unterrichten.zum.de/wiki/Struktogramm", type:"zum" }, { label:"Programmierung – LearningApps", url:"https://learningapps.org/search.php#term=algorithmus", type:"learning" } ],
+  info_9_3:  [ { label:"Programmierung – Anton", url:"https://anton.app/de/learn/informatik/", type:"anton" }, { label:"Calliope mini – ZUM", url:"https://unterrichten.zum.de/wiki/Calliope_mini", type:"zum" } ],
+  info_10_1: [ { label:"Internet & Netzwerke – ZUM", url:"https://unterrichten.zum.de/wiki/Netzwerke", type:"zum" }, { label:"Datenschutz – LearningApps", url:"https://learningapps.org/search.php#term=datenschutz", type:"learning" } ],
+  info_10_2: [ { label:"Algorithmen – Anton", url:"https://anton.app/de/learn/informatik/", type:"anton" }, { label:"Programmierung Snap – ZUM", url:"https://unterrichten.zum.de/wiki/Snap", type:"zum" } ],
+  info_10_3: [ { label:"App-Entwicklung – ZUM", url:"https://unterrichten.zum.de/wiki/App-Entwicklung", type:"zum" } ],
+  info_ef_1: [ { label:"Zahlensysteme – ZUM", url:"https://unterrichten.zum.de/wiki/Zahlensysteme", type:"zum" }, { label:"Binärsystem – LearningApps", url:"https://learningapps.org/search.php#term=binärsystem", type:"learning" } ],
+  info_ef_2: [ { label:"Kryptologie – ZUM", url:"https://unterrichten.zum.de/wiki/Kryptologie", type:"zum" }, { label:"Caesar-Chiffre – LearningApps", url:"https://learningapps.org/search.php#term=caesar+chiffre", type:"learning" } ],
+  info_ef_3: [ { label:"Datenschutz – ZUM", url:"https://unterrichten.zum.de/wiki/Datenschutz", type:"zum" } ],
+  info_ef_4: [ { label:"OOP – ZUM", url:"https://unterrichten.zum.de/wiki/Objektorientierung", type:"zum" }, { label:"Klassendiagramme – LearningApps", url:"https://learningapps.org/search.php#term=klassendiagramm", type:"learning" } ],
+  info_ef_5: [ { label:"Java Grundlagen – ZUM", url:"https://unterrichten.zum.de/wiki/Java", type:"zum" }, { label:"Greenfoot – ZUM", url:"https://unterrichten.zum.de/wiki/Greenfoot", type:"zum" } ],
+  info_ef_6: [ { label:"Arrays – ZUM", url:"https://unterrichten.zum.de/wiki/Array_(Informatik)", type:"zum" } ],
+  info_ef_7: [ { label:"Greenfoot Projekte – ZUM", url:"https://unterrichten.zum.de/wiki/Greenfoot", type:"zum" } ],
+
+  // ── CHEMIE ──────────────────────────────────────────────────────────────────
+  chem_6_1:  [ { label:"Laborregeln – Anton", url:"https://anton.app/de/learn/chemie/", type:"anton" }, { label:"Gefahrensymbole – LearningApps", url:"https://learningapps.org/search.php#term=gefahrensymbole", type:"learning" } ],
+  chem_6_2:  [ { label:"Stoffeigenschaften – Anton", url:"https://anton.app/de/learn/chemie/", type:"anton" }, { label:"Stoffeigenschaften – LearningApps", url:"https://learningapps.org/search.php#term=stoffeigenschaften", type:"learning" } ],
+  chem_6_3:  [ { label:"pH-Wert – Anton", url:"https://anton.app/de/learn/chemie/", type:"anton" }, { label:"Säuren & Basen – LearningApps", url:"https://learningapps.org/search.php#term=säuren+basen", type:"learning" } ],
+  chem_6_4:  [ { label:"Teilchenmodell – Anton", url:"https://anton.app/de/learn/chemie/", type:"anton" }, { label:"Aggregatzustände – LearningApps", url:"https://learningapps.org/search.php#term=aggregatzustände", type:"learning" }, { label:"Teilchenmodell – ZUM", url:"https://unterrichten.zum.de/wiki/Teilchenmodell", type:"zum" } ],
+  chem_6_5:  [ { label:"Trennverfahren – Anton", url:"https://anton.app/de/learn/chemie/", type:"anton" }, { label:"Trennverfahren – LearningApps", url:"https://learningapps.org/search.php#term=trennverfahren", type:"learning" } ],
+  chem_7_1:  [ { label:"Chemische Reaktionen – Anton", url:"https://anton.app/de/learn/chemie/", type:"anton" }, { label:"Verbrennung – LearningApps", url:"https://learningapps.org/search.php#term=verbrennung+chemie", type:"learning" } ],
+  chem_7_2:  [ { label:"Energie Reaktionen – ZUM", url:"https://unterrichten.zum.de/wiki/Exotherme_Reaktionen", type:"zum" }, { label:"Aktivierungsenergie – LearningApps", url:"https://learningapps.org/search.php#term=aktivierungsenergie", type:"learning" } ],
+  chem_7_3:  [ { label:"Atommodell – Anton", url:"https://anton.app/de/learn/chemie/", type:"anton" }, { label:"Dalton-Modell – ZUM", url:"https://unterrichten.zum.de/wiki/Atommodell", type:"zum" } ],
+  chem_7_4:  [ { label:"Reaktionsgleichungen – Anton", url:"https://anton.app/de/learn/chemie/", type:"anton" }, { label:"Gleichungen ausgleichen – LearningApps", url:"https://learningapps.org/search.php#term=reaktionsgleichung", type:"learning" } ],
+  chem_7_5:  [ { label:"Luft & Gase – ZUM", url:"https://unterrichten.zum.de/wiki/Luft", type:"zum" }, { label:"Nachweisreaktionen – LearningApps", url:"https://learningapps.org/search.php#term=nachweisreaktionen", type:"learning" } ],
+  chem_8_1:  [ { label:"Redox – Anton", url:"https://anton.app/de/learn/chemie/", type:"anton" }, { label:"Redoxreaktionen – ZUM", url:"https://unterrichten.zum.de/wiki/Redoxreaktion", type:"zum" }, { label:"Redox – LearningApps", url:"https://learningapps.org/search.php#term=redoxreaktion", type:"learning" } ],
+  chem_8_2:  [ { label:"Mol & Masse – Anton", url:"https://anton.app/de/learn/chemie/", type:"anton" }, { label:"Stöchiometrie – LearningApps", url:"https://learningapps.org/search.php#term=stöchiometrie", type:"learning" } ],
+
+  // ── DEUTSCH ─────────────────────────────────────────────────────────────────
+  de_5_1:  [ { label:"Erzählen – Anton", url:"https://anton.app/de/learn/deutsch/", type:"anton" }, { label:"Gesprächsregeln – LearningApps", url:"https://learningapps.org/search.php#term=gesprächsregeln", type:"learning" } ],
+  de_5_2:  [ { label:"Märchen – Anton", url:"https://anton.app/de/learn/deutsch/", type:"anton" }, { label:"Märchenmerkmale – LearningApps", url:"https://learningapps.org/search.php#term=märchen+merkmale", type:"learning" } ],
+  de_5_3:  [ { label:"Rechtschreibung – Anton", url:"https://anton.app/de/learn/deutsch/rechtschreibung/", type:"anton" }, { label:"Rechtschreibstrategien – ZUM", url:"https://unterrichten.zum.de/wiki/Rechtschreibstrategie", type:"zum" } ],
+  de_5_4:  [ { label:"Wortarten – Anton", url:"https://anton.app/de/learn/deutsch/grammatik/", type:"anton" }, { label:"Wortarten – LearningApps", url:"https://learningapps.org/search.php#term=wortarten", type:"learning" } ],
+  de_5_5:  [ { label:"Beschreiben – Anton", url:"https://anton.app/de/learn/deutsch/", type:"anton" }, { label:"Beschreiben – ZUM", url:"https://unterrichten.zum.de/wiki/Beschreiben", type:"zum" } ],
+  de_5_6:  [ { label:"Satzglieder – Anton", url:"https://anton.app/de/learn/deutsch/grammatik/", type:"anton" }, { label:"Satzglieder – LearningApps", url:"https://learningapps.org/search.php#term=satzglieder", type:"learning" } ],
+  de_5_7:  [ { label:"Lyrik – ZUM", url:"https://unterrichten.zum.de/wiki/Lyrik", type:"zum" }, { label:"Gedichte – LearningApps", url:"https://learningapps.org/search.php#term=gedicht+analyse", type:"learning" } ],
+  de_5_8:  [ { label:"Lesestrategien – Anton", url:"https://anton.app/de/learn/deutsch/lesen/", type:"anton" }, { label:"Lesestrategien – ZUM", url:"https://unterrichten.zum.de/wiki/Lesestrategie", type:"zum" } ],
+  de_6_1:  [ { label:"Sagen – ZUM", url:"https://unterrichten.zum.de/wiki/Sage", type:"zum" }, { label:"Nacherzählung – LearningApps", url:"https://learningapps.org/search.php#term=nacherzählung", type:"learning" } ],
+  de_6_2:  [ { label:"Satzlehre – Anton", url:"https://anton.app/de/learn/deutsch/grammatik/", type:"anton" }, { label:"Satzgefüge – LearningApps", url:"https://learningapps.org/search.php#term=satzgefüge", type:"learning" } ],
+  de_6_3:  [ { label:"Jugendbuch – ZUM", url:"https://unterrichten.zum.de/wiki/Jugendroman", type:"zum" } ],
+  de_6_4:  [ { label:"Gedichtanalyse – ZUM", url:"https://unterrichten.zum.de/wiki/Gedichtanalyse", type:"zum" }, { label:"Lyrische Mittel – LearningApps", url:"https://learningapps.org/search.php#term=lyrische+mittel", type:"learning" } ],
+  de_6_5:  [ { label:"Berichten – Anton", url:"https://anton.app/de/learn/deutsch/", type:"anton" }, { label:"Appellieren – ZUM", url:"https://unterrichten.zum.de/wiki/Appellieren", type:"zum" } ],
+  de_7_1:  [ { label:"Sachtexte – Anton", url:"https://anton.app/de/learn/deutsch/lesen/", type:"anton" }, { label:"Indirekte Rede – LearningApps", url:"https://learningapps.org/search.php#term=indirekte+rede", type:"learning" } ],
+  de_7_2:  [ { label:"Erzählperspektive – ZUM", url:"https://unterrichten.zum.de/wiki/Erzählperspektive", type:"zum" }, { label:"Figurenanalyse – LearningApps", url:"https://learningapps.org/search.php#term=figurenanalyse", type:"learning" } ],
+  de_7_3:  [ { label:"Aktiv/Passiv – Anton", url:"https://anton.app/de/learn/deutsch/grammatik/", type:"anton" }, { label:"Konjunktiv – LearningApps", url:"https://learningapps.org/search.php#term=konjunktiv", type:"learning" } ],
+  de_7_4:  [ { label:"Gliedsätze – Anton", url:"https://anton.app/de/learn/deutsch/grammatik/", type:"anton" }, { label:"Kommasetzung – LearningApps", url:"https://learningapps.org/search.php#term=kommasetzung", type:"learning" } ],
+  de_7_5:  [ { label:"Argumentieren – ZUM", url:"https://unterrichten.zum.de/wiki/Argumentieren", type:"zum" } ],
+  de_7_6:  [ { label:"Rechtschreibung – Anton", url:"https://anton.app/de/learn/deutsch/rechtschreibung/", type:"anton" }, { label:"Substantivierung – LearningApps", url:"https://learningapps.org/search.php#term=substantivierung", type:"learning" } ],
+  de_8_1:  [ { label:"Dramenanalyse – ZUM", url:"https://unterrichten.zum.de/wiki/Drama", type:"zum" }, { label:"Figurenkonstellation – LearningApps", url:"https://learningapps.org/search.php#term=figurenkonstellation", type:"learning" } ],
+  de_8_2:  [ { label:"Lyrik – ZUM", url:"https://unterrichten.zum.de/wiki/Lyrik", type:"zum" }, { label:"Rhetorische Mittel – LearningApps", url:"https://learningapps.org/search.php#term=rhetorische+mittel", type:"learning" } ],
+  de_8_3:  [ { label:"Erörterung – ZUM", url:"https://unterrichten.zum.de/wiki/Erörterung", type:"zum" }, { label:"Erörterung – LearningApps", url:"https://learningapps.org/search.php#term=erörterung", type:"learning" } ],
+  de_8_4:  [ { label:"Grammatik – Anton", url:"https://anton.app/de/learn/deutsch/grammatik/", type:"anton" }, { label:"Zeichensetzung – LearningApps", url:"https://learningapps.org/search.php#term=zeichensetzung", type:"learning" } ],
+  de_9_1:  [ { label:"Roman – ZUM", url:"https://unterrichten.zum.de/wiki/Roman", type:"zum" }, { label:"Erzählperspektive – LearningApps", url:"https://learningapps.org/search.php#term=erzählperspektive", type:"learning" } ],
+  de_9_2:  [ { label:"Drama – ZUM", url:"https://unterrichten.zum.de/wiki/Drama", type:"zum" } ],
+  de_9_3:  [ { label:"Liebeslyrik – ZUM", url:"https://unterrichten.zum.de/wiki/Lyrik", type:"zum" }, { label:"Rhetorische Mittel – LearningApps", url:"https://learningapps.org/search.php#term=rhetorische+mittel", type:"learning" } ],
+  de_9_4:  [ { label:"Textgebundene Erörterung – ZUM", url:"https://unterrichten.zum.de/wiki/Textgebundene_Erörterung", type:"zum" } ],
+  de_9_5:  [ { label:"Zitiertechnik – ZUM", url:"https://unterrichten.zum.de/wiki/Zitieren", type:"zum" }, { label:"Syntax – LearningApps", url:"https://learningapps.org/search.php#term=syntax+deutsch", type:"learning" } ],
+  de_10_1: [ { label:"Kurzgeschichte – ZUM", url:"https://unterrichten.zum.de/wiki/Kurzgeschichte", type:"zum" }, { label:"Kommunikationsmodell – LearningApps", url:"https://learningapps.org/search.php#term=kommunikationsmodell", type:"learning" } ],
+  de_10_2: [ { label:"Drama – ZUM", url:"https://unterrichten.zum.de/wiki/Drama", type:"zum" } ],
+  de_10_3: [ { label:"Sachtextanalyse – ZUM", url:"https://unterrichten.zum.de/wiki/Sachtextanalyse", type:"zum" }, { label:"Medienkritik – LearningApps", url:"https://learningapps.org/search.php#term=medienkritik", type:"learning" } ],
+  de_10_4: [ { label:"Romananalyse – ZUM", url:"https://unterrichten.zum.de/wiki/Romananalyse", type:"zum" } ],
+  de_10_5: [ { label:"Bewerbung schreiben – Anton", url:"https://anton.app/de/learn/deutsch/", type:"anton" }, { label:"Bewerbung – ZUM", url:"https://unterrichten.zum.de/wiki/Bewerbung", type:"zum" } ],
+  de_10_6: [ { label:"Wortschatz – Anton", url:"https://anton.app/de/learn/deutsch/", type:"anton" } ],
+
+  // ── LATEIN ──────────────────────────────────────────────────────────────────
+  lat_6_1:  [ { label:"Deklination – LearningApps", url:"https://learningapps.org/search.php#term=latein+deklination", type:"learning" }, { label:"Latein – ZUM", url:"https://unterrichten.zum.de/wiki/Latein", type:"zum" } ],
+  lat_6_2:  [ { label:"Akkusativ – LearningApps", url:"https://learningapps.org/search.php#term=latein+akkusativ", type:"learning" } ],
+  lat_6_3:  [ { label:"Imperativ Latein – LearningApps", url:"https://learningapps.org/search.php#term=latein+imperativ", type:"learning" } ],
+  lat_6_4:  [ { label:"3. Deklination – LearningApps", url:"https://learningapps.org/search.php#term=latein+3+deklination", type:"learning" } ],
+  lat_6_5:  [ { label:"Ablativ – LearningApps", url:"https://learningapps.org/search.php#term=latein+ablativ", type:"learning" }, { label:"Gladiatoren – ZUM", url:"https://unterrichten.zum.de/wiki/Gladiatoren", type:"zum" } ],
+  lat_6_6:  [ { label:"Personalformen Latein – LearningApps", url:"https://learningapps.org/search.php#term=latein+konjugation", type:"learning" } ],
+  lat_6_7:  [ { label:"Genitiv Latein – LearningApps", url:"https://learningapps.org/search.php#term=latein+genitiv", type:"learning" } ],
+  lat_6_8:  [ { label:"Dativ Latein – LearningApps", url:"https://learningapps.org/search.php#term=latein+dativ", type:"learning" } ],
+  lat_6_9:  [ { label:"AcI – LearningApps", url:"https://learningapps.org/search.php#term=latein+AcI", type:"learning" }, { label:"AcI – ZUM", url:"https://unterrichten.zum.de/wiki/AcI", type:"zum" } ],
+  lat_7_10: [ { label:"Pronomen Latein – LearningApps", url:"https://learningapps.org/search.php#term=latein+pronomen", type:"learning" } ],
+  lat_7_11: [ { label:"ire & Reflexivpronomen – LearningApps", url:"https://learningapps.org/search.php#term=latein+ire", type:"learning" } ],
+  lat_7_12: [ { label:"Perfekt Latein – LearningApps", url:"https://learningapps.org/search.php#term=latein+perfekt", type:"learning" } ],
+  lat_7_13: [ { label:"PPP – LearningApps", url:"https://learningapps.org/search.php#term=latein+PPP", type:"learning" }, { label:"PPP – ZUM", url:"https://unterrichten.zum.de/wiki/Partizip_Perfekt_Passiv", type:"zum" } ],
+  lat_7_14: [ { label:"Römer & Germanen – ZUM", url:"https://unterrichten.zum.de/wiki/Germanen", type:"zum" } ],
+  lat_7_15: [ { label:"Imperfekt Latein – LearningApps", url:"https://learningapps.org/search.php#term=latein+imperfekt", type:"learning" } ],
+  lat_7_16: [ { label:"Futur Latein – LearningApps", url:"https://learningapps.org/search.php#term=latein+futur", type:"learning" } ],
+  lat_7_17: [ { label:"cursus honorum – ZUM", url:"https://unterrichten.zum.de/wiki/Cursus_honorum", type:"zum" } ],
+  lat_7_18: [ { label:"Cicero & Rhetorik – ZUM", url:"https://unterrichten.zum.de/wiki/Cicero", type:"zum" } ],
+  lat_7_19: [ { label:"Relativpronomen Latein – LearningApps", url:"https://learningapps.org/search.php#term=latein+relativpronomen", type:"learning" }, { label:"Caesar – ZUM", url:"https://unterrichten.zum.de/wiki/Caesar", type:"zum" } ],
+  lat_8_20: [ { label:"Aeneis – ZUM", url:"https://unterrichten.zum.de/wiki/Aeneis", type:"zum" } ],
+  lat_8_21: [ { label:"Triumph Rom – ZUM", url:"https://unterrichten.zum.de/wiki/Triumph_(Rom)", type:"zum" } ],
+  lat_8_22: [ { label:"Götter & Mythos – ZUM", url:"https://unterrichten.zum.de/wiki/Griechische_Mythologie", type:"zum" } ],
+  lat_8_23: [ { label:"Saturnalien – ZUM", url:"https://unterrichten.zum.de/wiki/Saturnalien", type:"zum" } ],
+  lat_8_24: [ { label:"Caesar Gallischer Krieg – ZUM", url:"https://unterrichten.zum.de/wiki/Gallischer_Krieg", type:"zum" } ],
+  lat_8_25: [ { label:"Pompeji – ZUM", url:"https://unterrichten.zum.de/wiki/Pompeji", type:"zum" }, { label:"Vesuvausbruch – LearningApps", url:"https://learningapps.org/search.php#term=pompeji+vesuv", type:"learning" } ],
+  lat_8_26: [ { label:"Plinius – ZUM", url:"https://unterrichten.zum.de/wiki/Plinius_der_J%C3%BCngere", type:"zum" } ],
+  lat_8_27: [ { label:"Trojanischer Krieg – ZUM", url:"https://unterrichten.zum.de/wiki/Trojanischer_Krieg", type:"zum" } ],
+  lat_8_28: [ { label:"Trojanisches Pferd – LearningApps", url:"https://learningapps.org/search.php#term=trojanisches+pferd", type:"learning" } ],
+  lat_8_29: [ { label:"Odysseus – ZUM", url:"https://unterrichten.zum.de/wiki/Odysseus", type:"zum" }, { label:"Sirenen-Motiv – LearningApps", url:"https://learningapps.org/search.php#term=odysseus+sirenen", type:"learning" } ],
+
+  // ── MUSIK ───────────────────────────────────────────────────────────────────
+  mu_5_1:  [ { label:"Rhythmus & Takt – Anton", url:"https://anton.app/de/learn/musik/", type:"anton" }, { label:"Taktarten – LearningApps", url:"https://learningapps.org/search.php#term=taktarten", type:"learning" } ],
+  mu_5_2:  [ { label:"Komponisten – ZUM", url:"https://unterrichten.zum.de/wiki/Komponisten", type:"zum" }, { label:"Mozart – LearningApps", url:"https://learningapps.org/search.php#term=mozart", type:"learning" } ],
+  mu_5_3:  [ { label:"Noten lesen – Anton", url:"https://anton.app/de/learn/musik/", type:"anton" }, { label:"Notenwerte – LearningApps", url:"https://learningapps.org/search.php#term=notenwerte", type:"learning" } ],
+  mu_5_4:  [ { label:"Dynamik & Artikulation – LearningApps", url:"https://learningapps.org/search.php#term=dynamik+musik", type:"learning" }, { label:"Musik & Bild – ZUM", url:"https://unterrichten.zum.de/wiki/Musik_und_Bild", type:"zum" } ],
+  mu_6_1:  [ { label:"Programmmusik – ZUM", url:"https://unterrichten.zum.de/wiki/Programmmusik", type:"zum" }, { label:"Instrumente – Anton", url:"https://anton.app/de/learn/musik/", type:"anton" } ],
+  mu_6_2:  [ { label:"Bassschlüssel – LearningApps", url:"https://learningapps.org/search.php#term=bassschlüssel", type:"learning" }, { label:"Tonleitern – ZUM", url:"https://unterrichten.zum.de/wiki/Tonleiter", type:"zum" } ],
+  mu_6_3:  [ { label:"Dur & Moll – Anton", url:"https://anton.app/de/learn/musik/", type:"anton" }, { label:"Dreiklänge – LearningApps", url:"https://learningapps.org/search.php#term=dreiklänge", type:"learning" } ],
+  mu_6_4:  [ { label:"Musikgeschichte – ZUM", url:"https://unterrichten.zum.de/wiki/Musikgeschichte", type:"zum" }, { label:"Sinfonie & Oper – LearningApps", url:"https://learningapps.org/search.php#term=sinfonie+oper", type:"learning" } ],
+  mu_7_1:  [ { label:"Stimme & Gesang – ZUM", url:"https://unterrichten.zum.de/wiki/Gesang", type:"zum" }, { label:"Stimmlagen – LearningApps", url:"https://learningapps.org/search.php#term=stimmlagen", type:"learning" } ],
+  mu_7_2:  [ { label:"Akkorde – Anton", url:"https://anton.app/de/learn/musik/", type:"anton" }, { label:"Kadenz – LearningApps", url:"https://learningapps.org/search.php#term=kadenz", type:"learning" } ],
+  mu_7_3:  [ { label:"Barock – ZUM", url:"https://unterrichten.zum.de/wiki/Barock_(Musik)", type:"zum" }, { label:"Klassik – LearningApps", url:"https://learningapps.org/search.php#term=klassik+musik", type:"learning" } ],
+  mu_8_1:  [ { label:"Oper – ZUM", url:"https://unterrichten.zum.de/wiki/Oper", type:"zum" }, { label:"Musical – LearningApps", url:"https://learningapps.org/search.php#term=musical", type:"learning" } ],
+  mu_8_2:  [ { label:"Musik & Werbung – ZUM", url:"https://unterrichten.zum.de/wiki/Musik_in_der_Werbung", type:"zum" }, { label:"Intervalle – LearningApps", url:"https://learningapps.org/search.php#term=intervalle+musik", type:"learning" } ],
+  mu_9_1:  [ { label:"Filmmusik – ZUM", url:"https://unterrichten.zum.de/wiki/Filmmusik", type:"zum" }, { label:"Filmmusik – LearningApps", url:"https://learningapps.org/search.php#term=filmmusik", type:"learning" } ],
+  mu_9_2:  [ { label:"Musikberufe – ZUM", url:"https://unterrichten.zum.de/wiki/Musikberufe", type:"zum" } ],
+  mu_9_3:  [ { label:"Rock & Pop – ZUM", url:"https://unterrichten.zum.de/wiki/Rockmusik", type:"zum" }, { label:"Pentatonik – LearningApps", url:"https://learningapps.org/search.php#term=pentatonik", type:"learning" } ],
+  mu_9_4:  [ { label:"Hip-Hop – ZUM", url:"https://unterrichten.zum.de/wiki/Hip-Hop", type:"zum" }, { label:"Kunstlied – LearningApps", url:"https://learningapps.org/search.php#term=kunstlied", type:"learning" } ],
+  mu_9_5:  [ { label:"Komposition – ZUM", url:"https://unterrichten.zum.de/wiki/Komposition_(Musik)", type:"zum" }, { label:"Blues – LearningApps", url:"https://learningapps.org/search.php#term=blues+tonleiter", type:"learning" } ],
+  mu_10_1: [ { label:"Oper & Musical – ZUM", url:"https://unterrichten.zum.de/wiki/Oper", type:"zum" }, { label:"Bühnenwerke – LearningApps", url:"https://learningapps.org/search.php#term=oper+musical", type:"learning" } ],
+  mu_10_2: [ { label:"Urheberrecht – ZUM", url:"https://unterrichten.zum.de/wiki/Urheberrecht", type:"zum" } ],
+  mu_10_3: [ { label:"Romantik – ZUM", url:"https://unterrichten.zum.de/wiki/Romantik_(Musik)", type:"zum" }, { label:"Rap – LearningApps", url:"https://learningapps.org/search.php#term=rap+musik", type:"learning" } ],
+  mu_10_4: [ { label:"Funktionsharmonik – ZUM", url:"https://unterrichten.zum.de/wiki/Funktionsharmonik", type:"zum" }, { label:"Digitale Komposition – LearningApps", url:"https://learningapps.org/search.php#term=digitale+komposition", type:"learning" } ],
+};
+
+function buildLinksHtml(topic) {
+  const links = topicLinks[topic.id];
+  if (!links || links.length === 0) return '';
+  const pills = links.map(l =>
+    `<a class="link-pill ${l.type}" href="${l.url}" target="_blank" rel="noopener">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      ${l.label}
+    </a>`
+  ).join('');
+  return `<div class="links-box"><h4>🔗 Übungsaufgaben & Materialien</h4><div class="link-pills">${pills}</div></div>`;
+}
+
+
+function render() {
+  const main    = document.getElementById('mainContent');
+  const prompt  = document.getElementById('promptState');
+  const emptyEl = document.getElementById('emptyState');
+
+  if (!activeClass) {
+    prompt.style.display = 'block';
+    prompt.querySelector('.step1').style.display = '';
+    prompt.querySelector('.step2').style.display = 'none';
+    emptyEl.style.display = 'none';
+    main.querySelectorAll('.subject-block').forEach(e => e.remove());
+    updateStats(0, 0, {});
+    return;
+  }
+  if (!activeSubject) {
+    prompt.style.display = 'block';
+    prompt.querySelector('.step1').style.display = 'none';
+    prompt.querySelector('.step2').style.display = '';
+    emptyEl.style.display = 'none';
+    main.querySelectorAll('.subject-block').forEach(e => e.remove());
+    updateStats(0, 0, {});
+    return;
+  }
+  prompt.style.display = 'none';
+
+  const subj = curriculum.find(s => s.subject === activeSubject);
+  if (!subj) { emptyEl.style.display = 'block'; return; }
+
+  const cls = subj.classes.find(c => c.id === activeClass);
+  if (!cls) { emptyEl.style.display = 'block'; return; }
+
+  const matchingTopics = cls.topics.filter(t => topicMatches(t, searchQuery));
+  if (matchingTopics.length === 0) {
+    emptyEl.style.display = 'block';
+    main.querySelectorAll('.subject-block').forEach(e => e.remove());
+    updateStats(0, 0, {});
+    return;
+  }
+  emptyEl.style.display = 'none';
+
+  let total = 0, done = 0;
+  let topicsHtml = '';
+
+  for (const topic of matchingTopics) {
+    total++;
+    const isDone = !!checked[topic.id];
+    if (isDone) done++;
+
+    topicsHtml += `
+      <div class="topic${isDone ? ' done' : ''}" id="topic-${topic.id}">
+        <div class="topic-header" onclick="toggleDetails('${topic.id}')">
+          <input type="checkbox" class="topic-check" id="chk-${topic.id}" ${isDone ? 'checked' : ''}
+            onclick="event.stopPropagation();toggleCheck('${topic.id}')">
+          <span class="topic-title">${highlight(topic.title, searchQuery)}</span>
+          <div class="topic-meta">
+            ${topic.klausur ? '<span class="klausur-tag">✏️ Klassenarbeit</span>' : ''}
+            ${topic.duration && topic.duration !== '–' ? `<span class="duration-tag">⏱ ${topic.duration}</span>` : ''}
+            <svg class="collapse-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="topic-details" id="details-${topic.id}">
+          <div class="detail-grid">
+            <div class="detail-box">
+              <h4>Lernfelder / Schwerpunkte</h4>
+              <ul>${topic.lernfelder.map(l => `<li>${highlight(l, searchQuery)}</li>`).join('')}</ul>
+            </div>
+            <div class="detail-box">
+              <h4>Fachliche Absprachen</h4>
+              <ul>${topic.absprachen.map(a => `<li>${highlight(a, searchQuery)}</li>`).join('')}</ul>
+            </div>
+            <div class="detail-box">
+              <h4>Konkretisierung</h4>
+              <ul>${topic.konkret.map(k => `<li>${highlight(k, searchQuery)}</li>`).join('')}</ul>
+            </div>
+          </div>
+          ${buildLinksHtml(topic)}
+        </div>
+      </div>`;
+  }
+
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  const blockHtml = `
+    <div class="subject-block" data-subject="${subj.subject}">
+      <div class="subject-header">
+        <span class="subject-badge badge-${subj.subject}">${subj.label} – ${cls.label}</span>
+        <span class="subject-progress-text">${done}/${total} erledigt (${pct}%)</span>
+      </div>
+      <div class="class-section">
+        <div class="class-body">${topicsHtml}</div>
+      </div>
+    </div>`;
+
+  main.querySelectorAll('.subject-block').forEach(e => e.remove());
+  main.insertAdjacentHTML('afterbegin', blockHtml);
+  updateStats(total, done, { [activeSubject]: { total, done } });
+}
+
+// ── STATS ──
+function updateStats(total, done, bySubj) {
+  document.getElementById('statDone').textContent  = done;
+  document.getElementById('statTotal').textContent = total;
+  const pct = total > 0 ? (done / total) * 100 : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+
+  ['info', 'chem', 'de', 'lat', 'math', 'en', 'fr', 'mu'].forEach(s => {
+    const key  = s.charAt(0).toUpperCase() + s.slice(1);
+    const item = document.getElementById('stat' + key + 'Item');
+    const span = document.getElementById('stat' + key);
+    if (!item || !span) return;
+    if (bySubj[s]) {
+      item.style.display = 'flex';
+      span.textContent = `${bySubj[s].done}/${bySubj[s].total}`;
+    } else {
+      item.style.display = 'none';
     }
+  });
 }
 
-function selectFach(fach, tabElement) {
-    currentFach = fach;
-    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-    tabElement.classList.add("active");
+// ── LIVE CHECKBOX ──
+function toggleCheck(id) {
+  checked[id] = !checked[id];
+  if (!checked[id]) delete checked[id];
+  saveChecked();
 
-    // Klassen-Tabs generieren
-    klasseTabs.innerHTML = "";
-    faecher[fach].forEach(klasse => {
-        const subtab = document.createElement("div");
-        subtab.className = "subtab";
-        subtab.textContent = "Klasse " + klasse;
-        subtab.addEventListener("click", () => selectKlasse(klasse, subtab));
-        klasseTabs.appendChild(subtab);
-    });
+  const topicEl = document.getElementById('topic-' + id);
+  if (topicEl) {
+    topicEl.classList.toggle('done', !!checked[id]);
+  }
 
-    content.innerHTML = "";
+  // Recalculate stats from DOM
+  let total = 0, done = 0;
+  document.querySelectorAll('.topic-check').forEach(chk => {
+    total++;
+    if (chk.checked) done++;
+  });
+  if (activeSubject) {
+    updateStats(total, done, { [activeSubject]: { total, done } });
+  }
 }
 
-function selectKlasse(klasse, subtabElement) {
-    currentKlasse = klasse;
-    document.querySelectorAll(".subtab").forEach(s => s.classList.remove("active"));
-    subtabElement.classList.add("active");
-    loadData();
+// ── TOGGLE DETAILS ──
+function toggleDetails(id) {
+  const det = document.getElementById('details-' + id);
+  if (det) det.classList.toggle('open');
 }
 
-// JSON laden
-async function loadData() {
-    content.innerHTML = "";
-    const file = `data/${currentFach.toLowerCase().replace(/\s|\./g,"_")}_${currentKlasse}.json`;
-    try {
-        const response = await fetch(file);
-        if (!response.ok) throw new Error("JSON-Datei nicht gefunden");
-        const data = await response.json();
-        render(data);
-    } catch(err) {
-        content.innerHTML = `<p class="error">Keine Datei gefunden für ${currentFach} Klasse ${currentKlasse}.</p>`;
-        console.error(err);
-    }
-}
+// ══════════════════════════════════════════════════════════════════════════════
+//  EVENT LISTENERS
+// ══════════════════════════════════════════════════════════════════════════════
 
-// Render mit Checkboxen + Fortschritt
-function render(data) {
-    const storageKey = `${currentFach}_${currentKlasse}_progress`;
-    const savedProgress = JSON.parse(localStorage.getItem(storageKey) || "{}");
+// Class pills
+document.getElementById('classPills').addEventListener('click', e => {
+  const btn = e.target.closest('[data-class]');
+  if (!btn) return;
+  const cls = btn.dataset.class;
 
-    data.themen.forEach((thema, themaIndex) => {
-        const section = document.createElement("section");
+  if (activeClass === cls) {
+    // Deselect
+    activeClass   = null;
+    activeSubject = null;
+  } else {
+    activeClass = cls;
+    // Reset subject if it's not available for this class
+    const available = classesBySubject[cls] || [];
+    if (!available.includes(activeSubject)) activeSubject = null;
+  }
 
-        // Thema H1
-        const h1 = document.createElement("h1");
-        h1.textContent = thema.titel;
-        section.appendChild(h1);
+  // Update class pill styles
+  document.querySelectorAll('#classPills .pill').forEach(p => {
+    p.classList.toggle('sel-class', p.dataset.class === activeClass);
+  });
 
-        // Beschreibung
-        if (thema.beschreibung) {
-            const block = document.createElement("blockquote");
-            block.textContent = thema.beschreibung;
-            section.appendChild(block);
-        }
+  buildSubjectPills();
+  render();
+});
 
-        // Inhalte mit Checkboxen
-        if (thema.inhalte) {
-            const ul = document.createElement("ul");
-            thema.inhalte.forEach((p, pIndex) => {
-                const li = document.createElement("li");
-                const checkbox = document.createElement("input");
-                checkbox.type = "checkbox";
-                const id = `${themaIndex}_${pIndex}`;
-                checkbox.checked = savedProgress[id] || false;
-                checkbox.addEventListener("change", () => {
-                    savedProgress[id] = checkbox.checked;
-                    localStorage.setItem(storageKey, JSON.stringify(savedProgress));
-                });
-                li.appendChild(checkbox);
-                li.appendChild(document.createTextNode(p));
-                ul.appendChild(li);
-            });
-            section.appendChild(ul);
-        }
+// Subject pills (delegated)
+document.getElementById('subjectPills').addEventListener('click', e => {
+  const btn = e.target.closest('[data-subject]');
+  if (!btn) return;
+  const subj = btn.dataset.subject;
 
-        // Links
-        if (thema.links) {
-            const ul = document.createElement("ul");
-            thema.links.forEach(l => {
-                const li = document.createElement("li");
-                const a = document.createElement("a");
-                a.href = l.url;
-                a.target = "_blank";
-                a.innerHTML = `<i>${l.text}</i>`;
-                li.appendChild(a);
-                ul.appendChild(li);
-            });
-            section.appendChild(ul);
-        }
+  activeSubject = activeSubject === subj ? null : subj;
 
-        content.appendChild(section);
-    });
-}
+  // Rebuild pills to reflect selection
+  buildSubjectPills();
+  render();
+});
 
-initTabs();
+// Search
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchQuery = e.target.value.trim();
+  render();
+});
+
+// Reset
+document.getElementById('clearBtn').addEventListener('click', () => {
+  if (!confirm('Alle Abhakungen zurücksetzen?')) return;
+  checked = {};
+  saveChecked();
+  render();
+});
+
+// ── Initial render ──
+render();
 </script>
-
 </body>
 </html>
