@@ -3,23 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EGN TechnikScouts</title>
+<title>EGN MEDIENSCOUTS | Future Hub</title>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
 <style>
 :root{
 --bg:#05070a;
 --accent:#007aff;
---accent-glow:rgba(0,122,255,0.6); /* Increased opacity for a brighter glow */
+--accent-glow:rgba(0,122,255,0.6);
 --card:rgba(255,255,255,0.03);
 --border:rgba(255,255,255,0.08);
---text:#fff;
+--text:#ffffff;
 --text-dim:#94a3b8;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.6;}
-.aura{position:fixed;width:600px;height:600px;background:radial-gradient(circle,var(--accent-glow)0%,transparent70%);border-radius:50%;filter:blur(80px);z-index:-1;animation:float 20s infinite alternate;}
-@keyframes float{0%{transform:translate(-10%,-10%);}100%{transform:translate(50%,40%);}}
+body{
+font-family:'Plus Jakarta Sans',sans-serif;
+background:var(--bg);
+color:var(--text);
+overflow-x:hidden;
+line-height:1.6;
+}
+.aura{
+position:fixed;
+width:600px;
+height:600px;
+background:radial-gradient(circle,var(--accent-glow)0%,transparent70%);
+border-radius:50%;
+filter:blur(80px);
+z-index:-1;
+animation:float 20s infinite alternate;
+}
+@keyframes float{
+0%{transform:translate(-10%,-10%);}
+100%{transform:translate(50%,40%);}
+}
 .floating-rocket{
 position:fixed;
 font-size:3.5rem;
@@ -34,56 +52,178 @@ opacity:.7;
 50%{bottom:50%;left:30%;}
 100%{bottom:90%;left:110%;}
 }
-nav{position:fixed;top:0;width:100%;padding:25px 8%;display:flex;justify-content:space-between;align-items:center;background:rgba(5,7,10,.8);backdrop-filter:blur(25px);z-index:1000;border-bottom:1px solid var(--border);}
-.logo{display:flex;align-items:center;gap:12px;font-weight:800;font-size:1.2rem;}
+nav{
+position:fixed;
+top:0;
+width:100%;
+padding:25px 8%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:rgba(5,7,10,.8);
+backdrop-filter:blur(25px);
+z-index:1000;
+border-bottom:1px solid var(--border);
+}
+.logo{
+display:flex;
+align-items:center;
+gap:12px;
+font-weight:800;
+font-size:1.2rem;
+}
 .logo img{
-height:90px; /* Made the logo image smaller */
+height:90px;
 width:auto;
 filter:drop-shadow(0 0 8px var(--accent-glow));
 }
 .logo span{color:var(--accent);}
 .nav-links{display:flex;gap:30px;}
-.nav-links a{color:var(--text-dim);text-decoration:none;font-size:.9rem;font-weight:600;cursor:pointer;}
+.nav-links a{
+color:var(--text-dim);
+text-decoration:none;
+font-size:.9rem;
+font-weight:600;
+cursor:pointer;
+}
 .nav-links a.active{color:var(--accent);}
-.page{display:none;padding:140px 8% 80px;min-height:100vh;animation:slideIn .5s ease;}
+.page{
+display:none;
+padding:140px 8% 80px;
+min-height:100vh;
+animation:slideIn .5s ease;
+}
 .page.active{display:block;}
-@keyframes slideIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-.hero{text-align:center;max-width:900px;margin:0 auto 100px;}
-.hero h1{font-size:clamp(2.5rem,8vw,4.5rem);font-weight:800;margin-bottom:20px;}
-.hero p{color:var(--text-dim);font-size:1.2rem;margin-bottom:40px;}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;}
-.card{background:var(--card);border:1px solid var(--border);padding:40px;border-radius:24px;transition:.4s;}
-.card:hover{border-color:var(--accent);transform:translateY(-10px);background:rgba(255,255,255,0.06);}
-.card i{color:var(--accent);font-size:1.5rem;margin-bottom:20px;}
-.roadmap-container{position:relative;max-width:1000px;margin:auto;padding-left:40px;}
-.roadmap-container::before{content:'';position:absolute;left:0;top:0;width:2px;height:100%;background:linear-gradient(to bottom,var(--accent),var(--border));}
-.roadmap-item{position:relative;margin-bottom:80px;}
-.roadmap-node{position:absolute;left:-49px;top:0;width:18px;height:18px;border-radius:50%;background:var(--bg);border:4px solid var(--accent);box-shadow:0 0 15px var(--accent);}
-.roadmap-card{background:var(--card);border:1px solid var(--border);padding:40px;border-radius:24px;margin-left:20px;}
-.status-tag{font-size:.7rem;font-weight:800;padding:4px 12px;border-radius:50px;background:var(--accent);color:white;text-transform:uppercase;margin-bottom:10px;display:inline-block;}
-.roadmap-card h3{font-size:1.6rem;margin-bottom:15px;}
-.roadmap-card ul{list-style:none;color:var(--text-dim);}
-.roadmap-card li{margin-bottom:8px;display:flex;gap:10px;}
-.roadmap-card li::before{content:'→';color:var(--accent);}
-footer{padding:80px 8%;text-align:center;border-top:1px solid var(--border);color:var(--text-dim);font-size:.8rem;}
-/* Styling for the specific button */
-#main-link-button {
-font-size: 24px; /* Significantly bigger font size */
-padding: 20px 40px; /* Bigger padding */
-background-color: var(--accent); /* Blue color, using the accent variable */
-color: white;
-border: none;
-border-radius: 12px; /* Slightly more rounded corners */
-cursor: pointer;
-transition: background-color 0.3s ease, box-shadow 0.3s ease;
-box-shadow: 0 0 30px var(--accent-glow); /* Increased blur for more glow */
+@keyframes slideIn{
+from{opacity:0;transform:translateY(20px);}
+to{opacity:1;transform:translateY(0);}
 }
-#main-link-button:hover {
-background-color: #0056b3; /* Darker blue on hover */
-box-shadow: 0 0 50px var(--accent-glow); /* Even stronger glow on hover */
+.hero{
+text-align:center;
+max-width:900px;
+margin:0 auto 100px;
 }
-#roadmap {
-margin-top: 100px; /* Adjust this value to move the section down */
+.hero h1{
+font-size:clamp(2.5rem,8vw,4.5rem);
+font-weight:800;
+margin-bottom:20px;
+}
+.hero p{
+color:var(--text-dim);
+font-size:1.2rem;
+margin-bottom:40px;
+}
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:20px;
+}
+.card{
+background:var(--card);
+border:1px solid var(--border);
+padding:40px;
+border-radius:24px;
+transition:.4s;
+}
+.card:hover{
+border-color:var(--accent);
+transform:translateY(-10px);
+background:rgba(255,255,255,0.06);
+}
+.card i{
+color:var(--accent);
+font-size:1.5rem;
+margin-bottom:20px;
+}
+.roadmap-container{
+position:relative;
+max-width:1000px;
+margin:auto;
+padding-left:40px;
+}
+.roadmap-container::before{
+content:'';
+position:absolute;
+left:0;
+top:0;
+width:2px;
+height:100%;
+background:linear-gradient(to bottom,var(--accent),var(--border));
+}
+.roadmap-item{
+position:relative;
+margin-bottom:80px;
+}
+.roadmap-node{
+position:absolute;
+left:-49px;
+top:0;
+width:18px;
+height:18px;
+border-radius:50%;
+background:var(--bg);
+border:4px solid var(--accent);
+box-shadow:0 0 15px var(--accent);
+}
+.roadmap-card{
+background:var(--card);
+border:1px solid var(--border);
+padding:40px;
+border-radius:24px;
+margin-left:20px;
+}
+.status-tag{
+font-size:.7rem;
+font-weight:800;
+padding:4px 12px;
+border-radius:50px;
+background:var(--accent);
+color:white;
+text-transform:uppercase;
+margin-bottom:10px;
+display:inline-block;
+}
+.roadmap-card h3{
+font-size:1.6rem;
+margin-bottom:15px;
+}
+.roadmap-card ul{
+list-style:none;
+color:var(--text-dim);
+}
+.roadmap-card li{
+margin-bottom:8px;
+display:flex;
+gap:10px;
+}
+.roadmap-card li::before{
+content:'→';
+color:var(--accent);
+}
+footer{
+padding:80px 8%;
+text-align:center;
+border-top:1px solid var(--border);
+color:var(--text-dim);
+font-size:.8rem;
+}
+#main-link-button{
+font-size:24px;
+padding:20px 40px;
+background-color:var(--accent);
+color:white;
+border:none;
+border-radius:12px;
+cursor:pointer;
+transition:background-color .3s ease, box-shadow .3s ease;
+box-shadow:0 0 30px var(--accent-glow);
+}
+#main-link-button:hover{
+background-color:#0056b3;
+box-shadow:0 0 50px var(--accent-glow);
+}
+#roadmap{
+margin-top:100px;
 }
 </style>
 </head>
@@ -93,16 +233,16 @@ margin-top: 100px; /* Adjust this value to move the section down */
 <nav>
 <div class="logo">
 <img src="https://technikscouts.vercel.app/Logo.png" alt="EGN Logo">
-EGN<span>SCOUTS</span>
+EGN<span>TECHNIKSCOUTS</span>
 </div>
 <div class="nav-links">
 <a onclick="showPage('home')" id="link-home" class="active">Start</a>
-<a onclick="showPage('mission')" id="link-mission">Mission</a>
+<a onclick="showPage('mission')" id="link-mission">Unser Ziel</a>
 <a onclick="showPage('roadmap')" id="link-roadmap">Roadmap</a>
 </div>
 </nav>
 <section id="home" class="page active">
-<div class="hero" style = "font-size: 60px; font-weight: 900">
+<div class="hero" style="font-size:60px;font-weight:900">
 <strong>Technik ist unsere Sprache.<br> ‎ </strong>
 <p>Die Medienscouts des EGN Nordhorn begleiten aktiv die digitale Transformation der Schule und fördern Medienkompetenz, Datenschutzbewusstsein und kritisches Denken.</p>
 </div>
@@ -134,37 +274,90 @@ EGN<span>SCOUTS</span>
 <p>
 Die Medienscouts am EGN Nordhorn sind ein schulisches Expertenteam, das Mitschüler:innen und Lehrkräfte bei digitalen Fragen unterstützt. Unsere Aufgabe ist nicht nur technische Hilfe, sondern strategische Medienbildung. Wir fördern verantwortungsbewussten Umgang mit digitalen Tools, klären über Risiken auf und stärken digitale Selbstbestimmung.
 <br><br>
-Als ausgewähltes Technik-Scout-Team nehmen wir an der bundesweiten Netzwerktagung teil. Dort werden in mehreren Zeitschienen Workshops, Gespräche und Vorträge durchgeführt, deren Inhalte sowohl von Teilnehmenden als auch externen Referent:innen kommen. Ziel ist Austausch, Vernetzung und Weiterbildung.
-<br><br>
-Alle Teams präsentieren ihr Konzept in Form eines Posters und einer Kurzpräsentation. Zusätzlich besteht die Möglichkeit, Fördermittel für schulinterne Workshops zu gewinnen.
+Als ausgewähltes Technik-Scout-Team nehmen wir an der bundesweiten Netzwerktagung teil. Dort werden in mehreren Zeitschienen Workshops, Gespräche und Vorträge durchgeführt.
 </p>
 </div>
 </section>
-<div style = "text-align: center">
-<strong style = "color: white; font-size: 35px"> Link zum iPad Vergleichsportal für ihre Kinder </strong>
+<div style="text-align:center">
+<strong style="color:white;font-size:35px">Link zum iPad Vergleichsportal für ihre Kinder</strong>
 </div>
 <br>
-<div style = "text-align: center; padding: 40px 40px;">
-<button id="main-link-button" onclick="window.location.href='/tabletvergleich'">iPad vergleichen</button>
+<div style="text-align:center;padding:40px 40px;">
+<button id="main-link-button" onclick="window.location.href='main.html'">
+Tablets Vergleichen
+</button>
 </div>
-
 <section id="roadmap" class="page">
 <div class="hero">
 <h1>Strategic Pipeline.</h1>
 <p>Unsere Entwicklungsschritte auf dem Weg zur digitalen Vorreiterschule.</p>
 </div>
 <div class="roadmap-container">
-...
+<div class="roadmap-item">
+<div class="roadmap-node"></div>
+<div class="roadmap-card">
+<span class="status-tag">Start</span>
+<span style="display:block;font-size:.8rem;color:var(--accent);margin-bottom:5px;">11.02.2026</span>
+<h3>Projektgründung</h3>
+<ul>
+<li>Teamaufstellung</li>
+<li>Strategieplanung</li>
+<li>Vision definiert</li>
+</ul>
+</div>
+</div>
+<div class="roadmap-item">
+<div class="roadmap-node" style="box-shadow:none;border-color:var(--border);"></div>
+<div class="roadmap-card" style="opacity:.4;">
+<span class="status-tag" style="background:var(--border);">Open</span>
+<h3>Geplantes Projekt</h3>
+<p>Freier Platz für kommende Initiative.</p>
+</div>
+</div>
+<div class="roadmap-item">
+<div class="roadmap-node"></div>
+<div class="roadmap-card">
+<span class="status-tag">Event</span>
+<span style="display:block;font-size:.8rem;color:var(--accent);margin-bottom:5px;">23–25.04.2026</span>
+<h3>Technik-Scouts Netzwerktagung Köln</h3>
+<ul>
+<li>Teilnahme mit Lehrkraft + Team</li>
+<li>Workshops & Barcamp Sessions</li>
+<li>Poster-Präsentation unseres Konzepts</li>
+<li>Vernetzung mit anderen Schulen</li>
+<li>Chance auf Fördermittel</li>
+<li>Poster-Abgabe Frist: 15.04.2026</li>
+<li>Zusagefrist Teilnahme: 27.02.2026</li>
+</ul>
+</div>
+</div>
+<div class="roadmap-item">
+<div class="roadmap-node" style="box-shadow:none;border-color:var(--border);"></div>
+<div class="roadmap-card" style="opacity:.4;">
+<span class="status-tag" style="background:var(--border);">Open</span>
+<h3>Zukünftiger Meilenstein</h3>
+<p>Platzhalter für neue Projekte.</p>
+</div>
+</div>
+<div class="roadmap-item">
+<div class="roadmap-node" style="box-shadow:none;border-color:var(--border);"></div>
+<div class="roadmap-card" style="opacity:.3;">
+<span class="status-tag" style="background:var(--border);">Future</span>
+<span style="display:block;font-size:.8rem;color:var(--text-dim);margin-bottom:5px;">2026+</span>
+<h3>Langfristige Vision</h3>
+<p>Weitere Ausbauprojekte für digitale Bildung am EGN.</p>
+</div>
+</div>
 </div>
 </section>
-
 <footer>
-<p>;&copy 2026 Medienscouts EGN Nordhorn</p>
-<p style="margin-top: 20px;">
-<strong style="font-size: 0.8rem;">Der MedienScouts-Team: <br> <br> Sami Gabukji, Noel Becker, Emil Schreiber, Paul Elbert, Jakob Dreier, Lukas Swafing, Elias Klimek</strong>
+<p>© 2026 Technik-Scouts EGN Nordhorn | <em>Alle Rechte vorbehalten</em></p>
+<p style="margin-top:20px;">
+<strong style="font-size:0.8rem;">Der MedienScouts-Team:<br><br>
+Sami Gabukji, Noel Becker, Emil Schreiber, Paul Elbert, Jakob Dreier, Lukas Swafing, Elias Klinik
+</strong>
 </p>
 </footer>
-
 <script>
 function showPage(pageId){
 document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
@@ -174,6 +367,5 @@ document.getElementById('link-'+pageId).classList.add('active');
 window.scrollTo(0,0);
 }
 </script>
-
 </body>
 </html>
