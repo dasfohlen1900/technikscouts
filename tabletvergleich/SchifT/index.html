@@ -1,0 +1,365 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!DOCTYPE HTML>
+<head>
+<style>
+/* -------------------------------------------------------
+   1) Fonts
+------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lilita+One&display=swap');
+
+:root {
+  /* Typography */
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "Lilita One", cursive;
+
+  /* Colors */
+  --color-bg: #f7f7f9;
+  --color-surface: #ffffff;
+  --color-text: #1f2933;
+  --color-muted: #6b7280;
+  --color-accent: #2563eb;
+  --color-accent-dark: #1e4fcc;
+
+  /* UI */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 18px;
+
+  --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
+  --shadow-card: 0 6px 20px rgba(0, 0, 0, 0.06);
+
+  /* Layout */
+  --max-width: 960px;
+}
+
+/* -------------------------------------------------------
+   2) Global Reset
+------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background: radial-gradient(circle at top, #eef2ff 0, #f7f7f9 45%, #f9fafb 100%);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* -------------------------------------------------------
+   3) Layout Container
+------------------------------------------------------- */
+.page {
+  max-width: var(--max-width);
+  margin: 3rem auto;
+  padding: 2.5rem 2rem;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+/* -------------------------------------------------------
+   4) Typography
+------------------------------------------------------- */
+h1, h2, h3, h4 {
+  font-family: 'Lilita One', cursive;
+  margin: 0 0 0.75rem;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  font-weight: 400;
+}
+
+h1 {
+  font-size: 2.6rem;
+  text-transform: uppercase;
+  color: #111827;
+}
+
+h2 {
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+h4 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+p {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+p.muted {
+  color: var(--color-muted);
+}
+
+/* -------------------------------------------------------
+   5) Lists
+------------------------------------------------------- */
+ul, ol {
+  margin: 0 0 1.25rem 1.25rem;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 0.4rem;
+}
+
+/* -------------------------------------------------------
+   6) Links
+------------------------------------------------------- */
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* -------------------------------------------------------
+   7) Buttons
+------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  padding: 0.65rem 1.2rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.95rem;
+
+  transition: all 0.18s ease;
+  text-decoration: none;
+  user-select: none;
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: white;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+}
+
+.btn-primary:hover {
+  background: var(--color-accent-dark);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: #f3f4f6;
+  color: #1f2937;
+  border: 1px solid #e5e7eb;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--color-accent);
+  color: var(--color-accent);
+}
+
+.btn-display {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  padding: 0.75rem 1.4rem;
+  background: #111827;
+  color: white;
+  text-transform: uppercase;
+  border-radius: 12px;
+}
+
+/* -------------------------------------------------------
+   8) Cards
+------------------------------------------------------- */
+.card {
+  padding: 1.4rem;
+  margin: 1.5rem 0;
+  background: #f9fafb;
+  border-radius: var(--radius-md);
+  border: 1px solid #e5e7eb;
+  box-shadow: var(--shadow-card);
+}
+
+.card--accent {
+  background: linear-gradient(135deg, #eff6ff, #f9fafb);
+  border-color: rgba(37, 99, 235, 0.25);
+}
+
+/* -------------------------------------------------------
+   9) Tables
+------------------------------------------------------- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+}
+
+th, td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+th {
+  background: #f3f4f6;
+  font-weight: 600;
+}
+
+/* -------------------------------------------------------
+   10) Badges
+------------------------------------------------------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  background: #e0ebff;
+  color: #1d4ed8;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* -------------------------------------------------------
+   11) Responsive
+------------------------------------------------------- */
+@media (max-width: 720px) {
+  .page {
+    margin: 1.5rem 1rem;
+    padding: 1.75rem 1.25rem;
+  }
+
+  h1 {
+    font-size: 2.1rem;
+    
+
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+}
+
+</style>
+</head>
+<body>
+<h3 id="handreichung-schule-auf-dem-weg-der-bildung-in-der-digital-geprägten-welt--band-1-digitale-endgeräte-schift-version-10-märz-2026">Handreichung Schule auf dem Weg der Bildung in der digital geprägten Welt – Band 1: Digitale Endgeräte (SchifT), Version 1.0, März 2026</h3>
+<p>Gesamtzusammenfassung:<br>Die Handreichung unterstützt Schulen in freier Trägerschaft bei der Auswahl, Beschaffung, Verwaltung und Nutzung digitaler Endgeräte. Sie dient als praxisorientiertes Nachschlagewerk, das Entscheidungsprozesse strukturiert, Verantwortlichkeiten klärt und pädagogische sowie technische Grundlagen für digitale Lernumgebungen schafft.</p>
+<ol>
+<li>Ziel und Zweck:</li>
+</ol>
+<ul>
+<li>Orientierung für Schulen beim Aufbau digitaler Lernkulturen.</li>
+<li>Unterstützung bei fundierten Entscheidungen zu Geräten, Infrastruktur und Prozessen.</li>
+<li>Förderung einer gemeinsamen Sprach- und Handlungsbasis.</li>
+</ul>
+<ol start="2">
+<li>Digitale Endgeräte:</li>
+</ol>
+<ul>
+<li>Geeignete Gerätetypen: Tablets und Notebooks.</li>
+<li>Smartphones ungeeignet für Lernprozesse.</li>
+<li>Betriebssysteme: Windows, macOS, ChromeOS, Linux, Android, iOS.</li>
+<li>Landesangebot: vier Gerätetypen (Android-Tablet, iOS-Tablet, Windows-Notebook, ChromeOS-Notebook).</li>
+<li>Empfehlung: technologieoffene, cloudbasierte Nutzung zur Vermeidung von Abhängigkeiten.</li>
+</ul>
+<ol start="3">
+<li>Lehrkräfteausstattung:</li>
+</ol>
+<ul>
+<li>Alle Lehrkräfte erhalten ein digitales Endgerät.</li>
+<li>Einheitliche Ausstattung innerhalb einer Schule notwendig.</li>
+<li>Nutzungsdauer: 4 Jahre.</li>
+<li>Private Geräte dürfen genutzt werden, wenn keine lokalen personenbezogenen Daten gespeichert werden.</li>
+</ul>
+<ol start="4">
+<li>Bestellung:</li>
+</ol>
+<ul>
+<li>Bestellung über Webshop nach Vergabeverfahren.</li>
+<li>Registrierung in Basis-MDM erforderlich.</li>
+<li>Bestellmengen basieren auf Schulstatistik + Reserve.</li>
+</ul>
+<ol start="5">
+<li>Lieferung:</li>
+</ol>
+<ul>
+<li>Dienstleister übernimmt Vorbereitung (Registrierung, Schutzfolien, Seriennummern).</li>
+<li>Schule prüft Lieferung und bestätigt innerhalb von 14 Tagen.</li>
+</ul>
+<ol start="6">
+<li>Inbetriebnahme:</li>
+</ol>
+<ul>
+<li>Basis-MDM Pflicht (Apple School Manager, Knox, Autopilot, CEU).</li>
+<li>Optional: kommerzielles MDM.</li>
+<li>Dokumentation der Gerätezuordnung notwendig.</li>
+</ul>
+<ol start="7">
+<li>Ausleihe und Nutzung:</li>
+</ol>
+<ul>
+<li>Leihverträge für Lehrkräfte und Lernende.</li>
+<li>Erstnutzung am Ausgabetag empfohlen.</li>
+<li>Typische Fehler: Tippfehler, MDM-Probleme.</li>
+</ul>
+<ol start="8">
+<li>Rückgabe, Defekt, Verlust:</li>
+</ol>
+<ul>
+<li>Rückgabe nach 4 Jahren oder Schulwechsel.</li>
+<li>Ersatzgeräte bei Defekt.</li>
+<li>Verlust: sofortige Meldung, ggf. Polizei.</li>
+</ul>
+<ol start="9">
+<li>Digitale Anzeigegeräte:</li>
+</ol>
+<ul>
+<li>Empfehlung: Präsentationsdisplays (≥86").</li>
+<li>Grundschulen: interaktive Displays sinnvoll.</li>
+<li>Wichtig: AirPlay, Miracast, Chromecast.</li>
+</ul>
+<ol start="10">
+<li>Netzwerkinfrastruktur:</li>
+</ol>
+<ul>
+<li>Bestandteile: Internet, LAN, WLAN, Firewall, Router, Switche.</li>
+<li>Anforderungen: hohe Leistungsfähigkeit, Redundanz, Monitoring.</li>
+</ul>
+<ol start="11">
+<li>Anlagen:</li>
+</ol>
+<ul>
+<li>Checklisten, Formulare, Leihverträge, Schadensmeldungen.<br>Fazit:<br>Die Handreichung bietet ein vollständiges System für die digitale Ausstattung von Schulen und schafft klare, rechtssichere und pädagogisch fundierte Prozesse.</li>
+</ul>
+
+</body>
+</html>
