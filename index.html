@@ -537,23 +537,27 @@ EGN<span class="logo-text">TECHNIKSCOUTS</span>
 
 <script>
 (function(){
-var c=document.getElementById('stars');
-for(var i=0;i<160;i++){
-var s=document.createElement('div'); s.className='star';
-var sz=Math.random()*2.5+0.5;
-s.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;--d:'+(2+Math.random()*4)+'s;animation-delay:-'+(Math.random()*5)+'s';
-c.appendChild(s);
-}
+  var c = document.getElementById('stars');
+  if (!c) return; // Prevent crash if element missing
+  if (c.children.length > 0) return; // Prevent duplicate stars
+  
+  for(var i = 0; i < 160; i++){
+    var s = document.createElement('div');
+    s.className = 'star';
+    var sz = Math.random() * 2.5 + 0.5;
+    var delay = Math.random() * 5;
+    s.style.cssText = 'width:' + sz + 'px;height:' + sz + 'px;left:' + Math.random() * 100 + '%;top:' + Math.random() * 100 + '%;--d:' + (2 + Math.random() * 4) + 's;animation-delay:' + delay + 's';
+    c.appendChild(s);
+  }
 })();
 
 function showPage(pageId){
-document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
-document.getElementById(pageId).classList.add('active');
-document.getElementById('link-'+pageId).classList.add('active');
-window.scrollTo({top:0,behavior:'smooth'});
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+  document.getElementById('link-' + pageId).classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
 }
-
 
 const curriculum = [
   {
@@ -736,25 +740,33 @@ let currActiveClass   = null;
 let currActiveSubject = null;
 let currSearchQuery   = '';
 
-function currSaveChecked() { localStorage.setItem('egn_curr_checked', JSON.stringify(currChecked)); }
+function currSaveChecked() { 
+  localStorage.setItem('egn_curr_checked', JSON.stringify(currChecked)); 
+}
 
 function currBuildSubjectPills() {
   const row   = document.getElementById('curr-subjectRow');
   const pills = document.getElementById('curr-subjectPills');
-  if (!currActiveClass) { row.style.display = 'none'; return; }
+  if (!currActiveClass) { 
+    row.style.display = 'none'; 
+    return; 
+  }
   const available = classesBySubject[currActiveClass] || [];
-  if (available.length === 0) { row.style.display = 'none'; return; }
+  if (available.length === 0) { 
+    row.style.display = 'none'; 
+    return; 
+  }
   pills.innerHTML = available.map(s => {
     const meta = subjectMeta[s];
     const isSel = currActiveSubject === s;
-    return `<button class="curr-pill${isSel ? ' '+meta.selClass : ''}" data-subject="${s}">${meta.label}</button>`;
+    return `<button class="curr-pill${isSel ? ' ' + meta.selClass : ''}" data-subject="${s}">${meta.label}</button>`;
   }).join('');
   row.style.display = 'flex';
 }
 
 function currHighlight(text, q) {
   if (!q) return text;
-  const re = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+  const re = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
   return text.replace(re, '<mark>$1</mark>');
 }
 
@@ -762,9 +774,9 @@ function currTopicMatches(topic, q) {
   if (!q) return true;
   const lo = q.toLowerCase();
   return topic.title.toLowerCase().includes(lo) ||
-    (topic.lernfelder||[]).some(x=>x.toLowerCase().includes(lo)) ||
-    (topic.absprachen||[]).some(x=>x.toLowerCase().includes(lo)) ||
-    (topic.konkret||[]).some(x=>x.toLowerCase().includes(lo));
+    (topic.lernfelder || []).some(x => x.toLowerCase().includes(lo)) ||
+    (topic.absprachen || []).some(x => x.toLowerCase().includes(lo)) ||
+    (topic.konkret || []).some(x => x.toLowerCase().includes(lo));
 }
 
 const topicLinks = {
@@ -801,59 +813,75 @@ function currRender() {
   const emptyEl = document.getElementById('curr-emptyState');
 
   if (!currActiveClass) {
-    prompt.style.display='block'; prompt.querySelector('.step1').style.display=''; prompt.querySelector('.step2').style.display='none';
-    emptyEl.style.display='none'; main.querySelectorAll('.curr-subject-block').forEach(e=>e.remove());
-    currUpdateStats(0,0,{}); return;
+    prompt.style.display = 'block'; 
+    prompt.querySelector('.step1').style.display = ''; 
+    prompt.querySelector('.step2').style.display = 'none';
+    emptyEl.style.display = 'none'; 
+    main.querySelectorAll('.curr-subject-block').forEach(e => e.remove());
+    currUpdateStats(0, 0, {}); 
+    return;
   }
   if (!currActiveSubject) {
-    prompt.style.display='block'; prompt.querySelector('.step1').style.display='none'; prompt.querySelector('.step2').style.display='';
-    emptyEl.style.display='none'; main.querySelectorAll('.curr-subject-block').forEach(e=>e.remove());
-    currUpdateStats(0,0,{}); return;
+    prompt.style.display = 'block'; 
+    prompt.querySelector('.step1').style.display = 'none'; 
+    prompt.querySelector('.step2').style.display = '';
+    emptyEl.style.display = 'none'; 
+    main.querySelectorAll('.curr-subject-block').forEach(e => e.remove());
+    currUpdateStats(0, 0, {}); 
+    return;
   }
-  prompt.style.display='none';
+  prompt.style.display = 'none';
 
-  const subj = curriculum.find(s=>s.subject===currActiveSubject);
-  if (!subj) { emptyEl.style.display='block'; return; }
-  const cls = subj.classes.find(c=>c.id===currActiveClass);
-  if (!cls) { emptyEl.style.display='block'; return; }
-
-  const matchingTopics = cls.topics.filter(t=>currTopicMatches(t,currSearchQuery));
-  if (matchingTopics.length===0) {
-    emptyEl.style.display='block'; main.querySelectorAll('.curr-subject-block').forEach(e=>e.remove());
-    currUpdateStats(0,0,{}); return;
+  const subj = curriculum.find(s => s.subject === currActiveSubject);
+  if (!subj) { 
+    emptyEl.style.display = 'block'; 
+    return; 
   }
-  emptyEl.style.display='none';
+  const cls = subj.classes.find(c => c.id === currActiveClass);
+  if (!cls) { 
+    emptyEl.style.display = 'block'; 
+    return; 
+  }
 
-  let total=0, done=0, topicsHtml='';
+  const matchingTopics = cls.topics.filter(t => currTopicMatches(t, currSearchQuery));
+  if (matchingTopics.length === 0) {
+    emptyEl.style.display = 'block'; 
+    main.querySelectorAll('.curr-subject-block').forEach(e => e.remove());
+    currUpdateStats(0, 0, {}); 
+    return;
+  }
+  emptyEl.style.display = 'none';
+
+  let total = 0, done = 0, topicsHtml = '';
   for (const topic of matchingTopics) {
     total++;
-    const isDone=!!currChecked[topic.id];
-    if(isDone) done++;
-    topicsHtml+=`
-      <div class="curr-topic${isDone?' done':''}" id="curr-topic-${topic.id}">
+    const isDone = !!currChecked[topic.id];
+    if (isDone) done++;
+    topicsHtml += `
+      <div class="curr-topic${isDone ? ' done' : ''}" id="curr-topic-${topic.id}">
         <div class="curr-topic-header" onclick="currToggleDetails('${topic.id}')">
-          <input type="checkbox" class="curr-topic-check" id="curr-chk-${topic.id}" ${isDone?'checked':''}
+          <input type="checkbox" class="curr-topic-check" id="curr-chk-${topic.id}" ${isDone ? 'checked' : ''}
             onclick="event.stopPropagation();currToggleCheck('${topic.id}')">
-          <span class="curr-topic-title">${currHighlight(topic.title,currSearchQuery)}</span>
+          <span class="curr-topic-title">${currHighlight(topic.title, currSearchQuery)}</span>
           <div class="curr-topic-meta">
-            ${topic.klausur?'<span class="curr-klausur-tag">✏️ Klassenarbeit</span>':''}
-            ${topic.duration&&topic.duration!=='–'?`<span class="curr-duration-tag">⏱ ${topic.duration}</span>`:''}
+            ${topic.klausur ? '<span class="curr-klausur-tag">✏️ Klassenarbeit</span>' : ''}
+            ${topic.duration && topic.duration !== '–' ? `<span class="curr-duration-tag">⏱ ${topic.duration}</span>` : ''}
             <svg class="curr-collapse-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
         </div>
         <div class="curr-topic-details" id="curr-details-${topic.id}">
           <div class="curr-detail-grid">
-            <div class="curr-detail-box"><h4>Lernfelder</h4><ul>${(topic.lernfelder||[]).map(l=>`<li>${currHighlight(l,currSearchQuery)}</li>`).join('')}</ul></div>
-            <div class="curr-detail-box"><h4>Fachliche Absprachen</h4><ul>${(topic.absprachen||[]).map(a=>`<li>${currHighlight(a,currSearchQuery)}</li>`).join('')}</ul></div>
-            <div class="curr-detail-box"><h4>Konkretisierung</h4><ul>${(topic.konkret||[]).map(k=>`<li>${currHighlight(k,currSearchQuery)}</li>`).join('')}</ul></div>
+            <div class="curr-detail-box"><h4>Lernfelder</h4><ul>${(topic.lernfelder || []).map(l => `<li>${currHighlight(l, currSearchQuery)}</li>`).join('')}</ul></div>
+            <div class="curr-detail-box"><h4>Fachliche Absprachen</h4><ul>${(topic.absprachen || []).map(a => `<li>${currHighlight(a, currSearchQuery)}</li>`).join('')}</ul></div>
+            <div class="curr-detail-box"><h4>Konkretisierung</h4><ul>${(topic.konkret || []).map(k => `<li>${currHighlight(k, currSearchQuery)}</li>`).join('')}</ul></div>
           </div>
           ${currBuildLinksHtml(topic)}
         </div>
       </div>`;
   }
 
-  const pct=total>0?Math.round((done/total)*100):0;
-  const blockHtml=`
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  const blockHtml = `
     <div class="curr-subject-block" data-subject="${subj.subject}">
       <div class="curr-subject-header">
         <span class="curr-subject-badge curr-badge-${subj.subject}">${subj.label} – ${cls.label}</span>
@@ -864,75 +892,90 @@ function currRender() {
       </div>
     </div>`;
 
-  main.querySelectorAll('.curr-subject-block').forEach(e=>e.remove());
-  main.insertAdjacentHTML('afterbegin',blockHtml);
-  currUpdateStats(total,done,{[currActiveSubject]:{total,done}});
+  main.querySelectorAll('.curr-subject-block').forEach(e => e.remove());
+  main.insertAdjacentHTML('afterbegin', blockHtml);
+  currUpdateStats(total, done, { [currActiveSubject]: { total, done } });
 }
 
-function currUpdateStats(total,done,bySubj) {
-  document.getElementById('curr-statDone').textContent=done;
-  document.getElementById('curr-statTotal').textContent=total;
-  const pct=total>0?(done/total)*100:0;
-  document.getElementById('curr-progressFill').style.width=pct+'%';
-  ['info','chem','de','lat','math','en','fr','mu'].forEach(s=>{
-    const key=s.charAt(0).toUpperCase()+s.slice(1);
-    const item=document.getElementById('curr-stat'+key+'Item');
-    const span=document.getElementById('curr-stat'+key);
-    if(!item||!span) return;
-    if(bySubj[s]){item.style.display='flex';span.textContent=`${bySubj[s].done}/${bySubj[s].total}`;}
-    else{item.style.display='none';}
+function currUpdateStats(total, done, bySubj) {
+  document.getElementById('curr-statDone').textContent = done;
+  document.getElementById('curr-statTotal').textContent = total;
+  const pct = total > 0 ? (done / total) * 100 : 0;
+  document.getElementById('curr-progressFill').style.width = pct + '%';
+  ['info', 'chem', 'de', 'lat', 'math', 'en', 'fr', 'mu'].forEach(s => {
+    const key = s.charAt(0).toUpperCase() + s.slice(1);
+    const item = document.getElementById('curr-stat' + key + 'Item');
+    const span = document.getElementById('curr-stat' + key);
+    if (!item || !span) return;
+    if (bySubj[s]) {
+      item.style.display = 'flex';
+      span.textContent = `${bySubj[s].done}/${bySubj[s].total}`;
+    } else {
+      item.style.display = 'none';
+    }
   });
 }
 
 function currToggleCheck(id) {
-  currChecked[id]=!currChecked[id];
-  if(!currChecked[id]) delete currChecked[id];
+  currChecked[id] = !currChecked[id];
+  if (!currChecked[id]) delete currChecked[id];
   currSaveChecked();
-  const topicEl=document.getElementById('curr-topic-'+id);
-  if(topicEl) topicEl.classList.toggle('done',!!currChecked[id]);
-  let total=0,done=0;
-  document.querySelectorAll('.curr-topic-check').forEach(chk=>{total++;if(chk.checked)done++;});
-  if(currActiveSubject) currUpdateStats(total,done,{[currActiveSubject]:{total,done}});
+  const topicEl = document.getElementById('curr-topic-' + id);
+  if (topicEl) topicEl.classList.toggle('done', !!currChecked[id]);
+  let total = 0, done = 0;
+  document.querySelectorAll('.curr-topic-check').forEach(chk => {
+    total++;
+    if (chk.checked) done++;
+  });
+  if (currActiveSubject) currUpdateStats(total, done, { [currActiveSubject]: { total, done } });
 }
 
 function currToggleDetails(id) {
-  const det=document.getElementById('curr-details-'+id);
-  if(det) det.classList.toggle('open');
+  const det = document.getElementById('curr-details-' + id);
+  if (det) det.classList.toggle('open');
 }
 
-document.getElementById('curr-classPills').addEventListener('click',e=>{
-  const btn=e.target.closest('[data-class]');
-  if(!btn) return;
-  const cls=btn.dataset.class;
-  if(currActiveClass===cls){currActiveClass=null;currActiveSubject=null;}
-  else{
-    currActiveClass=cls;
-    const available=classesBySubject[cls]||[];
-    if(!available.includes(currActiveSubject)) currActiveSubject=null;
+document.getElementById('curr-classPills').addEventListener('click', e => {
+  const btn = e.target.closest('[data-class]');
+  if (!btn) return;
+  const cls = btn.dataset.class;
+  if (currActiveClass === cls) {
+    currActiveClass = null;
+    currActiveSubject = null;
+  } else {
+    currActiveClass = cls;
+    const available = classesBySubject[cls] || [];
+    if (!available.includes(currActiveSubject)) currActiveSubject = null;
   }
-  document.querySelectorAll('#curr-classPills .curr-pill').forEach(p=>{p.classList.toggle('sel-class',p.dataset.class===currActiveClass);});
-  currBuildSubjectPills(); currRender();
+  document.querySelectorAll('#curr-classPills .curr-pill').forEach(p => {
+    p.classList.toggle('sel-class', p.dataset.class === currActiveClass);
+  });
+  currBuildSubjectPills(); 
+  currRender();
 });
 
-document.getElementById('curr-subjectPills').addEventListener('click',e=>{
-  const btn=e.target.closest('[data-subject]');
-  if(!btn) return;
-  const subj=btn.dataset.subject;
-  currActiveSubject=currActiveSubject===subj?null:subj;
-  currBuildSubjectPills(); currRender();
+document.getElementById('curr-subjectPills').addEventListener('click', e => {
+  const btn = e.target.closest('[data-subject]');
+  if (!btn) return;
+  const subj = btn.dataset.subject;
+  currActiveSubject = currActiveSubject === subj ? null : subj;
+  currBuildSubjectPills(); 
+  currRender();
 });
 
-document.getElementById('curr-searchInput').addEventListener('input',e=>{
-  currSearchQuery=e.target.value.trim(); currRender();
+document.getElementById('curr-searchInput').addEventListener('input', e => {
+  currSearchQuery = e.target.value.trim(); 
+  currRender();
 });
 
-document.getElementById('curr-clearBtn').addEventListener('click',()=>{
-  if(!confirm('Alle Abhakungen zurücksetzen?')) return;
-  currChecked={}; currSaveChecked(); currRender();
+document.getElementById('curr-clearBtn').addEventListener('click', () => {
+  if (!confirm('Alle Abhakungen zurücksetzen?')) return;
+  currChecked = {}; 
+  currSaveChecked(); 
+  currRender();
 });
 
 currRender();
-
 </script>
 </body>
 </html>
