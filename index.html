@@ -536,22 +536,7 @@ EGN<span class="logo-text">TECHNIKSCOUTS</span>
 </footer>
 
 <script>
-(function(){
-  var c = document.getElementById('stars');
-  if (!c) return; // Prevent crash if element missing
-  if (c.children.length > 0) return; // Prevent duplicate stars
-  
-  for(var i = 0; i < 160; i++){
-    var s = document.createElement('div');
-    s.className = 'star';
-    var sz = Math.random() * 2.5 + 0.5;
-    var delay = Math.random() * 5;
-    s.style.cssText = 'width:' + sz + 'px;height:' + sz + 'px;left:' + Math.random() * 100 + '%;top:' + Math.random() * 100 + '%;--d:' + (2 + Math.random() * 4) + 's;animation-delay:' + delay + 's';
-    c.appendChild(s);
-  }
-})();
-
-function showPage(pageId){
+  function showPage(pageId){
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
   document.getElementById(pageId).classList.add('active');
