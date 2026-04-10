@@ -21,7 +21,7 @@ font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 color: #e0f2fe;
 overflow-x: hidden;
 line-height: 1.6;
-background: #000000;
+background: #020b18;
 min-height: 100vh;
 }
 
@@ -29,19 +29,10 @@ min-height: 100vh;
 position: fixed; top: 0; left: 0; width: 100%; height: 100%;
 z-index: 0; pointer-events: none; overflow: hidden;
 }
-.sky-night {
-position: absolute; top: 0; left: 0; width: 100%; height: 60%;
-background: linear-gradient(180deg, #000000 0%, #0a0a1a 60%, #0d0d20 100%);
-}
-.sky-day {
-position: absolute; bottom: 0; left: 0; width: 100%; height: 55%;
-background: linear-gradient(180deg, #0a1520 0%, #0d1f2d 40%, #111827 75%, #0f172a 100%);
-}
-.horizon {
-position: absolute; top: 42%; left: 0; width: 100%; height: 18%;
-background: linear-gradient(180deg, transparent 0%, rgba(180,20,20,.2) 40%, rgba(200,30,30,.1) 70%, transparent 100%);
-}
-.stars { position: absolute; top: 0; left: 0; width: 100%; height: 55%; }
+.sky-night { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, #020b18 0%, #051630 50%, #0a2540 100%); }
+.sky-day { display: none; }
+.horizon { display: none; }
+.stars { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 .star {
 position: absolute; border-radius: 50%; background: white;
 animation: twinkle var(--d,3s) ease-in-out infinite; opacity: .8;
@@ -59,16 +50,8 @@ width: 14px; height: 14px; border-radius: 50%;
 background: rgba(200,190,100,.3);
 box-shadow: 20px 12px 0 rgba(200,190,100,.2), 8px 28px 0 rgba(200,190,100,.15);
 }
-.sun {
-position: absolute; bottom: 28%; left: 12%; width: 80px; height: 80px;
-border-radius: 50%;
-background: radial-gradient(circle, #fff9c4 0%, #ffe082 40%, #ffca28 100%);
-box-shadow: 0 0 60px rgba(255,202,40,.6), 0 0 120px rgba(255,202,40,.25);
-}
-.cloud {
-position: absolute; border-radius: 50px; background: rgba(255,255,255,.75);
-animation: drift var(--cd,40s) linear infinite;
-}
+.sun { display: none; }
+.cloud { display: none; }
 @keyframes drift { 0% { transform:translateX(-200px) } 100% { transform:translateX(110vw) } }
 
 .rocket-wrap {
@@ -82,14 +65,14 @@ animation: fly 18s ease-in-out infinite;
 75%  { left:80%;    bottom:55%; transform:rotate(-30deg) }
 100% { left:110%;   bottom:20%; transform:rotate(-35deg) }
 }
-.rocket { width: 80px; filter: drop-shadow(0 0 16px rgba(255,50,50,.9)); }
+.rocket { width: 80px; filter: drop-shadow(0 0 12px rgba(100,200,255,.7)); }
 
 nav {
 position: sticky; top: 0; width: 100%; padding: 16px 8%;
 display: flex; justify-content: space-between; align-items: center;
-background: rgba(0,0,0,.95); backdrop-filter: blur(20px); z-index: 1000;
+background: rgba(2,11,24,.88); backdrop-filter: blur(20px); z-index: 1000;
 border-bottom: 1px solid rgba(79,195,247,.3);
-box-shadow: 0 4px 30px rgba(0,0,0,.5);
+box-shadow: 0 4px 30px rgba(0,150,255,.12);
 }
 .logo { display: flex; align-items: center; gap: 15px; font-weight: 800; font-size: 1.3rem; color: #4fc3f7; }
 .logo img { height: 75px; width: auto; filter: drop-shadow(0 0 10px rgba(79,195,247,.5)); }
@@ -103,7 +86,7 @@ padding: 7px 14px; border-radius: 8px;
 .nav-links a:hover { color: #4fc3f7; background: rgba(79,195,247,.1); }
 .nav-links a.active { color: #fff; background: rgba(41,182,246,.2); border: 1px solid rgba(79,195,247,.4); }
 
-.page { display: none; padding: 80px 8% 80px; min-height: 100vh; animation: fadeIn .6s ease; position: relative; z-index: 1; }
+.page { display: none; padding: 80px 8% 80px; min-height: 100vh; animation: fadeIn .6s ease; position: relative; z-index: 2; }
 .page.active { display: block; }
 @keyframes fadeIn { from { opacity:0;transform:translateY(12px) } to { opacity:1;transform:translateY(0) } }
 
@@ -116,7 +99,7 @@ color: #fff; line-height: 1.2; text-shadow: 0 0 40px rgba(79,195,247,.5);
 
 .grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 22px; margin-bottom: 60px; }
 .card {
-background: rgba(0,0,10,.9); border: 1px solid rgba(79,195,247,.25);
+background: rgba(10,30,60,.85); border: 1px solid rgba(79,195,247,.25);
 padding: 35px; border-radius: 20px; transition: all .4s ease;
 backdrop-filter: blur(10px); position: relative; overflow: hidden;
 }
@@ -135,7 +118,7 @@ background: linear-gradient(90deg,transparent,rgba(79,195,247,.6),transparent);
 .section-header i { color: #4fc3f7; font-size: 1.8rem; }
 
 .recommendation-box {
-background: rgba(0,0,10,.9); border: 2px solid rgba(79,195,247,.4);
+background: rgba(10,30,60,.85); border: 2px solid rgba(79,195,247,.4);
 border-radius: 20px; padding: 45px; margin-bottom: 70px; backdrop-filter: blur(12px); position: relative;
 }
 .recommendation-box::before { content: '★'; position: absolute; top: 20px; right: 28px; font-size: 55px; color: rgba(79,195,247,.12); }
@@ -146,7 +129,7 @@ border-radius: 20px; padding: 45px; margin-bottom: 70px; backdrop-filter: blur(1
 
 .device-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); gap: 25px; margin-bottom: 55px; }
 .device-card {
-background: rgba(0,0,10,.9); border: 1px solid rgba(79,195,247,.25);
+background: rgba(10,30,60,.85); border: 1px solid rgba(79,195,247,.25);
 border-radius: 20px; padding: 35px; transition: all .4s ease;
 backdrop-filter: blur(10px); display: flex; flex-direction: column;
 }
@@ -344,17 +327,30 @@ color: #b3e5fc; text-decoration: none; font-weight: 500; transition: all .15s; w
 </head>
 <body>
 
+<div id="space-bg">
+<div class="sky-night"></div>
+<div class="sky-day"></div>
+<div class="horizon"></div>
+<div class="stars" id="stars"></div>
+<div class="moon"></div>
+<div class="sun"></div>
+<div class="cloud" style="width:160px;height:40px;bottom:38%;left:0%;opacity:.8;--cd:55s;animation-delay:-10s;"></div>
+<div class="cloud" style="width:100px;height:28px;bottom:33%;left:0%;opacity:.6;--cd:40s;animation-delay:-25s;"></div>
+<div class="cloud" style="width:200px;height:50px;bottom:42%;left:0%;opacity:.5;--cd:70s;animation-delay:-5s;"></div>
+<div class="cloud" style="width:130px;height:35px;bottom:29%;left:0%;opacity:.65;--cd:48s;animation-delay:-18s;"></div>
+</div>
+
 <div class="rocket-wrap">
 <svg class="rocket" viewBox="0 0 60 100" xmlns="http://www.w3.org/2000/svg">
 <defs>
-<radialGradient id="rg" cx="35%" cy="35%"><stop offset="0%" stop-color="#ff6b6b"/><stop offset="100%" stop-color="#c0392b"/></radialGradient>
+<radialGradient id="rg" cx="35%" cy="35%"><stop offset="0%" stop-color="#e3f2fd"/><stop offset="100%" stop-color="#90caf9"/></radialGradient>
 <radialGradient id="fg" cx="50%" cy="50%"><stop offset="0%" stop-color="#ffeb3b"/><stop offset="100%" stop-color="#ff6f00" stop-opacity="0"/></radialGradient>
 </defs>
 <path d="M30 5 C18 5 12 22 12 42 L12 70 L48 70 L48 42 C48 22 42 5 30 5 Z" fill="url(#rg)"/>
-<circle cx="30" cy="38" r="9" fill="#7f1d1d" opacity=".8"/>
-<circle cx="30" cy="38" r="6" fill="#fca5a5" opacity=".9"/>
-<path d="M12 55 L2 72 L12 70 Z" fill="#dc2626"/>
-<path d="M48 55 L58 72 L48 70 Z" fill="#dc2626"/>
+<circle cx="30" cy="38" r="9" fill="#0288d1" opacity=".8"/>
+<circle cx="30" cy="38" r="6" fill="#e3f2fd" opacity=".9"/>
+<path d="M12 55 L2 72 L12 70 Z" fill="#64b5f6"/>
+<path d="M48 55 L58 72 L48 70 Z" fill="#64b5f6"/>
 <ellipse cx="30" cy="76" rx="9" ry="16" fill="url(#fg)" opacity=".9"/>
 <ellipse cx="30" cy="74" rx="5" ry="10" fill="#fff176" opacity=".8"/>
 </svg>
@@ -371,6 +367,7 @@ EGN<span class="logo-text">TECHNIKSCOUTS</span>
 <a onclick="showPage('tablets')" id="link-tablets">Tablet-Guide</a>
 <a onclick="showPage('roadmap')" id="link-roadmap">Roadmap</a>
 <a onclick="showPage('curriculum')" id="link-curriculum">Curriculum</a>
+<a onclick="showPage('schift')" id="link-schift">SchifT</a>
 </div>
 </nav>
 
@@ -391,12 +388,12 @@ EGN<span class="logo-text">TECHNIKSCOUTS</span>
 <div class="card" style="max-width:900px;margin:auto;">
 <h3 style="margin-bottom:18px;">EGN Technikscout Initiative</h3>
 <p>Die Technikscouts am EGN Nordhorn sind ein schulisches Expertenteam, das Mitschüler:innen und Lehrkräfte bei digitalen Fragen unterstützt. Unsere Aufgabe ist nicht nur technische Hilfe, sondern strategische Medienbildung. Wir fördern verantwortungsbewussten Umgang mit digitalen Tools, klären über Risiken auf und stärken digitale Selbstbestimmung.</p>
-<p style="margin-top:18px;">Wir Technik-Scouts nehmen an der bundesweiten Netzwerktagung der Telekom teil. Dort werden in mehreren Zeitschienen Workshops, Gespräche und Vorträge durchgeführt.</p>
+<p style="margin-top:18px;">Als ausgewähltes Technik-Scout-Team nehmen wir an der bundesweiten Netzwerktagung teil. Dort werden in mehreren Zeitschienen Workshops, Gespräche und Vorträge durchgeführt.</p>
 </div>
 </section>
 
 <section id="tablets" class="page">
-<div class="hero"><h1>Tablet-Guide für die Schule 📱</h1><p>Wir haben die aktuelle Hardware von Apple und Samsung aufgelistet. Finde das Tablet, das zu deinem Budget und deinen Zielen passt.</p></div>
+<div class="hero"><h1>Tablet-Guide für die Schule 📱</h1><p>Wir haben die aktuelle Hardware von Apple und Samsung analysiert. Finde das Tablet, das zu deinem Budget und deinen Zielen passt.</p></div>
 <div class="recommendation-box">
 <h2><i class="fas fa-star"></i> Unsere persönliche Empfehlung</h2>
 <p><strong>Empfehlung zum Kauf eines iPads für die Schule:</strong></p>
@@ -528,6 +525,158 @@ EGN<span class="logo-text">TECHNIKSCOUTS</span>
 </main>
 </section>
 
+
+<!-- SchifT PAGE -->
+<section id="schift" class="page">
+<div class="hero">
+<h1>SchifT – Digitale Endgeräte 💻</h1>
+<p>Handreichung des Landes Niedersachsen für Schulen in freier Trägerschaft (Version 1.0, März 2026) · Herausgeber: Nds. Kultusministerium, RLSB & NLQ</p>
+</div>
+
+<!-- Was ist SchifT -->
+<div class="card" style="max-width:900px;margin:0 auto 50px;border-color:rgba(79,195,247,.5);">
+<i class="fas fa-info-circle"></i>
+<h3>Was ist die SchifT-Handreichung?</h3>
+<p>„Schule auf dem Weg der Bildung in der digital geprägten Welt" – Band 1 für <strong style="color:#4fc3f7;">Schulen in freier Trägerschaft</strong> begleitet Privatschulen bei der Einführung digitaler Endgeräte. Die Teilnahme am Landesprogramm erfolgt auf <strong style="color:#4fc3f7;">freiwilliger Basis</strong>. Ziel ist es, alle Schüler:innen ab Jahrgang 7 mit einem digitalen Leihgerät auszustatten.</p>
+</div>
+
+<!-- Gerätetypen -->
+<div class="section-header"><h2>📱 Welche Geräte gibt es?</h2></div>
+<div class="device-grid">
+<div class="device-card">
+<span class="badge badge-fav">Tablet</span>
+<h3>Android-Tablet</h3>
+<div class="price-label">ca. 11" Display</div>
+<p>Inkl. Stift, Schutzhülle & Tastatur. Lange Akkulaufzeit, leicht transportierbar, intuitive Bedienung per Touch.</p>
+</div>
+<div class="device-card">
+<span class="badge badge-fav">Tablet</span>
+<h3>iOS-Tablet</h3>
+<div class="price-label">ca. 11" Display</div>
+<p>Inkl. Stift, Schutzhülle & Tastatur. Besonders gut mit Apple-Ökosystem abgestimmt.</p>
+</div>
+<div class="device-card">
+<span class="badge badge-standard">Notebook</span>
+<h3>Windows-Notebook</h3>
+<div class="price-label">ca. 14" Display</div>
+<p>Inkl. Netzteil. Tastatur für Viel-Schreiber, hohe Rechenleistung, vertrautes Betriebssystem.</p>
+</div>
+<div class="device-card">
+<span class="badge badge-standard">Notebook</span>
+<h3>ChromeOS-Notebook</h3>
+<div class="price-label">ca. 12" Display</div>
+<p>Inkl. Netzteil. Schnell, einfach, cloudbasiert – ideal für schulische Webdienste.</p>
+</div>
+</div>
+
+<!-- Für Schüler: Rechte & Pflichten -->
+<div class="section-header" style="margin-top:60px;"><h2>🎒 Deine Rechte & Pflichten</h2></div>
+<div class="grid">
+<div class="card" style="border-color:rgba(79,195,247,.4);">
+<i class="fas fa-gift" style="color:#4fc3f7;"></i>
+<h3>Deine Rechte</h3>
+<p>Das Gerät wird dir <strong style="color:#4fc3f7;">kostenlos</strong> für Unterricht & zuhause geliehen. Du nutzt es für <strong style="color:#4fc3f7;">4 Jahre</strong> bis zum Ende des Sekundarbereichs I. Das Land Niedersachsen bleibt Eigentümer.</p>
+</div>
+<div class="card" style="border-color:rgba(255,213,79,.3);">
+<i class="fas fa-tasks" style="color:#ffd54f;"></i>
+<h3>Deine Pflichten</h3>
+<p>Gerät <strong style="color:#ffd54f;">täglich vollständig geladen</strong> mitbringen · sorgsam behandeln · sicher in der Schultasche transportieren · Schäden sofort melden.</p>
+</div>
+<div class="card" style="border-color:rgba(255,107,107,.3);">
+<i class="fas fa-exclamation-triangle" style="color:#ff6b6b;"></i>
+<h3>Bei Defekt oder Verlust</h3>
+<p>Sofort die Schule informieren. Bei Diebstahl: Polizei einschalten. Du bekommst umgehend ein <strong style="color:#ff6b6b;">Ersatzgerät</strong> aus dem Schulpool, damit du weiter lernen kannst.</p>
+</div>
+</div>
+
+<!-- Ablauf Timeline -->
+<div class="section-header" style="margin-top:60px;"><h2>🚀 So läuft die Geräteausgabe ab</h2></div>
+<div class="roadmap-container">
+<div class="roadmap-item">
+<div class="roadmap-node"></div>
+<div class="roadmap-card">
+<span class="status-tag">Schritt 1</span>
+<h3>Bestellung & Lieferung</h3>
+<ul>
+<li>Schule bestellt Geräte über den Landes-Webshop (webshop.it.niedersachsen.de)</li>
+<li>Lieferung ca. 3 Monate nach Bestellung direkt in die Schule</li>
+<li>Dienstleister registriert die Geräte vorab im MDM (Diebstahlschutz)</li>
+<li>Geräte kommen mit Displayschutzfolie, Schutzhülle & Zubehör</li>
+</ul>
+</div>
+</div>
+<div class="roadmap-item">
+<div class="roadmap-node"></div>
+<div class="roadmap-card">
+<span class="status-tag">Schritt 2</span>
+<h3>Leihvertrag & Ausgabe</h3>
+<ul>
+<li>Leihvertrag zwischen Land, Schule & Erziehungsberechtigten</li>
+<li>Schule erklärt Nutzungsregeln – bitte genau lesen!</li>
+<li>Gerät + Zubehör auf Vollständigkeit prüfen & Empfang bestätigen</li>
+<li>Nutzerdaten (Benutzername, Passwort) werden ausgeteilt</li>
+</ul>
+</div>
+</div>
+<div class="roadmap-item">
+<div class="roadmap-node"></div>
+<div class="roadmap-card">
+<span class="status-tag">Schritt 3</span>
+<h3>Erstnutzung & Updates</h3>
+<ul>
+<li>Erststart am Ausgabetag in der Schule – Lehrkraft & ältere Schüler:innen helfen</li>
+<li>Betriebssystem & Apps sofort aktuell halten (Sicherheit!)</li>
+<li>MDM sorgt automatisch für Updates & Grundkonfiguration</li>
+<li>Schülerbenutzername anlegen (z.B. für NBC – Niedersächsische Bildungscloud)</li>
+</ul>
+</div>
+</div>
+<div class="roadmap-item">
+<div class="roadmap-node"></div>
+<div class="roadmap-card">
+<span class="status-tag">Schritt 4</span>
+<h3>4 Jahre nutzen & zurückgeben</h3>
+<ul>
+<li>Gerät begleitet dich durch den gesamten Sekundarbereich I</li>
+<li>Bei Schulwechsel: Gerät an alter Schule abgeben, neue Schule stellt ein neues aus</li>
+<li>Am Ende: Gerät vollständig mit Zubehör zurückgeben</li>
+<li>Zubehör (Hülle, Stift, Kabel) verschleißt – Ersatz liegt bei den Eltern</li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- Wichtige Tipps -->
+<div class="section-header" style="margin-top:60px;"><h2>💡 Wichtige Tipps für den Schulalltag</h2></div>
+<div class="sustainability-grid">
+<div class="eco-card">
+<h3>🔒 Datensouveränität</h3>
+<p>Nutze die <strong>Niedersächsische Bildungscloud (NBC)</strong> – browserbasiert, keine Daten lokal gespeichert, funktioniert auf jedem Gerät.</p>
+</div>
+<div class="eco-card">
+<h3>📵 Kein Smartphone</h3>
+<p>Smartphones sind im Unterricht <strong>nicht geeignet</strong> – kleines Display, Ablenkung durch Benachrichtigungen, Risiko für Sehnerv & Muskeln.</p>
+</div>
+<div class="eco-card">
+<h3>⚖️ Neutral bleiben</h3>
+<p>Lehrkräfte sollen keine Markennamen nennen. Sag einfach <strong>„Tablet"</strong> oder <strong>„Notebook"</strong> – keine Werbung für einzelne Firmen!</p>
+</div>
+<div class="eco-card">
+<h3>🔋 Jeden Tag laden</h3>
+<p><strong>Zuhause vollständig aufladen</strong> – ein leeres Gerät gilt als Verstoß gegen die Nutzungsregeln und kann Auswirkungen auf Noten haben.</p>
+</div>
+<div class="eco-card">
+<h3>🛡️ MDM-Schutz</h3>
+<p>Alle Geräte sind im <strong>Mobile Device Management</strong> eingebunden – bei Diebstahl kann das Gerät gesperrt & aus der Ferne gelöscht werden.</p>
+</div>
+<div class="eco-card">
+<h3>📋 Quelle</h3>
+<p>Handreichung „Schule auf dem Weg der Bildung in der digital geprägten Welt" · Band 1 SchifT · <a href="https://bildungsportal-niedersachsen.de" target="_blank">bildungsportal-niedersachsen.de</a></p>
+</div>
+</div>
+
+</section>
+
 <footer>
 <p style="font-size:1.05rem;font-weight:700;margin-bottom:12px;">EGN Technikscouts Nordhorn</p>
 <p>© 2026 – Dein Guide für digitale Bildung</p>
@@ -536,13 +685,24 @@ EGN<span class="logo-text">TECHNIKSCOUTS</span>
 </footer>
 
 <script>
-  function showPage(pageId){
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-  document.getElementById(pageId).classList.add('active');
-  document.getElementById('link-' + pageId).classList.add('active');
-  window.scrollTo({top: 0, behavior: 'smooth'});
+(function(){
+var c=document.getElementById('stars');
+for(var i=0;i<160;i++){
+var s=document.createElement('div'); s.className='star';
+var sz=Math.random()*2.5+0.5;
+s.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;--d:'+(2+Math.random()*4)+'s;animation-delay:-'+(Math.random()*5)+'s';
+c.appendChild(s);
 }
+})();
+
+function showPage(pageId){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+document.getElementById(pageId).classList.add('active');
+document.getElementById('link-'+pageId).classList.add('active');
+window.scrollTo({top:0,behavior:'smooth'});
+}
+
 
 const curriculum = [
   {
@@ -554,8 +714,8 @@ const curriculum = [
         { id: "info_9_3", title: "Projektphase", duration: "4 Wochen", absprachen: ["Algorithmus zur Steuerung einer technischen Komponente implementieren"], konkret: ["Eigene Problemstellung umsetzen","Sensoren & Aktoren nutzen","Calliope + Bozon-Kit / DoBot"], lernfelder: ["Algorithmisieren & Implementieren","Technische Realisierung automatisierter Prozesse"] }
       ]},
       { id: "kl10", label: "Jahrgang 10", sub: "Halbjahr 10.1", topics: [
-        { id: "info_10_1", title: "Daten und ihre Spuren / Internet", duration: "5–6 Wochen", absprachen: ["Dezentraler Aufbau des Internets","Komponenten: Client, Server, Router, DNS","Rechtliche Rahmenbedingungen persönlicher Daten"], konkret: ["„Internetversteher"","Netzwerksimulation mit Filius","Datenschutz: Fallbeispiele sozialer Netzwerke","Einführung Sequenzdiagramme"], lernfelder: ["Daten und ihre Spuren","Aufbau von Netzwerken (Schwerpunkt Internet)"] },
-        { id: "info_10_2", title: "Algorithmisches Problemlösen", duration: "5–6 Wochen", absprachen: ["Handlungsabläufe aus der Lebenswelt benennen & beschreiben"], konkret: ["Alltagsbeispiele","Blockbasierte Programmierung (Code-it / Snap!)","Einführung Tracetabelle","Datenstruktur „Liste""], lernfelder: ["Algorithmisches Problemlösen","Algorithmisieren & Implementieren"] },
+        { id: "info_10_1", title: "Daten und ihre Spuren / Internet", duration: "5–6 Wochen", absprachen: ["Dezentraler Aufbau des Internets","Komponenten: Client, Server, Router, DNS","Rechtliche Rahmenbedingungen persönlicher Daten"], konkret: ["„Internetversteher\"","Netzwerksimulation mit Filius","Datenschutz: Fallbeispiele sozialer Netzwerke","Einführung Sequenzdiagramme"], lernfelder: ["Daten und ihre Spuren","Aufbau von Netzwerken (Schwerpunkt Internet)"] },
+        { id: "info_10_2", title: "Algorithmisches Problemlösen", duration: "5–6 Wochen", absprachen: ["Handlungsabläufe aus der Lebenswelt benennen & beschreiben"], konkret: ["Alltagsbeispiele","Blockbasierte Programmierung (Code-it / Snap!)","Einführung Tracetabelle","Datenstruktur „Liste\""], lernfelder: ["Algorithmisches Problemlösen","Algorithmisieren & Implementieren"] },
         { id: "info_10_3", title: "Programmierprojekt", duration: "3–4 Wochen", absprachen: ["Informellen Algorithmus zu einem gegebenen Problem entwickeln"], konkret: ["Blockbasierte App-Entwicklung (Code-it)","Erstellung einer Arbeitsdokumentation"], lernfelder: ["Algorithmisieren & Implementieren"] }
       ]},
       { id: "ef", label: "Einführungsphase (EF)", sub: "Jahrgang 11", topics: [
@@ -725,33 +885,25 @@ let currActiveClass   = null;
 let currActiveSubject = null;
 let currSearchQuery   = '';
 
-function currSaveChecked() { 
-  localStorage.setItem('egn_curr_checked', JSON.stringify(currChecked)); 
-}
+function currSaveChecked() { localStorage.setItem('egn_curr_checked', JSON.stringify(currChecked)); }
 
 function currBuildSubjectPills() {
   const row   = document.getElementById('curr-subjectRow');
   const pills = document.getElementById('curr-subjectPills');
-  if (!currActiveClass) { 
-    row.style.display = 'none'; 
-    return; 
-  }
+  if (!currActiveClass) { row.style.display = 'none'; return; }
   const available = classesBySubject[currActiveClass] || [];
-  if (available.length === 0) { 
-    row.style.display = 'none'; 
-    return; 
-  }
+  if (available.length === 0) { row.style.display = 'none'; return; }
   pills.innerHTML = available.map(s => {
     const meta = subjectMeta[s];
     const isSel = currActiveSubject === s;
-    return `<button class="curr-pill${isSel ? ' ' + meta.selClass : ''}" data-subject="${s}">${meta.label}</button>`;
+    return `<button class="curr-pill${isSel ? ' '+meta.selClass : ''}" data-subject="${s}">${meta.label}</button>`;
   }).join('');
   row.style.display = 'flex';
 }
 
 function currHighlight(text, q) {
   if (!q) return text;
-  const re = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+  const re = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
   return text.replace(re, '<mark>$1</mark>');
 }
 
@@ -759,9 +911,9 @@ function currTopicMatches(topic, q) {
   if (!q) return true;
   const lo = q.toLowerCase();
   return topic.title.toLowerCase().includes(lo) ||
-    (topic.lernfelder || []).some(x => x.toLowerCase().includes(lo)) ||
-    (topic.absprachen || []).some(x => x.toLowerCase().includes(lo)) ||
-    (topic.konkret || []).some(x => x.toLowerCase().includes(lo));
+    (topic.lernfelder||[]).some(x=>x.toLowerCase().includes(lo)) ||
+    (topic.absprachen||[]).some(x=>x.toLowerCase().includes(lo)) ||
+    (topic.konkret||[]).some(x=>x.toLowerCase().includes(lo));
 }
 
 const topicLinks = {
@@ -798,75 +950,59 @@ function currRender() {
   const emptyEl = document.getElementById('curr-emptyState');
 
   if (!currActiveClass) {
-    prompt.style.display = 'block'; 
-    prompt.querySelector('.step1').style.display = ''; 
-    prompt.querySelector('.step2').style.display = 'none';
-    emptyEl.style.display = 'none'; 
-    main.querySelectorAll('.curr-subject-block').forEach(e => e.remove());
-    currUpdateStats(0, 0, {}); 
-    return;
+    prompt.style.display='block'; prompt.querySelector('.step1').style.display=''; prompt.querySelector('.step2').style.display='none';
+    emptyEl.style.display='none'; main.querySelectorAll('.curr-subject-block').forEach(e=>e.remove());
+    currUpdateStats(0,0,{}); return;
   }
   if (!currActiveSubject) {
-    prompt.style.display = 'block'; 
-    prompt.querySelector('.step1').style.display = 'none'; 
-    prompt.querySelector('.step2').style.display = '';
-    emptyEl.style.display = 'none'; 
-    main.querySelectorAll('.curr-subject-block').forEach(e => e.remove());
-    currUpdateStats(0, 0, {}); 
-    return;
+    prompt.style.display='block'; prompt.querySelector('.step1').style.display='none'; prompt.querySelector('.step2').style.display='';
+    emptyEl.style.display='none'; main.querySelectorAll('.curr-subject-block').forEach(e=>e.remove());
+    currUpdateStats(0,0,{}); return;
   }
-  prompt.style.display = 'none';
+  prompt.style.display='none';
 
-  const subj = curriculum.find(s => s.subject === currActiveSubject);
-  if (!subj) { 
-    emptyEl.style.display = 'block'; 
-    return; 
-  }
-  const cls = subj.classes.find(c => c.id === currActiveClass);
-  if (!cls) { 
-    emptyEl.style.display = 'block'; 
-    return; 
-  }
+  const subj = curriculum.find(s=>s.subject===currActiveSubject);
+  if (!subj) { emptyEl.style.display='block'; return; }
+  const cls = subj.classes.find(c=>c.id===currActiveClass);
+  if (!cls) { emptyEl.style.display='block'; return; }
 
-  const matchingTopics = cls.topics.filter(t => currTopicMatches(t, currSearchQuery));
-  if (matchingTopics.length === 0) {
-    emptyEl.style.display = 'block'; 
-    main.querySelectorAll('.curr-subject-block').forEach(e => e.remove());
-    currUpdateStats(0, 0, {}); 
-    return;
+  const matchingTopics = cls.topics.filter(t=>currTopicMatches(t,currSearchQuery));
+  if (matchingTopics.length===0) {
+    emptyEl.style.display='block'; main.querySelectorAll('.curr-subject-block').forEach(e=>e.remove());
+    currUpdateStats(0,0,{}); return;
   }
-  emptyEl.style.display = 'none';
+  emptyEl.style.display='none';
 
-  let total = 0, done = 0, topicsHtml = '';
+  let total=0, done=0, topicsHtml='';
   for (const topic of matchingTopics) {
     total++;
-    const isDone = !!currChecked[topic.id];
-    if (isDone) done++;
-    topicsHtml += `
-      <div class="curr-topic${isDone ? ' done' : ''}" id="curr-topic-${topic.id}">
+    const isDone=!!currChecked[topic.id];
+    if(isDone) done++;
+    topicsHtml+=`
+      <div class="curr-topic${isDone?' done':''}" id="curr-topic-${topic.id}">
         <div class="curr-topic-header" onclick="currToggleDetails('${topic.id}')">
-          <input type="checkbox" class="curr-topic-check" id="curr-chk-${topic.id}" ${isDone ? 'checked' : ''}
+          <input type="checkbox" class="curr-topic-check" id="curr-chk-${topic.id}" ${isDone?'checked':''}
             onclick="event.stopPropagation();currToggleCheck('${topic.id}')">
-          <span class="curr-topic-title">${currHighlight(topic.title, currSearchQuery)}</span>
+          <span class="curr-topic-title">${currHighlight(topic.title,currSearchQuery)}</span>
           <div class="curr-topic-meta">
-            ${topic.klausur ? '<span class="curr-klausur-tag">✏️ Klassenarbeit</span>' : ''}
-            ${topic.duration && topic.duration !== '–' ? `<span class="curr-duration-tag">⏱ ${topic.duration}</span>` : ''}
+            ${topic.klausur?'<span class="curr-klausur-tag">✏️ Klassenarbeit</span>':''}
+            ${topic.duration&&topic.duration!=='–'?`<span class="curr-duration-tag">⏱ ${topic.duration}</span>`:''}
             <svg class="curr-collapse-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
         </div>
         <div class="curr-topic-details" id="curr-details-${topic.id}">
           <div class="curr-detail-grid">
-            <div class="curr-detail-box"><h4>Lernfelder</h4><ul>${(topic.lernfelder || []).map(l => `<li>${currHighlight(l, currSearchQuery)}</li>`).join('')}</ul></div>
-            <div class="curr-detail-box"><h4>Fachliche Absprachen</h4><ul>${(topic.absprachen || []).map(a => `<li>${currHighlight(a, currSearchQuery)}</li>`).join('')}</ul></div>
-            <div class="curr-detail-box"><h4>Konkretisierung</h4><ul>${(topic.konkret || []).map(k => `<li>${currHighlight(k, currSearchQuery)}</li>`).join('')}</ul></div>
+            <div class="curr-detail-box"><h4>Lernfelder</h4><ul>${(topic.lernfelder||[]).map(l=>`<li>${currHighlight(l,currSearchQuery)}</li>`).join('')}</ul></div>
+            <div class="curr-detail-box"><h4>Fachliche Absprachen</h4><ul>${(topic.absprachen||[]).map(a=>`<li>${currHighlight(a,currSearchQuery)}</li>`).join('')}</ul></div>
+            <div class="curr-detail-box"><h4>Konkretisierung</h4><ul>${(topic.konkret||[]).map(k=>`<li>${currHighlight(k,currSearchQuery)}</li>`).join('')}</ul></div>
           </div>
           ${currBuildLinksHtml(topic)}
         </div>
       </div>`;
   }
 
-  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
-  const blockHtml = `
+  const pct=total>0?Math.round((done/total)*100):0;
+  const blockHtml=`
     <div class="curr-subject-block" data-subject="${subj.subject}">
       <div class="curr-subject-header">
         <span class="curr-subject-badge curr-badge-${subj.subject}">${subj.label} – ${cls.label}</span>
@@ -877,90 +1013,75 @@ function currRender() {
       </div>
     </div>`;
 
-  main.querySelectorAll('.curr-subject-block').forEach(e => e.remove());
-  main.insertAdjacentHTML('afterbegin', blockHtml);
-  currUpdateStats(total, done, { [currActiveSubject]: { total, done } });
+  main.querySelectorAll('.curr-subject-block').forEach(e=>e.remove());
+  main.insertAdjacentHTML('afterbegin',blockHtml);
+  currUpdateStats(total,done,{[currActiveSubject]:{total,done}});
 }
 
-function currUpdateStats(total, done, bySubj) {
-  document.getElementById('curr-statDone').textContent = done;
-  document.getElementById('curr-statTotal').textContent = total;
-  const pct = total > 0 ? (done / total) * 100 : 0;
-  document.getElementById('curr-progressFill').style.width = pct + '%';
-  ['info', 'chem', 'de', 'lat', 'math', 'en', 'fr', 'mu'].forEach(s => {
-    const key = s.charAt(0).toUpperCase() + s.slice(1);
-    const item = document.getElementById('curr-stat' + key + 'Item');
-    const span = document.getElementById('curr-stat' + key);
-    if (!item || !span) return;
-    if (bySubj[s]) {
-      item.style.display = 'flex';
-      span.textContent = `${bySubj[s].done}/${bySubj[s].total}`;
-    } else {
-      item.style.display = 'none';
-    }
+function currUpdateStats(total,done,bySubj) {
+  document.getElementById('curr-statDone').textContent=done;
+  document.getElementById('curr-statTotal').textContent=total;
+  const pct=total>0?(done/total)*100:0;
+  document.getElementById('curr-progressFill').style.width=pct+'%';
+  ['info','chem','de','lat','math','en','fr','mu'].forEach(s=>{
+    const key=s.charAt(0).toUpperCase()+s.slice(1);
+    const item=document.getElementById('curr-stat'+key+'Item');
+    const span=document.getElementById('curr-stat'+key);
+    if(!item||!span) return;
+    if(bySubj[s]){item.style.display='flex';span.textContent=`${bySubj[s].done}/${bySubj[s].total}`;}
+    else{item.style.display='none';}
   });
 }
 
 function currToggleCheck(id) {
-  currChecked[id] = !currChecked[id];
-  if (!currChecked[id]) delete currChecked[id];
+  currChecked[id]=!currChecked[id];
+  if(!currChecked[id]) delete currChecked[id];
   currSaveChecked();
-  const topicEl = document.getElementById('curr-topic-' + id);
-  if (topicEl) topicEl.classList.toggle('done', !!currChecked[id]);
-  let total = 0, done = 0;
-  document.querySelectorAll('.curr-topic-check').forEach(chk => {
-    total++;
-    if (chk.checked) done++;
-  });
-  if (currActiveSubject) currUpdateStats(total, done, { [currActiveSubject]: { total, done } });
+  const topicEl=document.getElementById('curr-topic-'+id);
+  if(topicEl) topicEl.classList.toggle('done',!!currChecked[id]);
+  let total=0,done=0;
+  document.querySelectorAll('.curr-topic-check').forEach(chk=>{total++;if(chk.checked)done++;});
+  if(currActiveSubject) currUpdateStats(total,done,{[currActiveSubject]:{total,done}});
 }
 
 function currToggleDetails(id) {
-  const det = document.getElementById('curr-details-' + id);
-  if (det) det.classList.toggle('open');
+  const det=document.getElementById('curr-details-'+id);
+  if(det) det.classList.toggle('open');
 }
 
-document.getElementById('curr-classPills').addEventListener('click', e => {
-  const btn = e.target.closest('[data-class]');
-  if (!btn) return;
-  const cls = btn.dataset.class;
-  if (currActiveClass === cls) {
-    currActiveClass = null;
-    currActiveSubject = null;
-  } else {
-    currActiveClass = cls;
-    const available = classesBySubject[cls] || [];
-    if (!available.includes(currActiveSubject)) currActiveSubject = null;
+document.getElementById('curr-classPills').addEventListener('click',e=>{
+  const btn=e.target.closest('[data-class]');
+  if(!btn) return;
+  const cls=btn.dataset.class;
+  if(currActiveClass===cls){currActiveClass=null;currActiveSubject=null;}
+  else{
+    currActiveClass=cls;
+    const available=classesBySubject[cls]||[];
+    if(!available.includes(currActiveSubject)) currActiveSubject=null;
   }
-  document.querySelectorAll('#curr-classPills .curr-pill').forEach(p => {
-    p.classList.toggle('sel-class', p.dataset.class === currActiveClass);
-  });
-  currBuildSubjectPills(); 
-  currRender();
+  document.querySelectorAll('#curr-classPills .curr-pill').forEach(p=>{p.classList.toggle('sel-class',p.dataset.class===currActiveClass);});
+  currBuildSubjectPills(); currRender();
 });
 
-document.getElementById('curr-subjectPills').addEventListener('click', e => {
-  const btn = e.target.closest('[data-subject]');
-  if (!btn) return;
-  const subj = btn.dataset.subject;
-  currActiveSubject = currActiveSubject === subj ? null : subj;
-  currBuildSubjectPills(); 
-  currRender();
+document.getElementById('curr-subjectPills').addEventListener('click',e=>{
+  const btn=e.target.closest('[data-subject]');
+  if(!btn) return;
+  const subj=btn.dataset.subject;
+  currActiveSubject=currActiveSubject===subj?null:subj;
+  currBuildSubjectPills(); currRender();
 });
 
-document.getElementById('curr-searchInput').addEventListener('input', e => {
-  currSearchQuery = e.target.value.trim(); 
-  currRender();
+document.getElementById('curr-searchInput').addEventListener('input',e=>{
+  currSearchQuery=e.target.value.trim(); currRender();
 });
 
-document.getElementById('curr-clearBtn').addEventListener('click', () => {
-  if (!confirm('Alle Abhakungen zurücksetzen?')) return;
-  currChecked = {}; 
-  currSaveChecked(); 
-  currRender();
+document.getElementById('curr-clearBtn').addEventListener('click',()=>{
+  if(!confirm('Alle Abhakungen zurücksetzen?')) return;
+  currChecked={}; currSaveChecked(); currRender();
 });
 
 currRender();
+
 </script>
 </body>
 </html>
