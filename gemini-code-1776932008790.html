@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technikscouts | EGN</title>
+    <meta name="description" content="Die Technikscouts am EGN – Wir gestalten die digitale Zukunft unserer Schule.">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        /* Grunddesign & Weltraum-Hintergrund */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            color: #e0e0e0;
+            background: radial-gradient(circle at bottom, #1B2735 0%, #090A0F 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* Sterne-Effekt mit Box-Shadow */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0;
+            width: 2px; height: 2px;
+            background: transparent;
+            box-shadow: 10vw 20vh #fff, 35vw 45vh #fff, 70vw 15vh #fff, 85vw 80vh #fff, 20vw 90vh #fff, 50vw 50vh #fff, 15vw 10vh #fff, 90vw 30vh #fff;
+            animation: stars-animation 100s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes stars-animation {
+            from { transform: translateY(0); }
+            to { transform: translateY(-1000px); }
+        }
+
+        /* Container-Styling (Glassmorphism) */
+        .container {
+            max-width: 800px;
+            margin: 40px 20px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+        }
+
+        /* Überschrift */
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: #00d4ff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+        }
+
+        /* Textgestaltung */
+        p {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        em {
+            font-style: normal;
+            display: block;
+        }
+
+        /* Akzent-Elemente */
+        .highlight {
+            color: #00d4ff;
+            font-weight: bold;
+        }
+
+        /* Responsivität */
+        @media (max-width: 600px) {
+            .container { padding: 20px; }
+            h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 id="die-technikscouts--zukunft-gestalten-am-egn">Die Technikscouts – Zukunft gestalten am EGN</h1>
+    
+    <p>Wir sind die <span class="highlight">Technikscouts</span> unserer Schule, dem EGN, und haben es uns zur Aufgabe gemacht, unsere Schule aktiv mitzugestalten und zu verbessern. Dabei liegt unser Fokus besonders auf dem Einsatz moderner Technik, um den Schulalltag für alle einfacher, effizienter und spannender zu machen.</p>
+
+    <p>In einer Zeit, in der digitale Medien und Technologien eine immer größere Rolle spielen, sehen wir großes Potenzial, auch unsere Schule weiterzuentwickeln. Unser Ziel ist es, das EGN nicht nur moderner auszustatten, sondern auch neue Ideen einzubringen, die den Unterricht und das Lernen nachhaltig verbessern können.</p>
+
+    <p>Wir unterstützen bei technischen Fragen, helfen bei Problemen mit digitalen Geräten und setzen uns dafür ein, dass Schülerinnen und Schüler sowie Lehrkräfte besser mit moderner Technik arbeiten können. Gleichzeitig sammeln wir Vorschläge und Ideen aus der Schulgemeinschaft, um herauszufinden, wo Verbesserungen nötig sind.</p>
+
+    <p>Für die Zukunft planen wir, noch stärker an Projekten zu arbeiten, die das EGN digital voranbringen. Dazu gehören zum Beispiel die Einführung neuer Tools, die Verbesserung der technischen Ausstattung und kreative Lösungen, um den Unterricht interaktiver zu gestalten.</p>
+
+    <p>Als Technikscouts möchten wir <span class="highlight">Verantwortung übernehmen</span> und aktiv dazu beitragen, unsere Schule fit für die Zukunft zu machen. Gemeinsam können wir das EGN zu einem Ort entwickeln, an dem Technik sinnvoll eingesetzt wird und allen zugutekommt.</p>
+</div>
+
+</body>
+</html>
