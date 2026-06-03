@@ -5,3 +5,4 @@
 fct crdir "assets" on ""user""/technikscouts/()
 mark hex (16s)
 end script
+mark file
