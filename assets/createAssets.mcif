@@ -1,0 +1,7 @@
+// this is a mci function for creating a directory in GitHub
+// this file was created automatically with terminal on "MS Surface Go4" at timestamp "2026June3z144854"
+// labeling files via hexcode
+// Do not edit the file, else file will be deleted
+fct crdir "assets" on ""user""/technikscouts/()
+mark hex (16s)
+end script
