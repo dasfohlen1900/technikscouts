@@ -50,6 +50,26 @@ width: 14px; height: 14px; border-radius: 50%;
 background: rgba(200,190,100,.3);
 box-shadow: 20px 12px 0 rgba(200,190,100,.2), 8px 28px 0 rgba(200,190,100,.15);
 }
+.butt {
+  background-color: #0b2a4a;   /* dunkles Blau */
+  color: #ffffff;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.butt:hover {
+  background-color: #123b6b;   /* etwas heller beim Hover */
+  transform: translateY(-1px);
+}
+
+.butt:active {
+  background-color: #081d33;
+  transform: translateY(0);
+}
 
 .rocket-wrap {
 position: fixed; z-index: 0; pointer-events: none;
@@ -405,7 +425,7 @@ color: #b3e5fc; text-decoration: none; font-weight: 500; transition: all .15s; w
 <a onclick="showPage('curriculum')" id="link-curriculum">Curriculum</a>
 <a onclick="showPage('schift')" id="link-schift">SchifT</a>
 <a onclick="showPage('egnlinks')" id="link-egnl">EGN Links</a>
-
+<a onclick="showPage"('raumplan')" id="">Raumplan</a>
 <a onclick="showPage('handynutzung')" id="link-handynutzung">Handynutzung</a>
 <a onclick="showPage('support')" id="link-support">Support</a>
 <a onclick="showPage('spiele')" id="link-spiele">Spiele und mehr</a>
@@ -641,6 +661,14 @@ color: #b3e5fc; text-decoration: none; font-weight: 500; transition: all .15s; w
 <div class="eco-card"><h3>📋 Quelle</h3><p>Handreichung „SchifT" Band 1 · <a href="https://bildungsportal-niedersachsen.de" target="_blank">bildungsportal-niedersachsen.de</a></p></div>
 </div>
 </section>
+  <section id="raumplan" class="page">
+    <div class="hero">
+    <h1>Hier entsteht ein interaktiver Raum- und Lageplan, um Räume in allen Gebäuden schnell zu finden</h1>
+    <a class="butt" href="/Raumplan EGN.docx">Raumliste öffnen (*.docx)</a>
+    <a class="butt" href="/Raumplan EGN.pdf">Raumliste öffnen (*.pdf)</a>
+    
+    </div>
+  </section>
   // ------------
   // Links
   // ------------
