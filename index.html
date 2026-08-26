@@ -70,6 +70,10 @@ box-shadow: 20px 12px 0 rgba(200,190,100,.2), 8px 28px 0 rgba(200,190,100,.15);
   background-color: #081d33;
   transform: translateY(0);
 }
+.butt[disabled] {
+  pointer-events: none;
+  opacity: 0.5;
+}
 
 .rocket-wrap {
 position: fixed; z-index: 0; pointer-events: none;
@@ -664,8 +668,8 @@ color: #b3e5fc; text-decoration: none; font-weight: 500; transition: all .15s; w
   <section id="raumplan" class="page">
     <div class="hero">
     <h1>Hier entsteht ein interaktiver Raum- und Lageplan, um Räume in allen Gebäuden schnell zu finden</h1>
-    <a class="butt" href="/Raumplan EGN.docx">Raumliste öffnen (*.docx)</a>
-    <a class="butt" href="/Raumplan EGN.pdf" disabled>Raumliste öffnen (*.pdf)</a>
+    <a class="butt" href="/Raumplan EGN.docx" disabled>Raumliste öffnen (*.docx)</a>
+    <a class="butt" href="/Raumplan EGN.pdf">Raumliste öffnen (*.pdf)</a>
     
     </div>
   </section>
