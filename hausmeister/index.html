@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Geräte &amp; Schultafelprüfung – Prüfnachweis (DGUV 202-021 / BetrSichV)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1e3a8a; --primary-light: #eff6ff;
+    --success: #15803d; --success-bg: #dcfce7;
+    --warning: #b45309; --warning-bg: #fef3c7;
+    --danger: #b91c1c; --danger-bg: #fee2e2;
+    --gray-50: #f8fafc; --gray-100: #f1f5f9; --gray-200: #e2e8f0; --gray-700: #334155; --gray-900: #0f172a;
+  }
+  * { box-sizing: border-box; font-family: Barlow, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  body { margin: 0; background: var(--gray-100); color: var(--gray-900); }
+  header { background: var(--primary); color: white; padding: 1.2rem 2rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; }
+  header h1 { margin: 0; font-size: 1.35rem; }
+  header p { margin: 0.2rem 0 0; font-size: 0.85rem; opacity: 0.85; }
+  .header-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+  button { cursor: pointer; border: none; border-radius: 6px; padding: 0.55rem 1rem; font-size: 0.88rem; font-weight: 600; transition: 0.15s; }
+  .btn-light { background: white; color: var(--primary); padding: 0.45rem 0.8rem; font-size: 0.82rem; }
+  .btn-light:hover { background: var(--gray-200); }
+  .btn-primary { background: var(--primary); color: white; }
+  .btn-primary:hover { background: #1e40af; }
+  .btn-success { background: var(--success); color: white; }
+  .btn-danger { background: var(--danger); color: white; }
+  .btn-outline { background: transparent; border: 1px solid #cbd5e1; color: var(--gray-700); }
+  .btn-outline:hover { background: var(--gray-100); }
+  .btn-sm { padding: 0.3rem 0.6rem; font-size: 0.78rem; }
+  .container { max-width: 1500px; margin: 1.5rem auto; padding: 0 1rem; }
+  h1, h2, h3, h4, h5, h6 { font-family: "DM Sans", sans-serif }
+
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+  .kpi-card { background: white; padding: 1rem 1.25rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border-left: 4px solid var(--primary); }
+  .kpi-card.ok { border-left-color: var(--success); }
+  .kpi-card.warn { border-left-color: var(--warning); }
+  .kpi-card.err { border-left-color: var(--danger); }
+  .kpi-title { font-size: 0.78rem; color: var(--gray-700); text-transform: uppercase; letter-spacing: 0.03em; }
+  .kpi-value { font-size: 1.8rem; font-weight: 700; margin-top: 0.25rem; }
+
+  .legal-box { background: white; border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; border: 1px solid var(--gray-200); font-size: 0.88rem; line-height: 1.5; }
+  .legal-box summary { font-weight: 700; color: var(--primary); cursor: pointer; }
+  .legal-box table { border-collapse: collapse; margin: 0.6rem 0; font-size: 0.84rem; }
+  .legal-box th, .legal-box td { border: 1px solid var(--gray-200); padding: 0.35rem 0.6rem; text-align: left; }
+
+  .filter-bar { background: white; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+  .filter-bar input, .filter-bar select { padding: 0.5rem 0.75rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem; }
+  .filter-bar input { flex: 1; min-width: 220px; }
+  .count { font-size: 0.82rem; color: var(--gray-700); }
+
+  .table-wrap { background: white; border-radius: 8px; overflow-x: auto; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  table.main { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.86rem; }
+  table.main th { background: var(--gray-50); padding: 0.8rem 0.7rem; border-bottom: 2px solid var(--gray-200); color: var(--gray-700); white-space: nowrap; }
+  table.main td { padding: 0.65rem 0.7rem; border-bottom: 1px solid var(--gray-200); vertical-align: middle; }
+  table.main tr:hover { background: var(--primary-light); }
+  tr.locked { background: #fff5f5; }
+  .badge { display: inline-block; padding: 0.2rem 0.55rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600; white-space: nowrap; margin-top: 2px; }
+  .b-open { background: var(--gray-200); color: var(--gray-700); }
+  .b-ok { background: var(--success-bg); color: var(--success); }
+  .b-soon, .b-mangel { background: var(--warning-bg); color: var(--warning); }
+  .b-over, .b-gesperrt { background: var(--danger-bg); color: var(--danger); }
+  .b-elec { background: #e0e7ff; color: #3730a3; }
+  .small { font-size: 0.78rem; color: #475569; }
+  .actions { display: flex; gap: 0.3rem; flex-wrap: nowrap; }
+  .empty { padding: 2rem; text-align: center; color: #64748b; }
+
+  .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); display: none; justify-content: center; align-items: center; padding: 1rem; z-index: 1000; }
+  .modal-backdrop.open { display: flex; }
+  .modal { background: white; border-radius: 10px; max-width: 780px; width: 100%; max-height: 92vh; overflow-y: auto; padding: 1.5rem; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); }
+  .modal.narrow { max-width: 460px; }
+  .modal-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--gray-200); padding-bottom: 1rem; margin-bottom: 1rem; gap: 1rem; }
+  .modal-header h2 { margin: 0; font-size: 1.2rem; color: var(--primary); }
+  .info { background: var(--primary-light); padding: 0.75rem; border-radius: 6px; font-size: 0.84rem; margin-bottom: 1rem; line-height: 1.45; }
+  .info.warn { background: var(--warning-bg); color: #78350f; }
+  .checklist-item { display: flex; align-items: flex-start; gap: 0.65rem; padding: 0.55rem; border: 1px solid var(--gray-200); border-radius: 6px; margin-bottom: 0.4rem; background: var(--gray-50); cursor: pointer; font-size: 0.9rem; }
+  .checklist-item input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--success); flex-shrink: 0; }
+  .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin-top: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.35rem; }
+  .form-group label { font-size: 0.82rem; font-weight: 600; color: var(--gray-700); }
+  .form-group input, .form-group select, .form-group textarea { padding: 0.55rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem; font-family: inherit; }
+  .readonly-date { background: var(--gray-100); font-weight: 700; color: var(--primary); }
+  .modal-footer { display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--gray-200); flex-wrap: wrap; }
+  .error { color: var(--danger); font-size: 0.85rem; font-weight: 600; margin-top: 0.75rem; min-height: 1.2em; }
+  table.hist { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  table.hist th, table.hist td { border-bottom: 1px solid var(--gray-200); padding: 0.45rem; text-align: left; vertical-align: top; }
+
+  #toast { position: fixed; bottom: 1.2rem; left: 50%; transform: translateX(-50%); background: var(--gray-900); color: white; padding: 0.7rem 1.2rem; border-radius: 8px; font-size: 0.88rem; display: none; z-index: 2000; }
+
+  .login-gate { position: fixed; inset: 0; z-index: 3000; display: flex; align-items: center; justify-content: center; padding: 1rem; background: rgba(15, 23, 42, 0.96); }
+  .login-gate[hidden] { display: none; }
+  .login-card { width: 100%; max-width: 390px; padding: 1.5rem; background: white; border-radius: 10px; box-shadow: 0 20px 30px rgba(0,0,0,.25); }
+  .login-card h2 { margin-top: 0; color: var(--primary); }
+  .login-card .form-group { margin: 1rem 0; }
+  .login-error { min-height: 1.2rem; margin-top: .75rem; color: var(--danger); font-size: .85rem; }
+
+  @media print {
+    header .header-actions, .filter-bar, .no-print, .legal-box { display: none !important; }
+    body { background: white; }
+    .table-wrap { box-shadow: none; }
+    header { background: white; color: black; padding: 0 0 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div id="loginGate" class="login-gate">
+  <div class="login-card">
+    <h2>Anmeldung – Testbetrieb</h2>
+    <form onsubmit="doLogin(event)">
+      <div class="form-group">
+        <label for="loginName">Benutzername</label>
+        <input id="loginName" autocomplete="username" required>
+      </div>
+      <div class="form-group">
+        <label for="loginPassword">Passwort</label>
+        <input id="loginPassword" type="password" autocomplete="current-password" required>
+      </div>
+      <button class="btn-primary" type="submit">Anmelden</button>
+      <div id="loginError" class="login-error" role="alert"></div>
+    </form>
+  </div>
+</div>
+
+<header>
+  <div>
+    <h1>Geräte &amp; Tafelprüfung – Prüfnachweis</h1>
+    <p>BetrSichV §§ 10, 14 · DGUV Information 202-021 · elektrische Prüfung nach DGUV Vorschrift 3</p>
+  </div>
+  <div class="header-actions">
+    <button class="btn-light" onclick="openObjectModal(null)">+ Neues Objekt</button>
+    <button class="btn-light" onclick="exportOverviewCSV()">CSV Übersicht</button>
+    <button class="btn-light" onclick="exportHistoryCSV()">CSV Prüfverlauf</button>
+    <button class="btn-light" onclick="exportBackup()">Backup (JSON)</button>
+    <button class="btn-light" onclick="document.getElementById('fileImport').click()">Backup laden</button>
+    <button class="btn-light" onclick="window.print()">Drucken / PDF</button>
+    <input type="file" id="fileImport" accept=".json,application/json" style="display:none" onchange="importBackup(event)">
+    <span id="sessionUser" style="align-self:center;color:white;font-size:.85rem"></span>
+    <button class="btn-light" onclick="logout()">Abmelden</button>
+  </div>
+</header>
+
+<div class="container">
+  <div class="kpi-grid">
+    <div class="kpi-card"><div class="kpi-title">Gesamtbestand</div><div class="kpi-value" id="kpiTotal">0</div></div>
+    <div class="kpi-card err"><div class="kpi-title">Überfällig</div><div class="kpi-value" id="kpiOver">0</div></div>
+    <div class="kpi-card warn"><div class="kpi-title">Fällig in 30 Tagen</div><div class="kpi-value" id="kpiSoon">0</div></div>
+    <div class="kpi-card warn"><div class="kpi-title">Mängel / Gesperrt</div><div class="kpi-value" id="kpiDefect">0</div></div>
+    <div class="kpi-card"><div class="kpi-title">Ohne Hauptuntersuchung</div><div class="kpi-value" id="kpiNever">0</div></div>
+  </div>
+
+  <details class="legal-box">
+    <summary>Rechtsgrundlagen, Prüfarten &amp; Zuständigkeiten</summary>
+    <p>Die Tafel ist ein Arbeitsmittel. Nach § 14 BetrSichV muss sie wiederkehrend von einer <strong>befähigten Person</strong> geprüft werden. Umfang und Fristen legt der <strong>Schulträger</strong> anhand der Gefährdungsbeurteilung fest (§ 3 BetrSichV). Die DGUV Information 202-021 unterscheidet:</p>
+    <table>
+      <tr><th>Prüfart</th><th>Turnus (Beispiel aus der Schrift)</th><th>Prüfende Person</th></tr>
+      <tr><td>Nutzungs-Check</td><td>bei jeder Nutzung</td><td>Lehrkraft (meldet Mängel an Schulleitung)</td></tr>
+      <tr><td>Sicht- und Funktionsprüfung</td><td>nach Bedarf, z. B. vierteljährlich</td><td>Schulhausmeister/-in mit handwerklicher Ausbildung und Unterweisung</td></tr>
+      <tr><td>Hauptuntersuchung</td><td>nach Bedarf, z. B. jährlich</td><td>befähigte Person (Fachfirma oder entsprechend ausgebildet)</td></tr>
+    </table>
+    <ul style="margin:0.4rem 0 0; padding-left:1.2rem;">
+      <li>Die Hauptuntersuchung schließt Seile und Ketten ein, ggf. mit freigelegten Revisionsöffnungen.</li>
+      <li><strong>Elektrische Prüfung (DGUV Vorschrift 3)</strong> bei motorisch betriebenen Tafeln: gesondert durch eine Elektrofachkraft. Hier nur der Termin wird erfasst.</li>
+      <li>Die Intervalle in dieser App sind Voreinstellungen. Verbindlich ist die Festlegung Ihres Schulträgers (idealerweise in einer Dienstanweisung).</li>
+      <li>Quelle: <a href="https://regelwerke.vbg.de/vbg_dguvi/di202-021/di202-021_4_.html" target="_blank" rel="noopener">DGUV Information 202-021, Kapitel 2 „Schultafelprüfung“</a></li>
+    </ul>
+  </details>
+
+  <div class="filter-bar">
+    <input type="text" id="searchInput" placeholder="Suche nach Raum (z. B. A403), Typ oder Bemerkung …" oninput="renderTable()">
+    <select id="filterBuilding" onchange="renderTable()"></select>
+    <select id="filterState" onchange="renderTable()">
+      <option value="">Alle Objekte</option>
+      <option value="over">Überfällig</option>
+      <option value="soon">Fällig in 30 Tagen</option>
+      <option value="neverHaupt">Ohne Hauptuntersuchung</option>
+      <option value="Mangel">Mangel festgestellt</option>
+      <option value="Gesperrt">Gesperrt / außer Betrieb</option>
+      <option value="Bestanden">Letzte Prüfung bestanden</option>
+    </select>
+    <span class="count" id="countInfo"></span>
+  </div>
+
+  <div class="table-wrap">
+    <table class="main">
+      <thead>
+        <tr>
+          <th>Nr.</th><th>Gebäude</th><th>Raum</th><th>Tafeltyp / Arbeitsmittel</th>
+          <th>Sicht- &amp; Funktionsprüfung</th><th>Hauptuntersuchung</th><th>Status (letzte Prüfung)</th>
+          <th class="no-print">Aktion</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+    <div class="empty" id="emptyInfo" style="display:none">Keine Objekte für diese Filter.</div>
+  </div>
+</div>
+
+<!-- Prüf-Modal -->
+<div class="modal-backdrop" id="checkModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <h2 id="modalTitle">Prüfprotokoll</h2>
+        <div id="modalSubtitle" class="small" style="margin-top:0.2rem;"></div>
+      </div>
+      <button class="btn-outline btn-sm" onclick="closeModal('checkModal')">✕</button>
+    </div>
+
+    <div class="form-group">
+      <label>Prüfart</label>
+      <select id="inpArt" onchange="refreshCheckForm()">
+        <option value="sicht">Sicht- und Funktionsprüfung (Hausmeister)</option>
+        <option value="haupt">Hauptuntersuchung (befähigte Person)</option>
+      </select>
+    </div>
+    <div class="info" id="artHint" style="margin-top:0.75rem;"></div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+      <strong>Prüfpunkte</strong>
+      <button type="button" class="btn-outline btn-sm" onclick="checkAllBoxes()">Alle abhaken ✓</button>
+    </div>
+    <div id="checklistContainer"></div>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Prüfer/-in</label>
+        <input type="text" id="inpPruefer">
+      </div>
+      <div class="form-group">
+        <label>Prüfintervall (Monate)</label>
+        <select id="inpIntervall" onchange="calcNextDate()"></select>
+      </div>
+      <div class="form-group">
+        <label>Prüfdatum</label>
+        <input type="date" id="inpPruefdatum" onchange="calcNextDate()">
+      </div>
+      <div class="form-group">
+        <label>Nächste Prüfung (automatisch)</label>
+        <input type="date" id="inpNaechstesDatum" class="readonly-date" readonly>
+      </div>
+      <div class="form-group">
+        <label>Prüfergebnis</label>
+        <select id="inpStatus">
+          <option value="Bestanden">Bestanden – keine Mängel</option>
+          <option value="Mangel">Mangel – Nachbesserung nötig</option>
+          <option value="Gesperrt">Gesperrt – sofort außer Betrieb</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Instandsetzung / Maßnahme</label>
+        <input type="text" id="inpMassnahme" placeholder="z. B. Schrauben nachgezogen, Fachfirma beauftragt">
+      </div>
+    </div>
+
+    <label class="checklist-item" id="rowBefaehigt" style="margin-top:1rem; display:none;">
+      <input type="checkbox" id="inpBefaehigt">
+      <span>Ich bestätige, dass die prüfende Person für diese Hauptuntersuchung als <strong>befähigte Person</strong> qualifiziert und vom Schulträger beauftragt ist (Nachweis liegt vor).</span>
+    </label>
+
+    <div class="form-group" style="margin-top:1rem;">
+      <label>Bemerkung / Mängelbeschreibung</label>
+      <textarea id="inpBemerkung" rows="2" placeholder="Feststellungen während der Prüfung …"></textarea>
+    </div>
+    <div class="error" id="checkError"></div>
+
+    <div class="modal-footer">
+      <button class="btn-outline" onclick="closeModal('checkModal')">Abbrechen</button>
+      <button class="btn-success" onclick="saveCheck()">Prüfung speichern</button>
+    </div>
+  </div>
+</div>
+
+<!-- Objekt-Modal -->
+<div class="modal-backdrop" id="objectModal">
+  <div class="modal narrow">
+    <div class="modal-header">
+      <h2 id="objTitle">Objekt</h2>
+      <button class="btn-outline btn-sm" onclick="closeModal('objectModal')">✕</button>
+    </div>
+    <div class="form-group"><label>Gebäude</label><input type="text" id="objGebaeude" list="dlBuildings" placeholder="z. B. A-Gebäude"></div>
+    <div class="form-group" style="margin-top:0.8rem"><label>Raum</label><input type="text" id="objRaum" placeholder="z. B. A105"></div>
+    <div class="form-group" style="margin-top:0.8rem"><label>Tafeltyp</label><input type="text" id="objTyp" list="dlTypes" placeholder="z. B. Wandtafel weiß"></div>
+    <div class="form-group" style="margin-top:0.8rem"><label>E-Prüfung DGUV V3 – zuletzt (Elektrofachkraft, optional)</label><input type="date" id="objEDatum"></div>
+    <div class="form-group" style="margin-top:0.8rem"><label>E-Prüfung DGUV V3 – nächster Termin (optional)</label><input type="date" id="objEFaellig"></div>
+    <div class="form-group" style="margin-top:0.8rem"><label>Notiz</label><input type="text" id="objNotiz" placeholder="z. B. 2 Stück, Seriennummer …"></div>
+    <datalist id="dlBuildings"></datalist>
+    <datalist id="dlTypes"></datalist>
+    <div class="error" id="objError"></div>
+    <div class="modal-footer">
+      <button class="btn-danger" id="objDeleteBtn" onclick="deleteObject()" style="margin-right:auto">Löschen</button>
+      <button class="btn-outline" onclick="closeModal('objectModal')">Abbrechen</button>
+      <button class="btn-success" onclick="saveObject()">Speichern</button>
+    </div>
+  </div>
+</div>
+
+<!-- Verlauf-Modal -->
+<div class="modal-backdrop" id="historyModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div><h2 id="histTitle">Prüfverlauf</h2><div id="histSub" class="small"></div></div>
+      <button class="btn-outline btn-sm" onclick="closeModal('historyModal')">✕</button>
+    </div>
+    <div id="histBody"></div>
+  </div>
+</div>
+
+<!-- Bestätigung -->
+<div class="modal-backdrop" id="confirmModal" style="z-index:1500">
+  <div class="modal narrow">
+    <div class="modal-header"><h2>Bitte bestätigen</h2></div>
+    <p id="confirmText"></p>
+    <div class="modal-footer">
+      <button class="btn-outline" onclick="closeModal('confirmModal')">Abbrechen</button>
+      <button class="btn-danger" id="confirmYes">Ja, fortfahren</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const KEY = "tafelpruefung_v2", OLD_KEY = "tafelpruefung_v1", NAME_KEY = "tafelpruefung_pruefer";
+const DEFAULT_PRUEFER = "Suntrup (Schulhausmeister)";
+
+const TEST_USERS = {
+  suntrup: { password: "S!Tafel-7Kq29", name: "Suntrup" },
+  oltrop:  { password: "O!Pruef-4Mx81", name: "Oltrop" },
+  teuber:  { password: "T!Tafel-9Vp36", name: "Teuber" },
+  test01:  { password: "Test!01-R8k2", name: "Test01" },
+  test02:  { password: "Test!02-N5w7", name: "Test02" },
+  test03:  { password: "Test!03-gunt", name: "Test03" }
+};
+const SESSION_KEY = "tafelpruefung_session";
+let loggedInUser = null;
+
+const INITIAL_DATA = [
+  {"id":1,"gebaeude":"A-Gebäude","raum":"A403","typ":"Schiebetafel elektrisch Bild"},{"id":2,"gebaeude":"A-Gebäude","raum":"A403","typ":"Wandtafel weiß"},{"id":3,"gebaeude":"A-Gebäude","raum":"A403","typ":"Pinnwand blau 2St."},
+  {"id":4,"gebaeude":"A-Gebäude","raum":"A401","typ":"Schiebetafel elektrisch Bild"},{"id":5,"gebaeude":"A-Gebäude","raum":"A401","typ":"Wandtafel grün"},{"id":6,"gebaeude":"A-Gebäude","raum":"A401","typ":"Wandtafel weiß 2 St."},
+  {"id":7,"gebaeude":"A-Gebäude","raum":"A411","typ":"Schiebetafel elektrisch Bild"},{"id":8,"gebaeude":"A-Gebäude","raum":"Flur A411","typ":"Wandtafel 3 St."},{"id":9,"gebaeude":"A-Gebäude","raum":"A410","typ":"Schiebetafel elektrisch Bild"},
+  {"id":10,"gebaeude":"A-Gebäude","raum":"A409","typ":"Schiebetafel elektrisch Activ"},{"id":11,"gebaeude":"A-Gebäude","raum":"A408","typ":"Schiebetafel elektrisch Bild"},{"id":12,"gebaeude":"A-Gebäude","raum":"A408","typ":"Pinnwand weiß 2St."},
+  {"id":13,"gebaeude":"A-Gebäude","raum":"A203","typ":"Schiebetafel elektrisch Bild"},{"id":14,"gebaeude":"A-Gebäude","raum":"A203","typ":"Wandtafel weiß"},{"id":15,"gebaeude":"A-Gebäude","raum":"A110","typ":"Pylonenklappschiebetafel"},
+  {"id":16,"gebaeude":"A-Gebäude","raum":"A110","typ":"Schiebetafel elektrisch Bild"},{"id":17,"gebaeude":"A-Gebäude","raum":"A110","typ":"Wandtafel weiß"},{"id":18,"gebaeude":"A-Gebäude","raum":"A109","typ":"Pylonenklappschiebetafel"},
+  {"id":19,"gebaeude":"A-Gebäude","raum":"A109","typ":"Schiebetafel elektrisch Bild"},{"id":20,"gebaeude":"A-Gebäude","raum":"A109","typ":"Wandtafel weiß"},{"id":21,"gebaeude":"A-Gebäude","raum":"A108","typ":"Pylonenklappschiebetafel"},
+  {"id":22,"gebaeude":"A-Gebäude","raum":"A108","typ":"Schiebetafel elektrisch Bild"},{"id":23,"gebaeude":"A-Gebäude","raum":"A108","typ":"Wandtafel Pinnwand"},{"id":24,"gebaeude":"A-Gebäude","raum":"A107","typ":"Pylonenklappschiebetafel"},
+  {"id":25,"gebaeude":"A-Gebäude","raum":"A107","typ":"Schiebetafel elektrisch Bild"},{"id":26,"gebaeude":"A-Gebäude","raum":"A107","typ":"Wandtafel Pinnwand"},{"id":27,"gebaeude":"A-Gebäude","raum":"A103","typ":"Pylonenklappschiebetafel"},
+  {"id":28,"gebaeude":"A-Gebäude","raum":"A103","typ":"Schiebetafel elektrisch Bild"},{"id":29,"gebaeude":"A-Gebäude","raum":"A103","typ":"Wandtafel Pinnwand"},{"id":30,"gebaeude":"A-Gebäude","raum":"A102","typ":"Pylonenklappschiebetafel"},
+  {"id":31,"gebaeude":"A-Gebäude","raum":"A102","typ":"Doppelfläche"},{"id":32,"gebaeude":"A-Gebäude","raum":"A102","typ":"Schiebetafel elektrisch Bild"},{"id":33,"gebaeude":"A-Gebäude","raum":"A102","typ":"Wandtafel weiß"},
+  {"id":34,"gebaeude":"A-Gebäude","raum":"A017","typ":"Pylonenklappschiebetafel"},{"id":35,"gebaeude":"A-Gebäude","raum":"A017","typ":"Schiebetafel elektrisch Bild"},{"id":36,"gebaeude":"A-Gebäude","raum":"A017","typ":"Wandtafel weiß"},
+  {"id":37,"gebaeude":"A-Gebäude","raum":"A016","typ":"Pylonenklappschiebetafel"},{"id":38,"gebaeude":"A-Gebäude","raum":"A016","typ":"Schiebetafel elektrisch Bild"},{"id":39,"gebaeude":"A-Gebäude","raum":"A016","typ":"Wandtafel weiß"},
+  {"id":40,"gebaeude":"A-Gebäude","raum":"A015","typ":"Pylonenklappschiebetafel"},{"id":41,"gebaeude":"A-Gebäude","raum":"A015","typ":"Schiebetafel elektrisch Bild"},{"id":42,"gebaeude":"A-Gebäude","raum":"A015","typ":"Wandtafel weiß"},
+  {"id":43,"gebaeude":"A-Gebäude","raum":"A014","typ":"Schiebetafel elektrisch Bild"},{"id":44,"gebaeude":"A-Gebäude","raum":"A014","typ":"Wandtafel Pinnwand"},{"id":45,"gebaeude":"A-Gebäude","raum":"A006","typ":"Pylonenklappschiebetafel"},
+  {"id":46,"gebaeude":"A-Gebäude","raum":"A006","typ":"Schiebetafel elektrisch Bild"},{"id":47,"gebaeude":"A-Gebäude","raum":"A006","typ":"Wandtafel Pinnwand"},{"id":48,"gebaeude":"A-Gebäude","raum":"A005","typ":"Pylonenklappschiebetafel"},
+  {"id":49,"gebaeude":"A-Gebäude","raum":"A005","typ":"Schiebetafel elektrisch Bild"},{"id":50,"gebaeude":"A-Gebäude","raum":"A005","typ":"Wandtafel weiß"},{"id":51,"gebaeude":"A-Gebäude","raum":"A004","typ":"Pylonenklappschiebetafel"},
+  {"id":52,"gebaeude":"A-Gebäude","raum":"A004","typ":"Doppelfläche"},{"id":53,"gebaeude":"A-Gebäude","raum":"A004","typ":"Schiebetafel elektrisch Bild"},{"id":54,"gebaeude":"A-Gebäude","raum":"A004","typ":"Wandtafel weiß"},
+  {"id":55,"gebaeude":"A-Gebäude","raum":"A003","typ":"Pylonenklappschiebetafel"},{"id":56,"gebaeude":"A-Gebäude","raum":"A003","typ":"Schiebetafel elektrisch Bild"},{"id":57,"gebaeude":"A-Gebäude","raum":"A003","typ":"Wandtafel weiß"},
+  {"id":58,"gebaeude":"A-Gebäude","raum":"A002","typ":"Pylonenklappschiebetafel"},{"id":59,"gebaeude":"A-Gebäude","raum":"A002","typ":"Schiebetafel elektrisch Bild"},{"id":60,"gebaeude":"A-Gebäude","raum":"A002","typ":"Wandtafel weiß"},
+  {"id":61,"gebaeude":"B-Gebäude","raum":"B105","typ":"Pylonenklappschiebetafel"},{"id":62,"gebaeude":"B-Gebäude","raum":"B105","typ":"Doppelfläche"},{"id":63,"gebaeude":"B-Gebäude","raum":"B105","typ":"Schiebetafel elektrisch Bild"},
+  {"id":64,"gebaeude":"B-Gebäude","raum":"B106","typ":"Pylonenklappschiebetafel"},{"id":65,"gebaeude":"B-Gebäude","raum":"B106","typ":"Schiebetafel elektrisch Bild"},{"id":66,"gebaeude":"B-Gebäude","raum":"B106","typ":"Wandtafel Pinnwand"},
+  {"id":67,"gebaeude":"B-Gebäude","raum":"B104","typ":"Pylonenklappschiebetafel"},{"id":68,"gebaeude":"B-Gebäude","raum":"B104","typ":"Doppelfläche"},{"id":69,"gebaeude":"B-Gebäude","raum":"B104","typ":"Schiebetafel elektrisch Bild"},
+  {"id":70,"gebaeude":"B-Gebäude","raum":"B107","typ":"Pylonenklappschiebetafel"},{"id":71,"gebaeude":"B-Gebäude","raum":"B107","typ":"Schiebetafel elektrisch Bild"},{"id":72,"gebaeude":"B-Gebäude","raum":"B107","typ":"Wandtafel Pinnwand"},
+  {"id":73,"gebaeude":"B-Gebäude","raum":"B103","typ":"Pylonenklappschiebetafel"},{"id":74,"gebaeude":"B-Gebäude","raum":"B103","typ":"Doppelfläche"},{"id":75,"gebaeude":"B-Gebäude","raum":"B103","typ":"Schiebetafel elektrisch Bild"},
+  {"id":76,"gebaeude":"B-Gebäude","raum":"B108","typ":"Pylonenklappschiebetafel"},{"id":77,"gebaeude":"B-Gebäude","raum":"B108","typ":"Schiebetafel elektrisch Bild"},{"id":78,"gebaeude":"B-Gebäude","raum":"B108","typ":"Wandtafel Pinnwand"},
+  {"id":79,"gebaeude":"B-Gebäude","raum":"B102","typ":"Pylonenklappschiebetafel"},{"id":80,"gebaeude":"B-Gebäude","raum":"B102","typ":"Schiebetafel elektrisch Bild"},{"id":81,"gebaeude":"B-Gebäude","raum":"B109","typ":"Pylonenklappschiebetafel"},
+  {"id":82,"gebaeude":"B-Gebäude","raum":"B109","typ":"Schiebetafel elektrisch Bild"},{"id":83,"gebaeude":"B-Gebäude","raum":"B109","typ":"Wandtafel Pinnwand"},{"id":84,"gebaeude":"B-Gebäude","raum":"B001","typ":"Wandtafel weiß"},
+  {"id":85,"gebaeude":"B-Gebäude","raum":"B001","typ":"Wandtafel weiß groß"},{"id":86,"gebaeude":"B-Gebäude","raum":"B201","typ":"Schiebetafel elektrisch Bild groß"},
+  {"id":87,"gebaeude":"B-Gebäude","raum":"B201","typ":"Schiebetafel elektrisch Bild klein"},{"id":88,"gebaeude":"B-Gebäude","raum":"B202","typ":"Pylonenklappschiebetafel"},
+  {"id":89,"gebaeude":"B-Gebäude","raum":"B202","typ":"Schiebetafel elektrisch Bild"},{"id":90,"gebaeude":"B-Gebäude","raum":"B202","typ":"Wandtafel Pinnwand"},
+  {"id":91,"gebaeude":"B-Gebäude","raum":"B203","typ":"Pylonenklappschiebetafel"},{"id":92,"gebaeude":"B-Gebäude","raum":"B203","typ":"Schiebetafel elektrisch Bild"},{"id":93,"gebaeude":"B-Gebäude","raum":"B203","typ":"Pinnwand"},
+  {"id":94,"gebaeude":"B-Gebäude","raum":"B207","typ":"Schiebetafel elektrisch Bild"},{"id":95,"gebaeude":"B-Gebäude","raum":"B207","typ":"Schiebetafel elektrisch Activ"},{"id":96,"gebaeude":"B-Gebäude","raum":"B207","typ":"Wandtafel"},
+  {"id":97,"gebaeude":"B-Gebäude","raum":"B205","typ":"Schiebetafel elektrisch Bild"},{"id":98,"gebaeude":"B-Gebäude","raum":"B205","typ":"Wandtafel"},{"id":99,"gebaeude":"B-Gebäude","raum":"B204","typ":"Pylonenklappschiebetafel"},
+  {"id":100,"gebaeude":"B-Gebäude","raum":"B204","typ":"Schiebetafel elektrisch Bild"},{"id":101,"gebaeude":"B-Gebäude","raum":"B204","typ":"Pinnwand"},{"id":102,"gebaeude":"C-Gebäude","raum":"C 107","typ":"Schiebetafel elektrisch Bild"},
+  {"id":103,"gebaeude":"C-Gebäude","raum":"C 107","typ":"Wandtafel weiß"},{"id":104,"gebaeude":"C-Gebäude","raum":"C 105","typ":"Schiebetafel elektrisch Bild"},{"id":105,"gebaeude":"C-Gebäude","raum":"C 105","typ":"Wandtafel weiß"},
+  {"id":106,"gebaeude":"C-Gebäude","raum":"C 104","typ":"Schiebetafel elektrisch Bild"},{"id":107,"gebaeude":"C-Gebäude","raum":"C 102","typ":"Schiebetafel elektrisch Bild"},{"id":108,"gebaeude":"C-Gebäude","raum":"C 102","typ":"Wandtafel weiß"},
+  {"id":109,"gebaeude":"Sporthalle","raum":"EG Elektrozentrale","typ":"Hauptverteilung & Elektroinstallation","notiz":"DGUV V3 / BetrSichV § 14 · Intervall: 4 Jahre · Firma: Elektro Koelmann"},
+  {"id":110,"gebaeude":"Sporthalle","raum":"Gesamte Sporthalle","typ":"Ortsveränderliche elektrische Geräte","notiz":"DGUV V3 / VDE 0701/0702 · Intervall: 1 Jahr · Firma: Prüfimpuls"},
+  {"id":111,"gebaeude":"Sporthalle","raum":"Gesamte Sporthalle","typ":"Brandmeldeanlage (BMA)","notiz":"DIN 14675-1 / VDE 0833-2 · Intervall: 3 Monate · Firma: InSiTel GmbH"},
+  {"id":112,"gebaeude":"Sporthalle","raum":"Sporthalle Flure","typ":"Tragbare Feuerlöscher (4 Stk.)","notiz":"ASR A2.2 / DIN EN 3 · Intervall: 2 Jahre · Firma: Wocken Brandschutz"},
+  {"id":113,"gebaeude":"Sporthalle","raum":"Sporthalle Dachbereich","typ":"Rauch- und Wärmeabzugsanlage (RWA)","notiz":"DIN 18232-2 / DGUV Inf. 205-001 · Intervall: 1 Jahr · Firma: Wocken Brandschutz"},
+  {"id":114,"gebaeude":"Sporthalle","raum":"Treppenhaus","typ":"Treppenlift","notiz":"BetrSichV § 16 / DIN EN 81 · Intervall: 1 Jahr · Firma: WEL Weser-Ems Lifte GmbH&Co.KG"},
+  {"id":115,"gebaeude":"Sporthalle","raum":"Fluchtwege, Treppenhäuser & Sporthalle","typ":"Sicherheits- & Notbeleuchtung Notlicht","notiz":"DIN VDE 0108-100 / DIN EN 50172 · Intervall: 1 Jahr · Hausmeister"},
+  {"id":116,"gebaeude":"Sporthalle","raum":"Sporthalle Brandabschnitte","typ":"Brandschutztüren","notiz":"DIN 14677-1 / DGUV Inf. 208-022 · Intervall: 1 Jahr · Firma: Wocken Brandschutz"},
+  {"id":117,"gebaeude":"Sporthalle","raum":"Sporthalle Außentüren (3 St.)","typ":"Kraftbetätigte Türen","notiz":"ASR A1.7 / DIN EN 12453 · Intervall: 1 Jahr · Firma: Lamann & Co. GmbH"},
+  {"id":118,"gebaeude":"Sporthalle","raum":"Große Sporthalle","typ":"Sportgeräte (Gesamtbestand)","notiz":"DGUV Inf. 202-044 / DIN 7900 · Intervall: 1 Jahr · Firma: Turn- & Sportgeräte Olaf Grevinga GmbH"},
+  {"id":119,"gebaeude":"Sporthalle","raum":"Technikraum","typ":"Heizungsanlage Wärmepumpe","notiz":"GEG § 60 / BetrSichV § 15 · Intervall: 1 Jahr · Firma: Schulz & Kremer Haustechnik Gmbh"},
+  {"id":120,"gebaeude":"Sporthalle","raum":"Umkleidekabine / Geräteraum","typ":"Lüftungsanlagen Sporthalle","notiz":"VDI 6022 Blatt 1 / ASR A3.6 · Intervall: 1 Jahr · Firma: Activa Haustechnik GmbH"},
+  {"id":121,"gebaeude":"Sporthalle","raum":"Sporthalle zum Sportplatz","typ":"Kraftbetätigte Tore","notiz":"ASR A1.7 / DIN EN 12453 · Intervall: 1 Jahr · Firma: Hörmann KG Verkaufsgesellschaft"},
+  {"id":122,"gebaeude":"Sporthalle","raum":"Große Sporthalle","typ":"Kletterwand","notiz":"DGUV Inf. 202-044 / DIN EN 12572 · Intervall: 1 Jahr · Firma: ON TOP Klettern mbH"},
+  {"id":123,"gebaeude":"Sporthalle","raum":"Große Sporthalle","typ":"Trennvorhang","notiz":"DIN 18032-4 / DGUV Vorschrift 202-044 · Intervall: 1 Jahr · Firma: SWS Systemtechnik GmbH & Co. KG"},
+  {"id":124,"gebaeude":"Sporthalle","raum":"Große Sporthalle","typ":"Hallentore","notiz":"DIN EN 12453 / DIN 18032-1 · Intervall: 1 Jahr · Firma: HERKULES-Schwebetore GmbH"},
+  {"id":125,"gebaeude":"Sporthalle","raum":"Sanitätsraum","typ":"Erste-Hilfe-Kasten & AED","notiz":"DIN 13157 / MPBetreibV · Monatlich · Ersthelfer / Hausmeister"},
+  {"id":126,"gebaeude":"Sporthalle","raum":"Geräteraum 1 + 2","typ":"Turnbank","notiz":"DIN 7909 · Monatlich · Hausmeister"},
+  {"id":127,"gebaeude":"Sporthalle","raum":"Halle","typ":"Sprossenwand","notiz":"DIN EN 12346 / DGUV V315-108 · Jährlich / Halbjährlich · Fachbetrieb / Hausmeister"},
+  {"id":128,"gebaeude":"Sporthalle","raum":"Geräteraum 1 + 2 + 3","typ":"Turnmatten Standard","notiz":"DIN EN 12503-1 · Monatlich · Hausmeister"},
+  {"id":129,"gebaeude":"Sporthalle","raum":"Halle","typ":"Fluchtwege & Notausgänge","notiz":"ASR A2.3 · Monatlich · Sicherheitsbeauftragter"},
+  {"id":130,"gebaeude":"Sporthalle","raum":"Halle","typ":"Kletterstangen & -taue","notiz":"DIN EN 12655 / DGUV V315-108 · Jährlich · Fachbetrieb / Hausmeister"},
+  {"id":131,"gebaeude":"Sporthalle","raum":"Geräteraum 1 + 2","typ":"Sprungkasten","notiz":"DIN EN 916 / DGUV V315-108 · Jährlich · Hausmeister"},
+  {"id":132,"gebaeude":"Sporthalle","raum":"Halle","typ":"Reckanlage","notiz":"DIN EN 12197 / BetrSichV · Jährlich · Sachkundiger"},
+  {"id":133,"gebaeude":"Sporthalle","raum":"Geräteraum 2","typ":"Barren","notiz":"DIN EN 914 · Jährlich · Hausmeister"},
+  {"id":134,"gebaeude":"Sporthalle","raum":"Halle","typ":"Handballtore","notiz":"DIN EN 749 / DGUV V315-108 · Quartalsweise · Hausmeister"},
+  {"id":135,"gebaeude":"Sporthalle","raum":"Halle","typ":"Basketball-Anlage","notiz":"DIN EN 1270 / DGUV V315-108 · Halbjährlich · Fachbetrieb"},
+  {"id":136,"gebaeude":"Sporthalle","raum":"Geräteraum 1 + 2 + 3","typ":"Weichbodenmatten","notiz":"DIN EN 12503-1 · Halbjährlich · Hausmeister"},
+  {"id":137,"gebaeude":"Sporthalle","raum":"Halle","typ":"Trennwand-Anlage","notiz":"Jährlich · TÜV / Fachbetrieb"},
+  {"id":138,"gebaeude":"Sporthalle","raum":"Geräteraum 1","typ":"Schwebebalken","notiz":"Jährlich · Hausmeister"},
+  {"id":139,"gebaeude":"Sporthalle","raum":"Halle","typ":"Prallschutzwand","notiz":"Jährlich · Sachkundiger"},
+  {"id":140,"gebaeude":"Sporthalle","raum":"Geräteraum Bewegungsraum","typ":"Minitramp","notiz":"Jährlich · Sachkundiger"},
+  {"id":141,"gebaeude":"Sporthalle","raum":"Geräteraum 1 + 2","typ":"Volleyball-Anlage","notiz":"Halbjährlich · Hausmeister"},
+  {"id":142,"gebaeude":"Sporthalle","raum":"Halle","typ":"Elektro-Anzeigetafel","notiz":"Jährlich · Elektro-Fachkraft"},
+  {"id":143,"gebaeude":"Sporthalle","raum":"Halle","typ":"Decken-Laufkranz / Seile","notiz":"Jährlich · Sachkundiger"},
+  {"id":144,"gebaeude":"Sporthalle","raum":"Geräteräume","typ":"Geräteraumtore","notiz":"Jährlich · Hausmeister"},
+  {"id":145,"gebaeude":"Sporthalle","raum":"Duschen / Sanitärbereich","typ":"Trinkwasser- & Duschanlagen (Spülung & Duschköpfe)","notiz":"Wartungsplan 2026 Trinkwasser, Duschen & Lüftung · Hausmeister"},
+  {"id":146,"gebaeude":"Sporthalle","raum":"Technik / Sanitärbereich","typ":"Warmwasserspeicher & Zirkulation","notiz":"Speicher >= 60°C, Zirkulation >= 55°C · Wartungsplan 2026"},
+  {"id":147,"gebaeude":"Sporthalle","raum":"Sporthalle / Umkleiden","typ":"Lüftungsanlagen & Filter (Duschen/Lüftung)","notiz":"Steuerung, Ansauggitter, Differenzdruck & Vorfilter · Wartungsplan 2026"},
+  {"id":148,"gebaeude":"Sporthalle","raum":"Technik / Trinkwasserleitung","typ":"Sicherheitsarmaturen & Trinkwasserfilter","notiz":"Systemtrenner / Rückflussverhinderer · Wartungsplan 2026"},
+  {"id":149,"gebaeude":"Sporthalle","raum":"Heizungsraum / Technik","typ":"Heizkessel, Manometer & Regelung","notiz":"Jahresprüfprotokoll Heizungsanlage (GEG, BetrSichV, DIN EN 12828)"},
+  {"id":150,"gebaeude":"Sporthalle","raum":"Heizungsraum / Heizkreis","typ":"Ausdehnungsgefäß (MAG), Umwälzpumpen & Sicherheitsventil","notiz":"Jahresprüfprotokoll Heizungsanlage (DIN EN 12828 / BetrSichV)"},
+  {"id":151,"gebaeude":"Sporthalle","raum":"Heizungsraum / Rücklauf","typ":"Schlamm-/Magnetitabscheider, Kondensat & Wasserqualität","notiz":"Jahresprüfprotokoll Heizungsanlage (VDI 2035 / DWA-A 251)"}
+];
+
+/* ---------- Anmeldung ---------- */
+function showLogin() {
+  $("loginGate").hidden = false;
+  $("loginName").focus();
+}
+
+function doLogin(event) {
+  event.preventDefault();
+  const username = $("loginName").value.trim().toLowerCase();
+  const password = $("loginPassword").value;
+  const user = TEST_USERS[username];
+
+  if (!user || user.password !== password) {
+    $("loginError").textContent = "Benutzername oder Passwort ist falsch.";
+    return;
+  }
+
+  loggedInUser = username;
+  sessionStorage.setItem(SESSION_KEY, username);
+  $("sessionUser").textContent = "Angemeldet: " + user.name;
+  $("loginGate").hidden = true;
+  $("loginError").textContent = "";
+  $("loginPassword").value = "";
+}
+
+function restoreSession() {
+  const username = sessionStorage.getItem(SESSION_KEY);
+
+  if (username && Object.prototype.hasOwnProperty.call(TEST_USERS, username)) {
+    loggedInUser = username;
+    $("sessionUser").textContent = "Angemeldet: " + TEST_USERS[username].name;
+    $("loginGate").hidden = true;
+  } else {
+    sessionStorage.removeItem(SESSION_KEY);
+    showLogin();
+  }
+}
+
+function requireLogin() {
+  if (loggedInUser && Object.prototype.hasOwnProperty.call(TEST_USERS, loggedInUser)) return true;
+  showLogin();
+  return false;
+}
+
+function logout() {
+  sessionStorage.removeItem(SESSION_KEY);
+  loggedInUser = null;
+  document.querySelectorAll(".modal-backdrop.open").forEach(m => m.classList.remove("open"));
+  $("sessionUser").textContent = "";
+  $("loginPassword").value = "";
+  showLogin();
+}
+
+/* ---------- Hilfsfunktionen ---------- */
+function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function $(id) { return document.getElementById(id); }
+function pad(n) { return String(n).padStart(2, "0"); }
+function toISO(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+function parseISO(s) { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); }
+function todayISO() { return toISO(new Date()); }
+function addMonths(iso, n) {
+  const [y, m, d] = iso.split("-").map(Number);
+  const first = new Date(y, m - 1 + n, 1);
+  const last = new Date(first.getFullYear(), first.getMonth() + 1, 0).getDate();
+  return toISO(new Date(first.getFullYear(), first.getMonth(), Math.min(d, last)));
+}
+function daysUntil(iso) { return Math.round((parseISO(iso) - parseISO(todayISO())) / 86400000); }
+function fmt(iso) { if (!iso) return "–"; const [y, m, d] = iso.split("-"); return d + "." + m + "." + y; }
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+function toast(msg) { const t = $("toast"); t.textContent = msg; t.style.display = "block"; clearTimeout(toast.t); toast.t = setTimeout(() => t.style.display = "none", 3000); }
+function openModal(id) { $(id).classList.add("open"); }
+function closeModal(id) { $(id).classList.remove("open"); }
+function askConfirm(text, cb) { $("confirmText").textContent = text; $("confirmYes").onclick = () => { closeModal("confirmModal"); cb(); }; openModal("confirmModal"); }
+document.addEventListener("keydown", e => { if (e.key === "Escape") document.querySelectorAll(".modal-backdrop.open").forEach(m => m.classList.remove("open")); });
+document.querySelectorAll(".modal-backdrop").forEach(m => m.addEventListener("mousedown", e => { if (e.target === m) m.classList.remove("open"); }));
+
+/* ---------- Typ-Erkennung & Prüflisten ---------- */
+const isElec = t => t.toLowerCase().includes("elektrisch");
+const isPylon = t => t.toLowerCase().includes("pylonen");
+const isPinn = t => t.toLowerCase().includes("pinnwand");
+const isActiv = t => t.toLowerCase().includes("activ");
+const isMovable = t => isElec(t) || isPylon(t);
+
+function sichtItems(typ) {
+  const items = [
+    "Keine fehlenden oder beschädigten Teile (Abdeckungen, Eckenschutz, Kreideablage/Stiftleiste)",
+    "Wand- und Kastenschrauben sowie sonstige Verbindungen fest, nichts gelockert",
+    "Keine auffälligen Verformungen oder Fehlstellungen (z. B. Schrägstellung des Tafelkörpers)"
+  ];
+  if (isMovable(typ)) {
+    items.push("Quetsch- und Scherstellen: keine neuen oder ungesicherten Gefahrstellen");
+    items.push("Leichtgängig, keine auffälligen Geräusche (z. B. Quietschen) oder Funktionsstörungen");
+    items.push("Kein auffälliger Abrieb an Lagern und Seiltrieben");
+  }
+  if (isElec(typ)) items.push("Zuleitung, Taster/Schalter und Gehäuse äußerlich unbeschädigt; Endabschaltung arbeitet");
+  if (isPinn(typ) && !isMovable(typ)) items.push("Wandhalterung bzw. Standfuß fest und standsicher");
+  return items;
+}
+
+function hauptItems(typ) {
+  const items = [];
+  items.push("Wand-/Boden-/Deckenbefestigung (Dübel, Schrauben, Verankerungen) entsprechend Herstellerangaben fest");
+  items.push("Verbindungselemente (Verschraubungen, Scharniere, Gelenke, Klemm-/Steckverbindungen) in Ordnung");
+  items.push("Äußerer Zustand: keine Risse/Absplitterungen, Abdeckungen intakt, keine scharfkantigen Kreideablagen");
+  if (isMovable(typ)) {
+    items.push("Tragseile, Ketten, Umlenkrollen und Seilbefestigungen ohne Drahtbrüche, Korrosion oder Verschleiß (ggf. Revisionsöffnungen freigelegt)");
+    items.push("Gegengewichte frei beweglich und gesichert verkleidet; Führungen und Lager ohne unzulässigen Verschleiß");
+    items.push("Quetsch- und Scherstellen gesichert; genaue Führung und Leichtgängigkeit der beweglichen Teile");
+  }
+  if (isPylon(typ)) items.push("Aushängesicherung der Tafelflügel und Klappscharniere funktionsfähig");
+  if (isElec(typ)) {
+    items.push("Endabschaltung oben/unten schaltet zuverlässig ab; Taster/Schlüsselschalter funktionsfähig");
+    items.push("Nachweis der letzten elektrischen Prüfung (DGUV V3, Elektrofachkraft) liegt vor und ist nicht überfällig");
+  }
+  if (isActiv(typ)) items.push("Interaktives Display/Beamer-Halterung fest, Leitungen zugentlastet und unbeschädigt");
+  if (isPinn(typ) && !isMovable(typ)) {
+    items.push("Standsicherheit bzw. Wandhalterung geprüft; Pinnfläche fest im Rahmen, keine herausstehenden Nadeln/Klammern");
+  }
+  return items;
+}
+
+const ART = {
+  sicht: { name: "Sicht- und Funktionsprüfung", intervals: [1, 3, 6], def: 3,
+    hint: "Erkennt „offensichtliche“ Mängel. Keine besonderen fachlichen Anforderungen, aber Unterweisung nötig. Üblich: ca. 1–3 Monate; monatlich nur bei Bedarf (z. B. Vandalismus)." },
+  haupt: { name: "Hauptuntersuchung", intervals: [6, 12, 24], def: 12,
+    hint: "Umfassende Prüfung aller Bauteile einschließlich Seile und Ketten – nur durch eine <strong>befähigte Person</strong> (Fachfirma oder entsprechend ausgebildet). Üblich: jährlich; der Schulträger legt die Frist fest." }
+};
+
+/* ---------- Daten ---------- */
+function blankRecord(r) { return { id: r.id, gebaeude: r.gebaeude, raum: r.raum, typ: r.typ, eDatum: "", eFaellig: "", notiz: r.notiz || "", history: [] }; }
+
+function loadRecords() {
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) { const p = JSON.parse(raw); if (Array.isArray(p)) return p; }
+  } catch (e) {}
+  try {
+    const old = localStorage.getItem(OLD_KEY);
+    if (old) {
+      const p = JSON.parse(old);
+      if (Array.isArray(p)) return p.map(r => {
+        const n = blankRecord(r);
+        if (r.pruefdatum && r.status && r.status !== "Offen") {
+          n.history.push({ id: uid(), art: "haupt", datum: r.pruefdatum, pruefer: r.pruefer || "", befaehigt: false,
+            intervall: r.intervall || 12, naechst: r.naechstesDatum || addMonths(r.pruefdatum, r.intervall || 12),
+            status: r.status, massnahme: r.massnahme || "", bemerkung: r.bemerkung || "", checked: 0, total: 0, migriert: true });
+        }
+        return n;
+      });
+    }
+  } catch (e) {}
+  return INITIAL_DATA.map(blankRecord);
+}
+
+let records = loadRecords();
+let currentId = null;
+
+function saveStorage() {
+  try { localStorage.setItem(KEY, JSON.stringify(records)); }
+  catch (e) { toast("Speichern im Browser nicht möglich – bitte Backup (JSON) herunterladen!"); }
+}
+
+function sortedHistory(r) {
+  return r.history.map((e, i) => ({ e, i })).sort((a, b) => a.e.datum === b.e.datum ? a.i - b.i : (a.e.datum < b.e.datum ? -1 : 1)).map(x => x.e);
+}
+function lastOf(r, art) { const h = sortedHistory(r).filter(e => e.art === art); return h.length ? h[h.length - 1] : null; }
+function currentStatus(r) { const h = sortedHistory(r); return h.length ? h[h.length - 1].status : "Offen"; }
+
+function stateOf(r, art) {
+  const l = lastOf(r, art);
+  if (!l) return { k: "never" };
+  const d = daysUntil(l.naechst);
+  return { k: d < 0 ? "over" : d <= 30 ? "soon" : "ok", d, l };
+}
+
+/* ---------- Tabelle ---------- */
+function artCell(r, art) {
+  const s = stateOf(r, art);
+  if (s.k === "never") return '<span class="badge b-open">nie geprüft</span>';
+  const label = s.k === "over" ? "überfällig seit " + fmt(s.l.naechst) : s.k === "soon" ? "fällig " + fmt(s.l.naechst) : "bis " + fmt(s.l.naechst);
+  const cls = s.k === "over" ? "b-over" : s.k === "soon" ? "b-soon" : "b-ok";
+  return fmt(s.l.datum) + '<br><span class="badge ' + cls + '">' + label + "</span>";
+}
+
+function elecCell(r) {
+  if (!isElec(r.typ)) return "";
+  let txt = "E-Prüfung (DGUV V3): ";
+  let cls = "b-open";
+  if (r.eFaellig) {
+    const d = daysUntil(r.eFaellig);
+    cls = d < 0 ? "b-over" : d <= 30 ? "b-soon" : "b-ok";
+    txt += (d < 0 ? "überfällig seit " : "fällig ") + fmt(r.eFaellig);
+  } else txt += "Termin nicht erfasst";
+  return '<br><span class="badge ' + cls + '">' + esc(txt) + "</span>";
+}
+
+function matchesState(r, f) {
+  if (!f) return true;
+  const sa = stateOf(r, "sicht").k, ha = stateOf(r, "haupt").k, st = currentStatus(r);
+  if (f === "over") return sa === "over" || ha === "over";
+  if (f === "soon") return sa === "soon" || ha === "soon";
+  if (f === "neverHaupt") return ha === "never";
+  return st === f;
+}
+
+function updateBuildingFilter() {
+  const sel = $("filterBuilding"), cur = sel.value;
+  const list = [...new Set(records.map(r => r.gebaeude))].sort();
+  sel.innerHTML = '<option value="">Alle Gebäude</option>' + list.map(b => '<option value="' + esc(b) + '">' + esc(b) + "</option>").join("");
+  sel.value = list.includes(cur) ? cur : "";
+  $("dlBuildings").innerHTML = list.map(b => '<option value="' + esc(b) + '">').join("");
+  $("dlTypes").innerHTML = [...new Set(records.map(r => r.typ))].sort().map(t => '<option value="' + esc(t) + '">').join("");
+}
+
+function renderTable() {
+  const q = $("searchInput").value.toLowerCase().trim();
+  const b = $("filterBuilding").value, f = $("filterState").value;
+  const tbody = $("tableBody");
+
+  const filtered = records.filter(r => {
+    const hay = (r.raum + " " + r.typ + " " + r.notiz + " " + r.history.map(h => h.bemerkung).join(" ")).toLowerCase();
+    return (!q || hay.includes(q)) && (!b || r.gebaeude === b) && matchesState(r, f);
+  });
+
+  tbody.innerHTML = filtered.map(r => {
+    const st = currentStatus(r);
+    const stCls = st === "Bestanden" ? "b-ok" : st === "Mangel" ? "b-mangel" : st === "Gesperrt" ? "b-gesperrt" : "b-open";
+    const lastE = sortedHistory(r).slice(-1)[0];
+    const bem = lastE && lastE.bemerkung && st !== "Bestanden" ? '<br><span class="small">' + esc(lastE.bemerkung) + "</span>" : "";
+    return '<tr class="' + (st === "Gesperrt" ? "locked" : "") + '">' +
+      "<td>" + r.id + "</td><td>" + esc(r.gebaeude) + "</td><td><strong>" + esc(r.raum) + "</strong></td>" +
+      "<td>" + esc(r.typ) + (r.notiz ? '<br><span class="small">' + esc(r.notiz) + "</span>" : "") + elecCell(r) + "</td>" +
+      "<td>" + artCell(r, "sicht") + "</td><td>" + artCell(r, "haupt") + "</td>" +
+      '<td><span class="badge ' + stCls + '">' + st + "</span>" + bem + "</td>" +
+      '<td class="no-print"><div class="actions">' +
+      '<button class="btn-primary btn-sm" onclick="openCheck(' + r.id + ')">Prüfen</button>' +
+      '<button class="btn-outline btn-sm" onclick="openHistory(' + r.id + ')">Verlauf</button>' +
+      '<button class="btn-outline btn-sm" onclick="openObjectModal(' + r.id + ')">✎</button></div></td></tr>';
+  }).join("");
+
+  $("emptyInfo").style.display = filtered.length ? "none" : "block";
+  $("countInfo").textContent = filtered.length + " von " + records.length + " Objekten";
+
+  let over = 0, soon = 0, defect = 0, never = 0;
+  records.forEach(r => {
+    const s1 = stateOf(r, "sicht").k, s2 = stateOf(r, "haupt").k;
+    if (s1 === "over" || s2 === "over") over++;
+    else if (s1 === "soon" || s2 === "soon") soon++;
+    const st = currentStatus(r);
+    if (st === "Mangel" || st === "Gesperrt") defect++;
+    if (s2 === "never") never++;
+  });
+  $("kpiTotal").textContent = records.length;
+  $("kpiOver").textContent = over;
+  $("kpiSoon").textContent = soon;
+  $("kpiDefect").textContent = defect;
+  $("kpiNever").textContent = never;
+}
+
+/* ---------- Prüfung erfassen ---------- */
+function openCheck(id, art) {
+  if (!requireLogin()) return;
+  currentId = id;
+  const r = records.find(x => x.id === id);
+  $("modalTitle").textContent = r.gebaeude + " · Raum " + r.raum;
+  $("modalSubtitle").textContent = r.typ;
+  $("inpArt").value = art || "sicht";
+  $("inpPruefer").value = TEST_USERS[loggedInUser].name;
+  $("inpPruefer").readOnly = true;
+  $("inpPruefdatum").value = todayISO();
+  $("inpStatus").value = "Bestanden";
+  $("inpMassnahme").value = "";
+  $("inpBemerkung").value = "";
+  $("inpBefaehigt").checked = false;
+  $("checkError").textContent = "";
+  refreshCheckForm();
+  openModal("checkModal");
+}
+
+function refreshCheckForm() {
+  const r = records.find(x => x.id === currentId);
+  const art = $("inpArt").value, cfg = ART[art];
+  const items = art === "sicht" ? sichtItems(r.typ) : hauptItems(r.typ);
+  $("checklistContainer").innerHTML = items.map(t => '<label class="checklist-item"><input type="checkbox" class="chk-box"><span>' + esc(t) + "</span></label>").join("");
+  $("artHint").innerHTML = cfg.hint + (isElec(r.typ) ? "<br><strong>Elektrik:</strong> Die elektrische Prüfung (DGUV V3) macht eine Elektrofachkraft; den Termin tragen Sie über ✎ am Objekt ein." : "");
+  const prev = lastOf(r, art);
+  const cur = prev ? prev.intervall : cfg.def;
+  $("inpIntervall").innerHTML = cfg.intervals.map(m => '<option value="' + m + '">' + m + " Monate</option>").join("");
+  $("inpIntervall").value = cfg.intervals.includes(cur) ? cur : cfg.def;
+  $("rowBefaehigt").style.display = art === "haupt" ? "flex" : "none";
+  calcNextDate();
+}
+
+function calcNextDate() {
+  const d = $("inpPruefdatum").value, m = parseInt($("inpIntervall").value, 10);
+  $("inpNaechstesDatum").value = d ? addMonths(d, m) : "";
+}
+function checkAllBoxes() { document.querySelectorAll(".chk-box").forEach(cb => cb.checked = true); }
+
+function saveCheck() {
+  const r = records.find(x => x.id === currentId);
+  const art = $("inpArt").value;
+  if (!requireLogin()) return;
+  const boxes = Array.from(document.querySelectorAll(".chk-box"));
+  const checked = boxes.filter(b => b.checked).length;
+  const status = $("inpStatus").value;
+  const err = m => { $("checkError").textContent = m; };
+
+  if (!$("inpPruefdatum").value) return err("Bitte ein Prüfdatum angeben.");
+  if (!$("inpPruefer").value.trim()) return err("Bitte den Namen der prüfenden Person eintragen.");
+  if (art === "haupt" && !$("inpBefaehigt").checked) return err("Die Hauptuntersuchung ist nur durch eine befähigte Person zulässig – bitte die Qualifikation bestätigen oder die Prüfung durch eine Fachfirma durchführen lassen.");
+  if (status === "Bestanden" && checked < boxes.length) return err("„Bestanden“ ist nur möglich, wenn alle Prüfpunkte abgehakt sind. Sonst bitte „Mangel“ wählen und beschreiben.");
+  if ((status === "Mangel" || status === "Gesperrt") && !$("inpBemerkung").value.trim()) return err("Bitte den Mangel in der Bemerkung beschreiben.");
+
+  r.history.push({
+    id: uid(), art, datum: $("inpPruefdatum").value, pruefer: TEST_USERS[loggedInUser].name,
+    befaehigt: art === "haupt" ? $("inpBefaehigt").checked : false,
+    intervall: parseInt($("inpIntervall").value, 10), naechst: $("inpNaechstesDatum").value,
+    status, massnahme: $("inpMassnahme").value.trim(), bemerkung: $("inpBemerkung").value.trim(),
+    checked, total: boxes.length
+  });
+  saveStorage(); renderTable(); closeModal("checkModal");
+  toast(ART[art].name + " gespeichert (" + r.raum + ")");
+}
+
+/* ---------- Verlauf ---------- */
+function openHistory(id) {
+  currentId = id;
+  const r = records.find(x => x.id === id);
+  $("histTitle").textContent = "Prüfverlauf · " + r.gebaeude + " · " + r.raum;
+  $("histSub").textContent = r.typ;
+  const h = sortedHistory(r).slice().reverse();
+  if (!h.length) { $("histBody").innerHTML = '<div class="empty">Noch keine Prüfung erfasst.</div>'; }
+  else {
+    $("histBody").innerHTML = '<table class="hist"><thead><tr><th>Datum</th><th>Art</th><th>Prüfer/-in</th><th>Ergebnis</th><th>Details</th><th></th></tr></thead><tbody>' +
+      h.map(e => {
+        const cls = e.status === "Bestanden" ? "b-ok" : e.status === "Mangel" ? "b-mangel" : "b-gesperrt";
+        const pts = e.total ? e.checked + "/" + e.total + " Punkte" : "übernommen (alte Version)";
+        return "<tr><td>" + fmt(e.datum) + "</td><td>" + ART[e.art].name + "</td><td>" + esc(e.pruefer) +
+          (e.art === "haupt" ? '<br><span class="small">' + (e.befaehigt ? "befähigte Person bestätigt" : "Qualifikation nicht bestätigt") + "</span>" : "") +
+          '</td><td><span class="badge ' + cls + '">' + e.status + "</span></td><td>" + pts +
+          (e.bemerkung ? "<br>" + esc(e.bemerkung) : "") + (e.massnahme ? '<br><span class="small">Maßnahme: ' + esc(e.massnahme) + "</span>" : "") +
+          '<br><span class="small">nächste: ' + fmt(e.naechst) + '</span></td><td><button class="btn-outline btn-sm" onclick="deleteEntry(\'' + e.id + '\')">Löschen</button></td></tr>';
+      }).join("") + "</tbody></table>";
+  }
+  openModal("historyModal");
+}
+function deleteEntry(eid) {
+  if (!requireLogin()) return;
+  askConfirm("Diesen Prüfeintrag wirklich löschen?", () => {
+    const r = records.find(x => x.id === currentId);
+    r.history = r.history.filter(e => e.id !== eid);
+    saveStorage(); renderTable(); openHistory(currentId);
+  });
+}
+
+/* ---------- Objekte ---------- */
+function openObjectModal(id) {
+  if (!requireLogin()) return;
+  currentId = id;
+  const r = id == null ? null : records.find(x => x.id === id);
+  $("objTitle").textContent = r ? "Objekt bearbeiten" : "Neues Objekt";
+  $("objGebaeude").value = r ? r.gebaeude : "";
+  $("objRaum").value = r ? r.raum : "";
+  $("objTyp").value = r ? r.typ : "";
+  $("objEDatum").value = r ? r.eDatum : "";
+  $("objEFaellig").value = r ? r.eFaellig : "";
+  $("objNotiz").value = r ? r.notiz : "";
+  $("objDeleteBtn").style.display = r ? "inline-block" : "none";
+  $("objError").textContent = "";
+  openModal("objectModal");
+}
+function saveObject() {
+  if (!requireLogin()) return;
+  const g = $("objGebaeude").value.trim(), ra = $("objRaum").value.trim(), t = $("objTyp").value.trim();
+  if (!g || !ra || !t) { $("objError").textContent = "Gebäude, Raum und Tafeltyp sind Pflichtfelder."; return; }
+  const data = { gebaeude: g, raum: ra, typ: t, eDatum: $("objEDatum").value, eFaellig: $("objEFaellig").value, notiz: $("objNotiz").value.trim() };
+  if (currentId == null) {
+    const nextId = records.length ? Math.max(...records.map(r => r.id)) + 1 : 1;
+    records.push({ id: nextId, history: [], ...data });
+    toast("Objekt angelegt (Nr. " + nextId + ")");
+  } else {
+    Object.assign(records.find(x => x.id === currentId), data);
+    toast("Objekt gespeichert");
+  }
+  saveStorage(); updateBuildingFilter(); renderTable(); closeModal("objectModal");
+}
+function deleteObject() {
+  if (!requireLogin()) return;
+  const r = records.find(x => x.id === currentId);
+  askConfirm("Objekt " + r.raum + " (" + r.typ + ") samt " + r.history.length + " Prüfeinträgen wirklich löschen?", () => {
+    records = records.filter(x => x.id !== currentId);
+    saveStorage(); updateBuildingFilter(); renderTable(); closeModal("objectModal"); toast("Objekt gelöscht");
+  });
+}
+
+/* ---------- Export / Import ---------- */
+function download(name, content, type) {
+  const blob = new Blob([content], { type });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+const csvRow = arr => arr.map(v => '"' + String(v == null ? "" : v).replace(/"/g, '""') + '"').join(";");
+
+function exportOverviewCSV() {
+  const head = ["Nr", "Gebäude", "Raum", "Tafeltyp", "Notiz", "Status", "Sichtprüfung zuletzt", "Sichtprüfung fällig", "Hauptuntersuchung zuletzt", "Hauptuntersuchung fällig", "E-Prüfung zuletzt", "E-Prüfung fällig"];
+  const rows = records.map(r => {
+    const s = lastOf(r, "sicht"), h = lastOf(r, "haupt");
+    return csvRow([r.id, r.gebaeude, r.raum, r.typ, r.notiz, currentStatus(r), s ? fmt(s.datum) : "", s ? fmt(s.naechst) : "", h ? fmt(h.datum) : "", h ? fmt(h.naechst) : "", isElec(r.typ) ? fmt(r.eDatum) : "", isElec(r.typ) ? fmt(r.eFaellig) : ""]);
+  });
+  download("Schultafeln_Uebersicht_" + todayISO() + ".csv", "\uFEFF" + [csvRow(head), ...rows].join("\n"), "text/csv;charset=utf-8;");
+}
+function exportHistoryCSV() {
+  const head = ["Nr", "Gebäude", "Raum", "Tafeltyp", "Datum", "Prüfart", "Prüfer", "Befähigte Person bestätigt", "Ergebnis", "Punkte geprüft", "Bemerkung", "Maßnahme", "Nächste Prüfung"];
+  const rows = [];
+  records.forEach(r => sortedHistory(r).forEach(e => rows.push(csvRow([r.id, r.gebaeude, r.raum, r.typ, fmt(e.datum), ART[e.art].name, e.pruefer, e.art === "haupt" ? (e.befaehigt ? "ja" : "nein") : "", e.status, e.total ? e.checked + "/" + e.total : "", e.bemerkung, e.massnahme, fmt(e.naechst)]))));
+  download("Schultafeln_Pruefverlauf_" + todayISO() + ".csv", "\uFEFF" + [csvRow(head), ...rows].join("\n"), "text/csv;charset=utf-8;");
+}
+function exportBackup() { download("Schultafeln_Backup_" + todayISO() + ".json", JSON.stringify({ version: 2, records }, null, 1), "application/json"); }
+function importBackup(ev) {
+  if (!requireLogin()) { ev.target.value = ""; return; }
+  const file = ev.target.files[0]; ev.target.value = "";
+  if (!file) return;
+  const rd = new FileReader();
+  rd.onload = () => {
+    try {
+      const p = JSON.parse(rd.result);
+      const list = Array.isArray(p) ? p : p.records;
+      if (!Array.isArray(list) || !list.every(r => r && typeof r.id === "number" && r.raum && r.typ && Array.isArray(r.history))) throw new Error("format");
+      askConfirm("Backup mit " + list.length + " Objekten laden? Die aktuellen Daten werden ersetzt.", () => {
+        if (!requireLogin()) return;
+        records = list; saveStorage(); updateBuildingFilter(); renderTable(); toast("Backup geladen");
+      });
+    } catch (e) { toast("Datei ist kein gültiges Backup."); }
+  };
+  rd.readAsText(file);
+}
+
+restoreSession();
+updateBuildingFilter();
+renderTable();
+</script>
+</body>
+</html>
